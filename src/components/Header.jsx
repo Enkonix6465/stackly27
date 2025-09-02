@@ -177,22 +177,22 @@ const Header = () => {
                     {t.allServices}
                   </Link>
                   <Link to="/service1" className="block px-4 py-2 hover:bg-[var(--hover-bg)]" onClick={() => setIsServicesDropdownOpen(false)}>
-                    Luxury Yacht Wedding
+                    Cloud Infrastructure
                   </Link>
                   <Link to="/service2" className="block px-4 py-2 hover:bg-[var(--hover-bg)]" onClick={() => setIsServicesDropdownOpen(false)}>
-                    Modern Corporate Gala
+                    Cybersecurity Solutions
                   </Link>
                   <Link to="/service3" className="block px-4 py-2 hover:bg-[var(--hover-bg)]" onClick={() => setIsServicesDropdownOpen(false)}>
-                    Birthday Celebration
+                    AI & Automation
                   </Link>
                   <Link to="/service4" className="block px-4 py-2 hover:bg-[var(--hover-bg)]" onClick={() => setIsServicesDropdownOpen(false)}>
-                    Mountain Retreat
+                    Business Intelligence
                   </Link>
                   <Link to="/service5" className="block px-4 py-2 hover:bg-[var(--hover-bg)]" onClick={() => setIsServicesDropdownOpen(false)}>
                     Festive Holiday Soiree
                   </Link>
                   <Link to="/service6" className="block px-4 py-2 hover:bg-[var(--hover-bg)]" onClick={() => setIsServicesDropdownOpen(false)}>
-                    Annual Conference
+                    IT Consulting & Support
                   </Link>
                 </div>
               )}
