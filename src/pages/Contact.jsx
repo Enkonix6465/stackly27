@@ -5,6 +5,8 @@ import {
   FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaClock,
   FaFacebook, FaTwitter, FaLinkedin, FaArrowRight, FaInstagram
 } from "react-icons/fa";
+import { useLanguage } from "../context.jsx/LanguageContext";
+
 
 // Animated icons
 const AnimatedCall = () => (
@@ -20,7 +22,143 @@ const AnimatedMail = () => (
   <span className="detail-icon mail-anim"><FaEnvelope /></span>
 );
 
+const translations = {
+  en: {
+    heroTitle: "Connect with Our Team",
+    heroParagraph: "Lorem ipsum dolor sit amet, consectetur adipiscing vipu elit. Ut spelataras tellus luctus neullamcorper mattis, pibus leo dotu.",
+    contactTitle: "Get in Touch",
+    contactSuccess: "We received your message. We'll get back to you shortly.",
+    contactDetailsTitle: "Contact Details",
+    contactDescription: "We are here to help—reach out with any questions.",
+    addressTitle: "Address",
+    addressLine1: "221B Baker Street,",
+    addressLine2: "London, NW1 6XE",
+    addressLine3: "United Kingdom",
+    mobileTitle: "Mobile",
+    mobileNumber: "+44 20 7946 0958",
+    availabilityTitle: "Availability",
+    availabilityTime: "Mon-Fri: 9am - 6pm",
+    emailTitle: "Email",
+    emailAddress: "support@forstackly.com",
+    socialMediaLabel: "Social Media:",
+    liveChatTitle: "Live Chat",
+    liveChatText: "Need assistance? Chat with our team for quick help.",
+    liveChatButton: "Start Chat",
+    faqTitle: "Frequently Asked Questions",
+    faqItems: [
+      { q: "What services do you offer?", a: "We provide tailored event planning and management services to create unforgettable experiences." },
+      { q: "How much does event planning cost?", a: "Cost varies by event type and scale. Contact us for a personalized quote." },
+      { q: "When should I book?", a: "Booking at least 3 months in advance is recommended to ensure availability." },
+      { q: "Can I customize my package?", a: "Absolutely! We are happy to create bespoke packages to fit your needs." }
+    ],
+    resourcesTitle: "Resources",
+    resourcesItems: [
+      { name: "Event Planning Guide", link: "#" },
+      { name: "Client Portal", link: "#" },
+      { name: "Knowledge Base", link: "#" },
+      { name: "Support Center", link: "#" }
+    ],
+    ctaTitle: "Ready to Transform Your Business?",
+    ctaParagraph: "Get started today with a free consultation and discover how we can help you achieve your goals.",
+    sendBtn: "Send Message",
+    namePlaceholder: "Your Name",
+    emailPlaceholder: "Your Email",
+    subjectPlaceholder: "Subject",
+    messagePlaceholder: "Your Message"
+  },
+  ar: {
+    heroTitle: "تواصل مع فريقنا",
+    heroParagraph: "لوريم إيبسوم دولور سيت أميت، كونسيكتيتور أديبيسكينغ فيبو إليت. أند اسبلاتاراس تيليوس لوكتوس نيللامكوربر ماتيس، بيبوس ليو دوتو.",
+    contactTitle: "تواصل معنا",
+    contactSuccess: "لقد استلمنا رسالتك. سنعود إليك قريبًا.",
+    contactDetailsTitle: "تفاصيل الاتصال",
+    contactDescription: "نحن هنا للمساعدة - تواصل معنا لأي استفسارات.",
+    addressTitle: "العنوان",
+    addressLine1: "221B شارع بيكر،",
+    addressLine2: "لندن، NW1 6XE",
+    addressLine3: "المملكة المتحدة",
+    mobileTitle: "الهاتف المحمول",
+    mobileNumber: "+44 20 7946 0958",
+    availabilityTitle: "ساعات العمل",
+    availabilityTime: "من الإثنين إلى الجمعة: 9 صباحًا - 6 مساءً",
+    emailTitle: "البريد الإلكتروني",
+    emailAddress: "support@forstackly.com",
+    socialMediaLabel: "وسائل التواصل الاجتماعي:",
+    liveChatTitle: "الدردشة الحية",
+    liveChatText: "هل تحتاج مساعدة؟ تحدث مع فريقنا للمساعدة السريعة.",
+    liveChatButton: "ابدأ الدردشة",
+    faqTitle: "الأسئلة الشائعة",
+    faqItems: [
+      { q: "ما هي الخدمات التي تقدمونها؟", a: "نقدم خدمات تخطيط وإدارة الأحداث المصممة لإنشاء تجارب لا تُنسى." },
+      { q: "ما هي تكلفة تخطيط الحدث؟", a: "تعتمد التكلفة على نوع الحدث وحجمه. اتصل بنا لعرض أسعار مخصص." },
+      { q: "متى يجب أن أحجز؟", a: "ينصح بالحجز قبل 3 أشهر على الأقل لضمان التوفر." },
+      { q: "هل يمكنني تخصيص الحزمة الخاصة بي؟", a: "بالطبع! نحن سعداء بإنشاء حزم مخصصة لتناسب احتياجاتك." }
+    ],
+    resourcesTitle: "الموارد",
+    resourcesItems: [
+      { name: "دليل تخطيط الحدث", link: "#" },
+      { name: "بوابة العملاء", link: "#" },
+      { name: "قاعدة المعرفة", link: "#" },
+      { name: "مركز الدعم", link: "#" }
+    ],
+    ctaTitle: "هل أنت مستعد لتحويل عملك؟",
+    ctaParagraph: "ابدأ اليوم مع استشارة مجانية واكتشف كيف يمكننا مساعدتك في تحقيق أهدافك.",
+    sendBtn: "إرسال الرسالة",
+    namePlaceholder: "اسمك",
+    emailPlaceholder: "بريدك الإلكتروني",
+    subjectPlaceholder: "الموضوع",
+    messagePlaceholder: "رسالتك"
+  },
+  he: {
+    heroTitle: "צרו קשר עם הצוות שלנו",
+    heroParagraph: "לורם איפסום דולור סיט אמט, קונסקטורר אדיפיסקינג ויפו אליט. אונד אספלטראס טיילוס לוקטוס נילמאקורפר מאטיס, פיבוס ליו דוטו.",
+    contactTitle: "צור קשר",
+    contactSuccess: "קיבלנו את ההודעה שלך. נחזור אליך בקרוב.",
+    contactDetailsTitle: "פרטי יצירת קשר",
+    contactDescription: "אנחנו כאן לעזור - פנה אלינו עם כל שאלה.",
+    addressTitle: "כתובת",
+    addressLine1: "221B רחוב בייקר,",
+    addressLine2: "לונדון, NW1 6XE",
+    addressLine3: "הממלכה המאוחדת",
+    mobileTitle: "טלפון נייד",
+    mobileNumber: "+44 20 7946 0958",
+    availabilityTitle: "שעות פעילות",
+    availabilityTime: "יום א'-ה': 9:00 - 18:00",
+    emailTitle: "אימייל",
+    emailAddress: "support@forstackly.com",
+    socialMediaLabel: "רשתות חברתיות:",
+    liveChatTitle: "צ’אט חי",
+    liveChatText: "זקוקים לעזרה? שוחחו עם הצוות שלנו לקבלת סיוע מהיר.",
+    liveChatButton: "התחל צ’אט",
+    faqTitle: "שאלות נפוצות",
+    faqItems: [
+      { q: "אילו שירותים אתם מציעים?", a: "אנו מספקים שירותי תכנון וניהול אירועים מותאמים ליצירת חוויות בלתי נשכחות." },
+      { q: "כמה עולה תכנון אירועים?", a: "המחיר משתנה בהתאם לסוג וגודל האירוע. צרו קשר לקבלת הצעת מחיר מותאמת." },
+      { q: "מתי כדאי להזמין?", a: "מומלץ להזמין לפחות 3 חודשים מראש כדי להבטיח זמינות." },
+      { q: "האם אפשר להתאים אישית את החבילה שלי?", a: "בהחלט! נשמח ליצור חבילות מותאמות לצרכים שלכם." }
+    ],
+    resourcesTitle: "משאבים",
+    resourcesItems: [
+      { name: "מדריך לתכנון אירועים", link: "#" },
+      { name: "פורטל הלקוחות", link: "#" },
+      { name: "מרכז ידע", link: "#" },
+      { name: "מרכז תמיכה", link: "#" }
+    ],
+    ctaTitle: "מוכנים לשנות את העסק שלכם?",
+    ctaParagraph: "התחילו היום בייעוץ חינם וגלו כיצד נוכל לעזור לכם להשיג את מטרותיכם.",
+    sendBtn: "שלח הודעה",
+    namePlaceholder: "שמך",
+    emailPlaceholder: "האימייל שלך",
+    subjectPlaceholder: "נושא",
+    messagePlaceholder: "ההודעה שלך"
+  }
+};
+
 export default function ContactPage() {
+  const { language } = useLanguage();
+  const t = translations[language] || translations.en;
+  const dir = ["ar", "he", "fa", "ur"].includes(language) ? "rtl" : "ltr";
+
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [status, setStatus] = useState("");
   const [showForm, setShowForm] = useState(true);
@@ -31,7 +169,7 @@ export default function ContactPage() {
     e.preventDefault();
     const old = JSON.parse(localStorage.getItem("contactMessages") || "[]");
     localStorage.setItem("contactMessages", JSON.stringify([...old, form]));
-    setStatus("We received your message. We'll get back to you shortly.");
+    setStatus(t.contactSuccess);
     setShowForm(false);
     setForm({ name: "", email: "", subject: "", message: "" });
     setTimeout(() => {
@@ -40,24 +178,11 @@ export default function ContactPage() {
     }, 5000);
   };
 
-  const faqData = [
-    { q: "What services do you offer?", a: "We provide tailored event planning and management services to create unforgettable experiences." },
-    { q: "How much does event planning cost?", a: "Cost varies by event type and scale. Contact us for a personalized quote." },
-    { q: "When should I book?", a: "Booking at least 3 months in advance is recommended to ensure availability." },
-    { q: "Can I customize my package?", a: "Absolutely! We are happy to create bespoke packages to fit your needs." }
-  ];
-
-  const resources = [
-    { name: "Event Planning Guide", link: "#" },
-    { name: "Client Portal", link: "#" },
-    { name: "Knowledge Base", link: "#" },
-    { name: "Support Center", link: "#" }
-  ];
+  const faqData = t.faqItems;
+  const resources = t.resourcesItems;
 
   return (
-    <div>
-      {/* Existing Sections */}
-
+    <div dir={dir}>
       {/* Hero */}
       <section className="hero-section">
         <video autoPlay muted loop playsInline className="hero-bg-video">
@@ -66,10 +191,8 @@ export default function ContactPage() {
         </video>
         <div className="hero-overlay">
           <div className="hero-content">
-            <h1 className="hero-title">Connect with Our Team</h1>
-            <p className="hero-paragraph">
-              Lorem ipsum dolor sit amet, consectetur adipiscing vipu elit. Ut spelataras tellus luctus neullamcorper mattis, pibus leo dotu.
-            </p>
+            <h1 className="hero-title">{t.heroTitle}</h1>
+            <p className="hero-paragraph">{t.heroParagraph}</p>
           </div>
         </div>
       </section>
@@ -80,16 +203,16 @@ export default function ContactPage() {
           <div className="contact-row">
             {/* Left: Form */}
             <div className="contact-card" style={{ background: "var(--card-bg)", color: "var(--text-color)", border: "1.5px solid var(--border-color)" }}>
-              <h2 className="contact-title" style={{ color: "var(--heading-color)" }}>Get in Touch</h2>
+              <h2 className="contact-title" style={{ color: "var(--heading-color)" }}>{t.contactTitle}</h2>
               {showForm ? (
                 <form className="contact-form" onSubmit={handleSubmit}>
                   <div className="contact-form-row">
-                    <input type="text" name="name" required placeholder="Your Name" value={form.name} onChange={handleChange} />
-                    <input type="email" name="email" required placeholder="Your Email" value={form.email} onChange={handleChange} />
+                    <input type="text" name="name" required placeholder={t.namePlaceholder} value={form.name} onChange={handleChange} />
+                    <input type="email" name="email" required placeholder={t.emailPlaceholder} value={form.email} onChange={handleChange} />
                   </div>
-                  <input type="text" name="subject" required placeholder="Subject" value={form.subject} onChange={handleChange} />
-                  <textarea name="message" required placeholder="Your Message" rows={4} value={form.message} onChange={handleChange} />
-                  <button type="submit" className="send-btn">Send Message</button>
+                  <input type="text" name="subject" required placeholder={t.subjectPlaceholder} value={form.subject} onChange={handleChange} />
+                  <textarea name="message" required placeholder={t.messagePlaceholder} rows={4} value={form.message} onChange={handleChange} />
+                  <button type="submit" className="send-btn">{t.sendBtn}</button>
                 </form>
               ) : (
                 <div className="form-success">{status}</div>
@@ -98,42 +221,44 @@ export default function ContactPage() {
 
             {/* Right: Contact Details */}
             <div className="contact-card" style={{ background: "var(--card-bg)", color: "var(--text-color)", border: "1.5px solid var(--border-color)" }}>
-              <h2 className="contact-title" style={{ color: "var(--heading-color)" }}>Contact Details</h2>
-              <p style={{ color: "var(--text-muted)", marginBottom: "14px" }}>
-                We are here to help—reach out with any questions.
-              </p>
+              <h2 className="contact-title" style={{ color: "var(--heading-color)" }}>{t.contactDetailsTitle}</h2>
+              <p style={{ color: "var(--text-muted)", marginBottom: "14px" }}>{t.contactDescription}</p>
               <div className="contact-details-grid">
                 <div className="detail-card">
                   <AnimatedAddress />
                   <div>
-                    <strong>Address</strong>
-                    <div>221B Baker Street,<br />London, NW1 6XE<br />United Kingdom</div>
+                    <strong>{t.addressTitle}</strong>
+                    <div>
+                      {t.addressLine1}<br />
+                      {t.addressLine2}<br />
+                      {t.addressLine3}
+                    </div>
                   </div>
                 </div>
                 <div className="detail-card">
                   <AnimatedCall />
                   <div>
-                    <strong>Mobile</strong>
-                    <div>+44 20 7946 0958</div>
+                    <strong>{t.mobileTitle}</strong>
+                    <div>{t.mobileNumber}</div>
                   </div>
                 </div>
                 <div className="detail-card">
                   <AnimatedClock />
                   <div>
-                    <strong>Availability</strong>
-                    <div>Mon-Fri: 9am - 6pm</div>
+                    <strong>{t.availabilityTitle}</strong>
+                    <div>{t.availabilityTime}</div>
                   </div>
                 </div>
                 <div className="detail-card">
                   <AnimatedMail />
                   <div>
-                    <strong>Email</strong>
-                    <div>support@forstackly.com</div>
+                    <strong>{t.emailTitle}</strong>
+                    <div>{t.emailAddress}</div>
                   </div>
                 </div>
               </div>
               <div className="contact-social">
-                <span>Social Media:</span>
+                <span>{t.socialMediaLabel}</span>
                 <a href="https://www.facebook.com"><FaFacebook /></a>
                 <a href="https://twitter.com"><FaTwitter /></a>
                 <a href="https://www.linkedin.com"><FaLinkedin /></a>
@@ -144,20 +269,18 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* New Sections Start Here */}
-
       {/* Live Chat */}
       <section className="live-chat-section container">
-        <h3>Live Chat</h3>
+        <h3>{t.liveChatTitle}</h3>
         <div className="chat-box">
-          <p>Need assistance? Chat with our team for quick help.</p>
-          <button className="btn btn-chat" onClick={() => alert("Chat feature coming soon!")}>Start Chat</button>
+          <p>{t.liveChatText}</p>
+          <button className="btn btn-chat" onClick={() => alert("Chat feature coming soon!")}>{t.liveChatButton}</button>
         </div>
       </section>
 
       {/* FAQ */}
       <section className="faq-section container">
-        <h3>Frequently Asked Questions</h3>
+        <h3>{t.faqTitle}</h3>
         <div className="faq-list">
           {faqData.map((faq, index) => (
             <details className="faq-item" key={index}>
@@ -167,7 +290,6 @@ export default function ContactPage() {
           ))}
         </div>
       </section>
-
 
       {/* Google Map */}
       <section className="map-section">
@@ -184,24 +306,21 @@ export default function ContactPage() {
 
       {/* CTA Section */}
       <section className="cta-section">
-  <div className="cta-overlay">
-    <div className="container">
-      <motion.div
-        className="cta-content text-center"
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
-        <h2>Ready to Transform Your Business?</h2>
-        <p>
-          Get started today with a free consultation and discover how we can help you achieve your goals.
-        </p>
-        
-      </motion.div>
-    </div>
-  </div>
-</section>
+        <div className="cta-overlay">
+          <div className="container">
+            <motion.div
+              className="cta-content text-center"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <h2>{t.ctaTitle}</h2>
+              <p>{t.ctaParagraph}</p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
 
       {/* Styles */}
       <style>{`
@@ -425,6 +544,31 @@ export default function ContactPage() {
           margin: 0;
           font-size: 0.9rem;
         }
+
+             @media (max-width: 480px) {
+              html, body, #root, .home-page, .aboutit-section, .aboutit-grid, .hero-section, .hero-overlay {
+                width: 100vw !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-sizing: border-box !important;
+              }
+              .hero-title, .hero-paragraph, .hero-button { margin-right: 0 !important; }
+              header { left: 0; right: 0; width: 100vw !important; max-width: 100vw !important; }
+    html, body, #root, .home-page, .aboutit-section, .aboutit-grid, .hero-section, .hero-overlay {
+      width: 100vw !important;
+      max-width: 100vw !important;
+      overflow-x: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+    }
+    .hero-title, .hero-paragraph, .hero-button { margin-right: 0 !important; }
+    header { left: 0; right: 0; width: 100vw !important; max-width: 100vw !important; }
+  }
+
+  
 
         /* Contact Section */
         .contact-main-section {

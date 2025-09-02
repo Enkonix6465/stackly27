@@ -1,406 +1,607 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { 
-  FaArrowRight, 
-  FaPlay, 
-  FaRocket, 
-  FaUsers, 
-  FaAward, 
-  FaLightbulb,
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  FaArrowRight,
+  FaRocket,
+  FaUsers,
+  FaAward,
   FaChartLine,
-  FaCogs,
-  FaHandshake,
-  FaQuoteLeft, 
   FaEye,
   FaUserFriends,
-  FaBook,  // For Continuous Learning
-} from 'react-icons/fa';
+  FaBook,
+} from "react-icons/fa";
+import { useLanguage } from "../context.jsx/LanguageContext";
 
-const services = [
-  {
-    title: "Cloud Infrastructure",
-    imgSrc: "images/home-2.jpg",
-    desc: "Optimize and secure your cloud resources for scalability and reliability.",
-  },
-  {
-    title: "Cybersecurity Solutions",
-    imgSrc: "images/home-21.jpg",
-    desc: "Protect your digital assets with advanced security protocols.",
-  },
-  {
-    title: "IT Automation & DevOps",
-    imgSrc: "images/home-22.jpg",
-    desc: "Accelerate innovation by automating workflows and continuous delivery.",
-  },
-  {
-    title: "IT Consulting",
-    imgSrc: "images/home-23.jpg",
-    desc: "Expert advice to transform your IT landscape and strategy.",
-  },
-  {
-    title: "Data Analytics & AI",
-    imgSrc: "images/home-24.jpg",
-    desc: "Leverage data insights and AI-driven solutions to make smarter business decisions.",
-  },
-  {
-    title: "Managed IT Services",
-    imgSrc: "images/home-25.jpg",
-    desc: "Comprehensive 24/7 support to keep your IT operations running smoothly.",
-  },
-];
-
-
-const Home2 = () => {
-  const [stats] = useState([
-    { number: '500+', label: 'Projects Completed', icon: FaRocket },
-    { number: '200+', label: 'Happy Clients', icon: FaUsers },
-    { number: '50+', label: 'Awards Won', icon: FaAward },
-    { number: '99%', label: 'Success Rate', icon: FaChartLine }
-  ]);
-
-  const [features] = useState([
-  {
-    icon: FaEye, // or FaShieldAlt
-    title: 'Integrity & Transparency',
-    description: 'We maintain open and honest interactions at all times. Clients always know where they stand, ensuring trust and accountability.'
-  },
-  {
-    icon: FaUserFriends, // or FaHeart
-    title: 'Client-Centered Culture',
-    description: 'Your goals guide our work. We listen actively, understand your needs, and deliver tailored solutions that put your interests first.'
-  },
-  {
-    icon: FaBook, // or FaRocket
-    title: 'Continuous Learning',
-    description: 'We’re committed to growth—personally and professionally. Our team consistently embraces new ideas and technologies.'
-  }
-]);
-
-
-  const [testimonials] = useState([
-    {
-      name: 'Sarah Johnson',
-      role: 'CEO, TechStart Inc.',
-      content: 'ForStackly transformed our entire digital infrastructure. Their innovative approach helped us achieve 300% growth in just one year.'
+const translations = {
+  en: {
+    pageTitle: "Home Alternative - ForStackly Business Solutions",
+    hero: {
+      title: "Designing Events, Creating Memories",
+      paragraph:
+        "We are a passionate team of event planners dedicated to crafting seamless, stylish, and stress-free celebrations. From concept to execution, we handle every detail so you can focus on enjoying the moment.",
+      button: "Reach Out Today",
+      videoSrc: "images/video2.mp4",
     },
-    {
-      name: 'Michael Chen',
-      role: 'CTO, InnovateCorp',
-      content: 'The level of expertise and dedication shown by the ForStackly team is exceptional. They delivered beyond our expectations.'
-    }
-  ]);
-
-const events = [
-  {
-    img: "images/home-291.jpg",
-    badge: "FREE",
-    title: "BestSeller Book Bootcamp - Write, Market & Publish Your Book - Lucknow",
-    date: "Saturday, March 18, 9.30PM",
-    location: "ONLINE EVENT - Attend anywhere",
-    language: "java",
-    technology: "cloud",          // 👈 matches Technology dropdown
-    serviceType: "migration",     // 👈 matches Service Type dropdown
-    framework: "spring",
-    tool: "docker"
+    servicesSection: {
+      title: "Our IT Services",
+      learnMoreLabel: "Learn More",
+      services: [
+        {
+          title: "Cloud Infrastructure",
+          imgSrc: "images/home-2.jpg",
+          desc: "Optimize and secure your cloud resources for scalability and reliability.",
+        },
+        {
+          title: "Cybersecurity Solutions",
+          imgSrc: "images/home-21.jpg",
+          desc: "Protect your digital assets with advanced security protocols.",
+        },
+        {
+          title: "IT Automation & DevOps",
+          imgSrc: "images/home-22.jpg",
+          desc: "Accelerate innovation by automating workflows and continuous delivery.",
+        },
+        {
+          title: "IT Consulting",
+          imgSrc: "images/home-23.jpg",
+          desc: "Expert advice to transform your IT landscape and strategy.",
+        },
+        {
+          title: "Data Analytics & AI",
+          imgSrc: "images/home-24.jpg",
+          desc: "Leverage data insights and AI-driven solutions to make smarter business decisions.",
+        },
+        {
+          title: "Managed IT Services",
+          imgSrc: "images/home-25.jpg",
+          desc: "Comprehensive 24/7 support to keep your IT operations running smoothly.",
+        },
+      ],
+    },
+    filters: {
+      languageLabel: "Language",
+      languageOptions: [
+        { value: "", label: "Language" },
+        { value: "java", label: "Java" },
+        { value: "c", label: "C" },
+        { value: "c++", label: "C++" },
+        { value: "python", label: "Python" },
+        { value: "javascript", label: "JavaScript" },
+      ],
+      technologyLabel: "Technology",
+      technologyOptions: [
+        { value: "", label: "Technology" },
+        { value: "cloud", label: "Cloud" },
+        { value: "ai", label: "Artificial Intelligence" },
+        { value: "security", label: "Cybersecurity" },
+        { value: "devops", label: "DevOps" },
+        { value: "blockchain", label: "Blockchain" },
+      ],
+      serviceLabel: "Service Type",
+      serviceOptions: [
+        { value: "", label: "Service Type" },
+        { value: "migration", label: "Cloud Migration" },
+        { value: "modernization", label: "Application Modernization" },
+        { value: "automation", label: "Automation" },
+        { value: "compliance", label: "Compliance" },
+        { value: "development", label: "Web/Mobile Development" },
+      ],
+    },
+    eventSection: {
+      noResultsMessage: "No matching services found. Try a different filter.",
+      loadMoreBtn: "Load More",
+      events: [
+        {
+          img: "images/home-291.jpg",
+          badge: "FREE",
+          title: "BestSeller Book Bootcamp - Write, Market & Publish Your Book - Lucknow",
+          date: "Saturday, March 18, 9.30PM",
+          location: "ONLINE EVENT - Attend anywhere",
+          language: "java",
+          technology: "cloud",
+          serviceType: "migration",
+          framework: "spring",
+          tool: "docker",
+        },
+        {
+          img: "images/home-26.jpg",
+          badge: "FREE",
+          title: "Creative Marketing Workshop - Boost Your Brand Awareness",
+          date: "Sunday, March 19, 10.00AM",
+          location: "New York, NY",
+          language: "python",
+          technology: "ai",
+          serviceType: "development",
+          framework: "django",
+          tool: "git",
+        },
+        {
+          img: "images/home-27.jpg",
+          badge: "PAID",
+          title: "Tech Startup Pitch Night - Showcase Your Ideas",
+          date: "Wednesday, March 22, 6.00PM",
+          location: "San Francisco, CA",
+          language: "c",
+          technology: "devops",
+          serviceType: "modernization",
+          framework: "none",
+          tool: "kubernetes",
+        },
+        {
+          img: "images/home-28.jpg",
+          badge: "FREE",
+          title: "AI & Machine Learning Hackathon",
+          date: "Friday, March 24, 4.00PM",
+          location: "Bengaluru, India",
+          language: "python",
+          technology: "ai",
+          serviceType: "automation",
+          framework: "tensorflow",
+          tool: "aws",
+        },
+        {
+          img: "images/home-29.jpg",
+          badge: "PAID",
+          title: "Frontend Mastery Bootcamp - React & JavaScript",
+          date: "Monday, March 27, 11.00AM",
+          location: "London, UK",
+          language: "javascript",
+          technology: "devops",
+          serviceType: "development",
+          framework: "react",
+          tool: "git",
+        },
+        {
+          img: "images/home-290.jpg",
+          badge: "FREE",
+          title: "Cloud DevOps Summit - Docker, Kubernetes & More",
+          date: "Thursday, March 30, 2.00PM",
+          location: "Dubai, UAE",
+          language: "c++",
+          technology: "cloud",
+          serviceType: "automation",
+          framework: "none",
+          tool: "docker",
+        },
+      ],
+    },
+    featuresSection: {
+      headerTitle: "Company Values",
+      headerSubtitle:
+        "We believe in honest communication and ethical business, building trust at every step.",
+      features: [
+        {
+          icon: FaEye,
+          title: "Integrity & Transparency",
+          description:
+            "We maintain open and honest interactions at all times. Clients always know where they stand, ensuring trust and accountability.",
+        },
+        {
+          icon: FaUserFriends,
+          title: "Client-Centered Culture",
+          description:
+            "Your goals guide our work. We listen actively, understand your needs, and deliver tailored solutions that put your interests first.",
+        },
+        {
+          icon: FaBook,
+          title: "Continuous Learning",
+          description:
+            "We’re committed to growth—personally and professionally. Our team consistently embraces new ideas and technologies.",
+        },
+      ],
+    },
+    ctaSection: {
+      heading: "Ready to Transform Your Business?",
+      paragraph:
+        "Get started today with a free consultation and discover how we can help you achieve your goals.",
+      btnStart: "Start Your Journey",
+      btnLearnMore: "Learn More About Us",
+    },
   },
-  {
-    img: "images/home-26.jpg",
-    badge: "FREE",
-    title: "Creative Marketing Workshop - Boost Your Brand Awareness",
-    date: "Sunday, March 19, 10.00AM",
-    location: "New York, NY",
-    language: "python",
-    technology: "ai",
-    serviceType: "development",
-    framework: "django",
-    tool: "git"
+  ar: {
+    pageTitle: "بديل الصفحة الرئيسية - حلول ForStackly للأعمال",
+    hero: {
+      title: "تصميم الفعاليات، وخلق الذكريات",
+      paragraph:
+        "نحن فريق متحمس من منظمي الفعاليات ملتزمون بصنع احتفالات سلسة وأنيقة وخالية من التوتر. من الفكرة إلى التنفيذ، نتولى كل التفاصيل لكي تركز أنت على الاستمتاع باللحظة.",
+      button: "تواصل معنا اليوم",
+      videoSrc: "images/video2.mp4",
+    },
+    servicesSection: {
+      title: "خدمات تكنولوجيا المعلومات لدينا",
+      learnMoreLabel: "اعرف المزيد",
+      services: [
+        {
+          title: "البنية التحتية السحابية",
+          imgSrc: "images/home-2.jpg",
+          desc: "تحسين وإدارة موارد السحابة الخاصة بك بأمان لضمان القابلية للتوسع والموثوقية.",
+        },
+        {
+          title: "حلول الأمن السيبراني",
+          imgSrc: "images/home-21.jpg",
+          desc: "حماية أصولك الرقمية باستخدام بروتوكولات أمان متقدمة.",
+        },
+        {
+          title: "أتمتة تكنولوجيا المعلومات وDevOps",
+          imgSrc: "images/home-22.jpg",
+          desc: "تسريع الابتكار عن طريق أتمتة سير العمل والتسليم المستمر.",
+        },
+        {
+          title: "استشارات تكنولوجيا المعلومات",
+          imgSrc: "images/home-23.jpg",
+          desc: "نصائح خبراء لتحويل مشهد واستراتيجية تكنولوجيا المعلومات الخاصة بك.",
+        },
+        {
+          title: "تحليلات البيانات والذكاء الاصطناعي",
+          imgSrc: "images/home-24.jpg",
+          desc: "الاستفادة من رؤى البيانات وحلول الذكاء الاصطناعي لاتخاذ قرارات تجارية أذكى.",
+        },
+        {
+          title: "خدمات تكنولوجيا المعلومات المدارة",
+          imgSrc: "images/home-25.jpg",
+          desc: "دعم شامل على مدار الساعة لتشغيل عمليات التكنولوجيا بسلاسة.",
+        },
+      ],
+    },
+    filters: {
+      languageLabel: "اللغة",
+      languageOptions: [
+        { value: "", label: "اللغة" },
+        { value: "java", label: "جافا" },
+        { value: "c", label: "سي" },
+        { value: "c++", label: "سي++" },
+        { value: "python", label: "بايثون" },
+        { value: "javascript", label: "جافاسكربت" },
+      ],
+      technologyLabel: "التقنية",
+      technologyOptions: [
+        { value: "", label: "التقنية" },
+        { value: "cloud", label: "السحابة" },
+        { value: "ai", label: "الذكاء الاصطناعي" },
+        { value: "security", label: "الأمن السيبراني" },
+        { value: "devops", label: "DevOps" },
+        { value: "blockchain", label: "البلوكشين" },
+      ],
+      serviceLabel: "نوع الخدمة",
+      serviceOptions: [
+        { value: "", label: "نوع الخدمة" },
+        { value: "migration", label: "هجرة السحابة" },
+        { value: "modernization", label: "تحديث التطبيقات" },
+        { value: "automation", label: "الأتمتة" },
+        { value: "compliance", label: "الامتثال" },
+        { value: "development", label: "تطوير الويب/الهاتف المحمول" },
+      ],
+    },
+    eventSection: {
+      noResultsMessage: "لا توجد خدمات مطابقة. جرب فلتر مختلف.",
+      loadMoreBtn: "تحميل المزيد",
+      events: [
+        {
+          img: "images/home-291.jpg",
+          badge: "مجاني",
+          title: "أكاديمية Bestseller لكتابة وتسويق ونشر كتابك - لكناو",
+          date: "السبت، 18 مارس، الساعة 9.30 مساءً",
+          location: "فعالية عبر الإنترنت - احضر من أي مكان",
+          language: "java",
+          technology: "cloud",
+          serviceType: "migration",
+          framework: "spring",
+          tool: "docker",
+        },
+        {
+          img: "images/home-26.jpg",
+          badge: "مجاني",
+          title: "ورشة تسويق إبداعي - عزز وعي علامتك التجارية",
+          date: "الأحد، 19 مارس، الساعة 10.00 صباحًا",
+          location: "نيويورك، نيويورك",
+          language: "python",
+          technology: "ai",
+          serviceType: "development",
+          framework: "django",
+          tool: "git",
+        },
+        {
+          img: "images/home-27.jpg",
+          badge: "مدفوع",
+          title: "ليلة عرض الشركات الناشئة التقنية - عرض أفكارك",
+          date: "الأربعاء، 22 مارس، الساعة 6.00 مساءً",
+          location: "سان فرانسيسكو، كاليفورنيا",
+          language: "c",
+          technology: "devops",
+          serviceType: "modernization",
+          framework: "none",
+          tool: "kubernetes",
+        },
+        {
+          img: "images/home-28.jpg",
+          badge: "مجاني",
+          title: "هاكاثون الذكاء الاصطناعي وتعلم الآلة",
+          date: "الجمعة، 24 مارس، الساعة 4.00 مساءً",
+          location: "بنغالور، الهند",
+          language: "python",
+          technology: "ai",
+          serviceType: "automation",
+          framework: "tensorflow",
+          tool: "aws",
+        },
+        {
+          img: "images/home-29.jpg",
+          badge: "مدفوع",
+          title: "معسكر إتقان الواجهة الأمامية - React و JavaScript",
+          date: "الاثنين، 27 مارس، الساعة 11.00 صباحًا",
+          location: "لندن، المملكة المتحدة",
+          language: "javascript",
+          technology: "devops",
+          serviceType: "development",
+          framework: "react",
+          tool: "git",
+        },
+        {
+          img: "images/home-290.jpg",
+          badge: "مجاني",
+          title: "قمة Cloud DevOps - Docker و Kubernetes والمزيد",
+          date: "الخميس، 30 مارس، الساعة 2.00 مساءً",
+          location: "دبي، الإمارات العربية المتحدة",
+          language: "c++",
+          technology: "cloud",
+          serviceType: "automation",
+          framework: "none",
+          tool: "docker",
+        },
+      ],
+    },
+    featuresSection: {
+      headerTitle: "قيم الشركة",
+      headerSubtitle:
+        "نؤمن بالتواصل الصادق والأعمال الأخلاقية، وبناء الثقة في كل خطوة.",
+      features: [
+        {
+          icon: FaEye,
+          title: "النزاهة والشفافية",
+          description:
+            "نحافظ على تفاعلات مفتوحة وصادقة في جميع الأوقات. يعرف العملاء دائمًا موقعهم، مما يضمن الثقة والمساءلة.",
+        },
+        {
+          icon: FaUserFriends,
+          title: "ثقافة ترتكز على العميل",
+          description:
+            "توجه أهدافك عملنا. نستمع بنشاط، نفهم احتياجاتك، ونقدم حلولًا مصممة تضع مصلحة العميل في المقام الأول.",
+        },
+        {
+          icon: FaBook,
+          title: "التعلم المستمر",
+          description:
+            "نحن ملتزمون بالنمو - شخصيًا ومهنيًا. يعتنق فريقنا باستمرار أفكارًا وتقنيات جديدة.",
+        },
+      ],
+    },
+    ctaSection: {
+      heading: "هل أنت مستعد لتحويل عملك؟",
+      paragraph:
+        "ابدأ اليوم مع استشارة مجانية واكتشف كيف يمكننا مساعدتك في تحقيق أهدافك.",
+      btnStart: "ابدأ رحلتك",
+      btnLearnMore: "تعرف علينا أكثر",
+    },
   },
-  {
-    img: "images/home-27.jpg",
-    badge: "PAID",
-    title: "Tech Startup Pitch Night - Showcase Your Ideas",
-    date: "Wednesday, March 22, 6.00PM",
-    location: "San Francisco, CA",
-    language: "c",
-    technology: "devops",
-    serviceType: "modernization",
-    framework: "none",
-    tool: "kubernetes"
-  },
-  {
-    img: "images/home-28.jpg",
-    badge: "FREE",
-    title: "AI & Machine Learning Hackathon",
-    date: "Friday, March 24, 4.00PM",
-    location: "Bengaluru, India",
-    language: "python",
-    technology: "ai",
-    serviceType: "automation",
-    framework: "tensorflow",
-    tool: "aws"
-  },
-  {
-    img: "images/home-29.jpg",
-    badge: "PAID",
-    title: "Frontend Mastery Bootcamp - React & JavaScript",
-    date: "Monday, March 27, 11.00AM",
-    location: "London, UK",
-    language: "javascript",
-    technology: "devops",
-    serviceType: "development",
-    framework: "react",
-    tool: "git"
-  },
-  {
-    img: "images/home-290.jpg",
-    badge: "FREE",
-    title: "Cloud DevOps Summit - Docker, Kubernetes & More",
-    date: "Thursday, March 30, 2.00PM",
-    location: "Dubai, UAE",
-    language: "c++",
-    technology: "cloud",
-    serviceType: "automation",
-    framework: "none",
-    tool: "docker"
-  }
-];
-
-
-
-
-
-
-// ✅ Add states
-const [selectedLanguage, setSelectedLanguage] = useState('');
-const [selectedTechnology, setSelectedTechnology] = useState(''); // 👈 added
-const [selectedService, setSelectedService] = useState('');        // serviceType
-const [visibleCount, setVisibleCount] = useState(6);
-
-
-// ✅ Filter logic (match if ANY filter matches)
-const filteredEvents = events.filter(evt => {
-  const byLang = selectedLanguage ? evt.language === selectedLanguage : true;
-  const byTech = selectedTechnology ? evt.technology === selectedTechnology : true;
-  const byService = selectedService ? evt.serviceType === selectedService : true;
-  return byLang && byTech && byService;
-});
-
-const visibleEvents = filteredEvents.slice(0, visibleCount);
-
-
-// ✅ Load more handler
-const handleLoadMore = () => {
-  if (visibleCount >= filteredEvents.length) {
-    alert("No more events to show.");
-    return;
-  }
-  setVisibleCount(prev => Math.min(prev + 3, filteredEvents.length));
 };
 
+const Home2 = () => {
+  const { language } = useLanguage();
+  const t = translations[language] || translations.en;
 
+  // Use translated services, features, events from translation object
+  const services = t.servicesSection.services || [];
+  const features = t.featuresSection.features || [];
+  const events = t.eventSection.events || [];
+
+  const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [selectedTechnology, setSelectedTechnology] = useState("");
+  const [selectedService, setSelectedService] = useState("");
+  const [visibleCount, setVisibleCount] = useState(6);
+
+  // Filter events
+  const filteredEvents = events.filter((evt) => {
+    const byLang = selectedLanguage ? evt.language === selectedLanguage : true;
+    const byTech = selectedTechnology ? evt.technology === selectedTechnology : true;
+    const byService = selectedService ? evt.serviceType === selectedService : true;
+    return byLang && byTech && byService;
+  });
+
+  const visibleEvents = filteredEvents.slice(0, visibleCount);
+
+  const handleLoadMore = () => {
+    if (visibleCount >= filteredEvents.length) {
+      alert(language === "ar" ? "لا توجد فعاليات أخرى للعرض." : "No more events to show.");
+      return;
+    }
+    setVisibleCount(Math.min(visibleCount + 3, filteredEvents.length));
+  };
 
   useEffect(() => {
-    document.title = 'Home Alternative - ForStackly Business Solutions';
-  }, []);
+    document.title = t.pageTitle;
+    document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+  }, [language, t.pageTitle]);
 
   return (
     <div className="home2-page">
       {/* Hero Section */}
-       <section className="hero-section">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="hero-bg-video"
-        >
-          <source src="images/video2.mp4" type="video/mp4" />
+      <section className="hero-section">
+        <video autoPlay muted loop playsInline className="hero-bg-video">
+          <source src={t.hero.videoSrc} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-      
+
         <div className="hero-overlay">
           <div className="hero-content">
-            <h1 className="hero-title animate-slide-in">Designing Events, Creating Memories</h1>
-<p className="hero-paragraph animate-fade-up">
-  We are a passionate team of event planners dedicated to crafting seamless, stylish, 
-  and stress-free celebrations. From concept to execution, we handle every detail so you 
-  can focus on enjoying the moment.
-</p>
+            <h1 className="hero-title animate-slide-in">{t.hero.title}</h1>
+            <p className="hero-paragraph animate-fade-up">{t.hero.paragraph}</p>
 
-            <Link
-              to="/contact"
-              className="hero-button animate-fade-up-delayed"
-            >
-              Reach Out Today
+            <Link to="/contact" className="hero-button animate-fade-up-delayed">
+              {t.hero.button}
             </Link>
           </div>
         </div>
       </section>
 
-<section className="services-section">
-    <div className="services-container">
-      <h2 className="section-title">Our IT Services</h2>
-      <div className="services-grid">
-        {services.map((service, idx) => (
-          <div className="service-card" key={idx}>
-            <img src={service.imgSrc} alt={service.title} className="service-image" />
-            <div className="overlay">
-              <h3 className="overlay-title">{service.title}</h3>
-              <p className="overlay-desc">{service.desc}</p>
-              <Link to="/services" className="overlay-link">Learn More</Link>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-</section>
-
-
-<section className="upcoming-events-section">
-  <div className="upcoming-events-container">
-    <div className="upcoming-events-title">
-      <span className="events-main-title">Explore Our</span>
-      <span className="events-highlight-title">Services</span>
-    </div>
-
-   <div className="events-filters">
-  {/* Language */}
-  {/* Language */}
-  <div className="filter-card">
-    <select
-      className="filter-select"
-      aria-label="Select Language"
-      value={selectedLanguage}
-      onChange={e => setSelectedLanguage(e.target.value)}
-    >
-      <option value="">Language</option>
-      <option value="java">Java</option>
-      <option value="c">C</option>
-      <option value="c++">C++</option>
-      <option value="python">Python</option>
-      <option value="javascript">JavaScript</option>
-    </select>
-  </div>
-
-  {/* Technology */}
-  <div className="filter-card">
-    <select
-      className="filter-select"
-      aria-label="Select Technology"
-      value={selectedTechnology}
-      onChange={e => setSelectedTechnology(e.target.value)}
-    >
-      <option value="">Technology</option>
-      <option value="cloud">Cloud</option>
-      <option value="ai">Artificial Intelligence</option>
-      <option value="security">Cybersecurity</option>
-      <option value="devops">DevOps</option>
-      <option value="blockchain">Blockchain</option>
-    </select>
-  </div>
-
-  {/* Service */}
-  <div className="filter-card">
-    <select
-      className="filter-select"
-      aria-label="Select Service"
-      value={selectedService}
-      onChange={e => setSelectedService(e.target.value)}
-    >
-      <option value="">Service Type</option>
-      <option value="migration">Cloud Migration</option>
-      <option value="modernization">Application Modernization</option>
-      <option value="automation">Automation</option>
-      <option value="compliance">Compliance</option>
-      <option value="development">Web/Mobile Development</option>
-    </select>
-  </div>
-</div>
-  </div>
-</section>
-
-
-<section className="event-section">
-  <div className="event-grid">
-    {visibleEvents.length > 0 ? (
-      visibleEvents.map((event, idx) => (
-        <div className="event-card" key={idx}>
-          <img src={event.img} alt={event.title} className="event-img" />
-
-          <div className="event-content">
-            <span className={`badge ${event.badge.toLowerCase()}`}>
-              {event.badge}
-            </span>
-            <h3 className="event-title">{event.title}</h3>
-            <p className="event-date">{event.date}</p>
-            <p className="event-location">{event.location}</p>
+      {/* Services Section */}
+      <section className="services-section">
+        <div className="services-container">
+          <h2 className="section-title">{t.servicesSection.title}</h2>
+          <div className="services-grid">
+            {services.map((service, idx) => (
+              <div className="service-card" key={idx}>
+                <img src={service.imgSrc} alt={service.title} className="service-image" />
+                <div className="overlay">
+                  <h3 className="overlay-title">{service.title}</h3>
+                  <p className="overlay-desc">{service.desc}</p>
+                  <Link to="/services" className="overlay-link">
+                    {t.servicesSection.learnMoreLabel}
+                  </Link>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-      ))
-    ) : (
-      <div className="no-events">
-        <img src="images/home.jpg" alt="No Results" className="no-results-img" />
-        <p>No matching services found. Try a different filter.</p>
-      </div>
-    )}
-  </div>
+      </section>
 
-  <div style={{ textAlign: "center", marginTop: "24px" }}>
-    <button onClick={handleLoadMore} className="load-more-btn">
-      Load More
-    </button>
-  </div>
-</section>
-
-
-
-
-
-
-   {/* Features Section */}
-<section className="features-section">
-  <div className="container">
-    {/* Bubble container with multiple bubbles */}
-    <div className="bubbles">
-      {[...Array(15)].map((_, i) => (
-        <span key={i} className="bubble" />
-      ))}
-    </div>
-
-    <motion.div
-      className="section-header text-center"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-    >
-      <h2>Company Values</h2>
-      <p>We believe in honest communication and ethical business, building trust at every step.</p>
-    </motion.div>
-    <div className="features-grid">
-      {features.map((feature, index) => (
-        <motion.div
-          key={index}
-          className="feature-card"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.2 }}
-          viewport={{ once: true }}
-          whileHover={{ y: -10 }}
-        >
-          <div className="feature-icon">
-            <feature.icon />
+      {/* Upcoming Events Filter */}
+      <section className="upcoming-events-section">
+        <div className="upcoming-events-container">
+          <div className="upcoming-events-title">
+            <span className="events-main-title">{language === "ar" ? "استكشاف" : "Explore Our"}</span>
+            <span className="events-highlight-title">{language === "ar" ? "الخدمات" : "Services"}</span>
           </div>
-          <h3>{feature.title}</h3>
-          <p>{feature.description}</p>
-        </motion.div>
-      ))}
-    </div>
-  </div>
-</section>
 
+          <div className="events-filters">
+            {/* Language */}
+            <div className="filter-card">
+              <select
+                className="filter-select"
+                aria-label={t.filters.languageLabel}
+                value={selectedLanguage}
+                onChange={(e) => setSelectedLanguage(e.target.value)}
+              >
+                {t.filters.languageOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-     
+            {/* Technology */}
+            <div className="filter-card">
+              <select
+                className="filter-select"
+                aria-label={t.filters.technologyLabel}
+                value={selectedTechnology}
+                onChange={(e) => setSelectedTechnology(e.target.value)}
+              >
+                {t.filters.technologyOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Service */}
+            <div className="filter-card">
+              <select
+                className="filter-select"
+                aria-label={t.filters.serviceLabel}
+                value={selectedService}
+                onChange={(e) => setSelectedService(e.target.value)}
+              >
+                {t.filters.serviceOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Events Section */}
+      <section className="event-section">
+        <div className="event-grid">
+          {visibleEvents.length > 0 ? (
+            visibleEvents.map((event, idx) => (
+              <div className="event-card" key={idx}>
+                <img src={event.img} alt={event.title} className="event-img" />
+
+                <div className="event-content">
+                  <span className={`badge ${event.badge.toLowerCase()}`}>
+                    {language === "ar"
+                      ? event.badge === "FREE"
+                        ? "مجاني"
+                        : "مدفوع"
+                      : event.badge}
+                  </span>
+                  <h3 className="event-title">{event.title}</h3>
+                  <p className="event-date">{event.date}</p>
+                  <p className="event-location">{event.location}</p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="no-events">
+              <img src="images/home.jpg" alt="No Results" className="no-results-img" />
+              <p>{t.eventSection.noResultsMessage}</p>
+            </div>
+          )}
+        </div>
+        <div style={{ textAlign: "center", marginTop: "24px" }}>
+          <button onClick={handleLoadMore} className="load-more-btn">
+            {t.eventSection.loadMoreBtn}
+          </button>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="features-section">
+        <div className="container">
+          <div className="bubbles">
+            {[...Array(15)].map((_, i) => (
+              <span key={i} className="bubble" />
+            ))}
+          </div>
+
+          <motion.div
+            className="section-header text-center"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2>{t.featuresSection.headerTitle}</h2>
+            <p>{t.featuresSection.headerSubtitle}</p>
+          </motion.div>
+
+          <div className="features-grid">
+            {features.map((feature, idx) => (
+              <motion.div
+                key={idx}
+                className="feature-card"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.2 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -10 }}
+              >
+                <div className="feature-icon">
+                  <feature.icon />
+                </div>
+                <h3>{feature.title}</h3>
+                <p>{feature.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="cta-section">
         <div className="cta-overlay">
@@ -412,16 +613,14 @@ const handleLoadMore = () => {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h2>Ready to Transform Your Business?</h2>
-              <p>
-                Get started today with a free consultation and discover how we can help you achieve your goals.
-              </p>
+              <h2>{t.ctaSection.heading}</h2>
+              <p>{t.ctaSection.paragraph}</p>
               <div className="cta-buttons">
                 <Link to="/contact" className="btn btn-primary btn-large">
-                  Start Your Journey <FaArrowRight />
+                  {t.ctaSection.btnStart} <FaArrowRight />
                 </Link>
                 <Link to="/about" className="btn btn-outline btn-large">
-                  Learn More About Us
+                  {t.ctaSection.btnLearnMore}
                 </Link>
               </div>
             </motion.div>

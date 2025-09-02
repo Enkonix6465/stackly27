@@ -1,272 +1,443 @@
-  import React, { useEffect } from 'react';
-  import { Link } from 'react-router-dom';
-  import { motion } from 'framer-motion';
-  import {
-    FaCloud,
-    FaServer,
-    FaLock,
-    FaNetworkWired,
-    FaShieldAlt,
-    FaCogs,
-    FaCheck,
-    FaArrowRight
-  } from 'react-icons/fa';
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import {
+  FaCloud,
+  FaServer,
+  FaLock,
+  FaNetworkWired,
+  FaShieldAlt,
+  FaCogs,
+  FaCheck,
+  FaArrowRight,
+} from 'react-icons/fa';
+import { useLanguage } from '../context.jsx/LanguageContext';
 
-  const Service1 = () => {
-    useEffect(() => {
-      document.title = 'Cloud Infrastructure - ForStackly Business Solutions';
-    }, []);
-
-    const cloudFeatures = [
+const translations = {
+  en: {
+    pageTitle: 'Cloud Infrastructure - ForStackly Business Solutions',
+    hero: {
+      title: 'Cloud Infrastructure Solutions',
+      paragraph:
+        'Build a robust, scalable, and secure cloud infrastructure tailored to your business.',
+      button: 'Contact Us',
+      video: 'images/services1.mp4',
+    },
+    coreServicesTitle: 'Core Cloud Services',
+    coreServicesDesc:
+      'Discover our comprehensive cloud infrastructure solutions designed to empower your business.',
+    cloudFeatures: [
       {
         icon: FaCloud,
-        title: "Scalable Cloud Hosting",
-        description: "Flexible hosting solutions that grow with your business needs."
+        title: 'Scalable Cloud Hosting',
+        description: 'Flexible hosting solutions that grow with your business needs.',
       },
       {
         icon: FaServer,
-        title: "Dedicated Server Management",
-        description: "Expert handling of dedicated servers for optimized performance."
+        title: 'Dedicated Server Management',
+        description: 'Expert handling of dedicated servers for optimized performance.',
       },
       {
         icon: FaLock,
-        title: "Robust Security",
-        description: "Advanced security protocols ensuring data integrity and privacy."
+        title: 'Robust Security',
+        description: 'Advanced security protocols ensuring data integrity and privacy.',
       },
       {
         icon: FaNetworkWired,
-        title: "Global Network Infrastructure",
-        description: "Fast, reliable connectivity with worldwide coverage and low latency."
+        title: 'Global Network Infrastructure',
+        description:
+          'Fast, reliable connectivity with worldwide coverage and low latency.',
       },
       {
         icon: FaShieldAlt,
-        title: "Compliance & Governance",
-        description: "Helping you meet industry standards and maintain regulatory compliance."
+        title: 'Compliance & Governance',
+        description:
+          'Helping you meet industry standards and maintain regulatory compliance.',
       },
       {
         icon: FaCogs,
-        title: "Custom Cloud Solutions",
-        description: "Tailored infrastructure and automation to meet your unique business goals."
-      }
-    ];
-
-    const benefits = [
+        title: 'Custom Cloud Solutions',
+        description: 'Tailored infrastructure and automation to meet your unique business goals.',
+      },
+    ],
+    learnMoreBtn: 'Learn More',
+    benefitsTitle: 'Why Choose Our Cloud Infrastructure?',
+    benefitsDesc:
+      'We provide reliable, secure, and scalable cloud services that adapt to your needs.',
+    benefitsList: [
       'Scalable infrastructure supporting business growth',
       'Robust security and compliance processes',
       'Exceptional uptime and reliability',
       'Global presence with low-latency access',
       'Expert support available 24/7',
-      'Flexible customization for diverse needs'
-    ];
+      'Flexible customization for diverse needs',
+    ],
+    benefitsImageAlt: 'Cloud Infrastructure Visual',
+    galleryTitle: 'Core Cloud Services Visual Gallery',
+    gallerySubtitle:
+      'Explore our cloud infrastructure through these visuals showcasing our robust solutions.',
+    ctaTitle: 'Ready to Transform Your Business?',
+    ctaText:
+      'Get started today with a free consultation and discover how we can help you achieve your goals.',
+    ctaStartBtn: 'Start Your Journey',
+    ctaLearnBtn: 'Learn More About Us',
+  },
+  ar: {
+    pageTitle: 'البنية التحتية السحابية - حلول فورستاكلي للأعمال',
+    hero: {
+      title: 'حلول البنية التحتية السحابية',
+      paragraph: 'ابنِ بنية سحابية قوية، قابلة للتوسع وآمنة مصممة وفقًا لاحتياجات عملك.',
+      button: 'اتصل بنا',
+      video: 'images/services1.mp4',
+    },
+    coreServicesTitle: 'الخدمات السحابية الأساسية',
+    coreServicesDesc:
+      'اكتشف حلول البنية التحتية السحابية الشاملة التي تهدف إلى تمكين عملك.',
+    cloudFeatures: [
+      {
+        icon: FaCloud,
+        title: 'استضافة سحابية قابلة للتوسع',
+        description: 'حلول استضافة مرنة تنمو مع احتياجات عملك.',
+      },
+      {
+        icon: FaServer,
+        title: 'إدارة الخوادم المخصصة',
+        description: 'إدارة متخصصة للخوادم المخصصة لأداء محسن.',
+      },
+      {
+        icon: FaLock,
+        title: 'أمان متين',
+        description: 'بروتوكولات أمان متقدمة لضمان سلامة البيانات وخصوصيتها.',
+      },
+      {
+        icon: FaNetworkWired,
+        title: 'بنية الشبكة العالمية',
+        description: 'اتصال سريع وموثوق مع تغطية عالمية وزمن استجابة منخفض.',
+      },
+      {
+        icon: FaShieldAlt,
+        title: 'الامتثال والحكم',
+        description: 'نساعدك على تلبية معايير الصناعة والحفاظ على الامتثال التنظيمي.',
+      },
+      {
+        icon: FaCogs,
+        title: 'حلول السحابة المخصصة',
+        description: 'بنية تحتية وأتمتة مخصصة لتلبية أهداف عملك الفريدة.',
+      },
+    ],
+    learnMoreBtn: 'تعرف أكثر',
+    benefitsTitle: 'لماذا تختار بنية السحابة الخاصة بنا؟',
+    benefitsDesc: 'نقدم خدمات سحابية موثوقة وآمنة وقابلة للتوسع تتكيف مع احتياجاتك.',
+    benefitsList: [
+      'بنية تحتية قابلة للتوسع لدعم نمو الأعمال',
+      'عمليات أمان قوية وامتثال',
+      'مدة تشغيل موثوقة واستثنائية',
+      'وجود عالمي مع وصول منخفض الكمون',
+      'دعم خبير على مدار 24/7',
+      'تخصيص مرن لتلبية الاحتياجات المتنوعة',
+    ],
+    benefitsImageAlt: 'صورة للبنية التحتية السحابية',
+    galleryTitle: 'معرض صور الخدمات السحابية الأساسية',
+    gallerySubtitle: 'استكشف بنيتنا التحتية السحابية من خلال هذه الصور التي تعرض حلولنا المتينة.',
+    ctaTitle: 'هل أنت مستعد لتحويل عملك؟',
+    ctaText: 'ابدأ اليوم مع استشارة مجانية واكتشف كيف يمكننا مساعدتك في تحقيق أهدافك.',
+    ctaStartBtn: 'ابدأ رحلتك',
+    ctaLearnBtn: 'تعرف علينا أكثر',
+  },
+  he: {
+    pageTitle: 'תשתיות ענן - פתרונות עסקיים של ForStackly',
+    hero: {
+      title: 'פתרונות תשתיות ענן',
+      paragraph: 'בנה תשתיות ענן חזקות, ניתנות להרחבה ובטוחות המותאמות לעסק שלך.',
+      button: 'צור קשר',
+      video: 'images/services1.mp4',
+    },
+    coreServicesTitle: 'שירותי ענן מרכזיים',
+    coreServicesDesc: 'גלה את פתרונות תשתיות הענן המתקדמים שלנו שמעצימים את העסק שלך.',
+    cloudFeatures: [
+      {
+        icon: FaCloud,
+        title: 'אירוח ענן גמיש',
+        description: 'פתרונות אירוח גמישים המתפתחים עם צרכי העסק שלך.',
+      },
+      {
+        icon: FaServer,
+        title: 'ניהול שרתים ייעודיים',
+        description: 'ניהול מומחה של שרתים ייעודיים לביצועים מיטביים.',
+      },
+      {
+        icon: FaLock,
+        title: 'אבטחה חזקה',
+        description: 'פרוטוקולי אבטחה מתקדמים להבטחת שלמות ופרטיות הנתונים.',
+      },
+      {
+        icon: FaNetworkWired,
+        title: 'תשתית רשת עולמית',
+        description: 'קישוריות מהירה ואמינה עם כיסוי עולמי ועיכוב נמוך.',
+      },
+      {
+        icon: FaShieldAlt,
+        title: 'ציות ומשילות',
+        description: 'עוזרים לך לעמוד בסטנדרטים התעשייתיים ולשמור על ציות לרגולציות.',
+      },
+      {
+        icon: FaCogs,
+        title: 'פתרונות ענן מותאמים',
+        description: 'תשתית ואוטומציה מותאמים אישית לעמידה ביעדי העסק שלך.',
+      },
+    ],
+    learnMoreBtn: 'למד עוד',
+    benefitsTitle: 'מדוע לבחור בתשתיות הענן שלנו?',
+    benefitsDesc: 'אנו מספקים שירותי ענן אמינים, בטוחים וניתנים להרחבה המותאמים לצרכים שלך.',
+    benefitsList: [
+      'תשתיות ניתנות להרחבה התומכות בגידול העסק',
+      'תהליכי אבטחה וציות חזקים',
+      'זמן פעולה יוצא מן הכלל ואמינות',
+      'נוכחות גלובלית עם גישה באיחור נמוך',
+      'תמיכה מקצועית 24/7',
+      'התאמה גמישה לצרכים שונים',
+    ],
+    benefitsImageAlt: 'תצוגת תשתיות ענן',
+    galleryTitle: 'גלריית תמונות שירותי ענן מרכזיים',
+    gallerySubtitle: 'חקור את תשתיות הענן שלנו באמצעות תמונות המדגימות את הפתרונות החזקים שלנו.',
+    ctaTitle: 'מוכן לשנות את העסק שלך?',
+    ctaText: 'התחל היום עם ייעוץ חינם וגלה כיצד נוכל לעזור לך להשיג את יעדיך.',
+    ctaStartBtn: 'התחל את המסע שלך',
+    ctaLearnBtn: 'למידע נוסף עלינו',
+  },
+};
 
-    const faqs = [
-      {
-        question: 'What cloud providers do you support?',
-        answer: 'We specialize in AWS, Microsoft Azure, and Google Cloud Platform.'
-      },
-      {
-        question: 'How do you ensure data security?',
-        answer: 'Through encryption, firewall management, and constant monitoring.'
-      },
-      {
-        question: 'Can you help with migration to cloud?',
-        answer: 'Yes, we provide end-to-end migration support.'
-      },
-      {
-        question: 'Do you offer 24/7 support?',
-        answer: 'Absolutely. Our support team is available at all times.'
-      }
-    ];
+const Service1 = () => {
+  const { language } = useLanguage();
+  const t = translations[language] || translations.en;
 
-    return (
-      <div className="service-page">
-        <div className="home-page">
-          {/* Hero Section */}
-          <section className="hero-section">
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="hero-bg-video"
-            >
-              <source src="images/services1.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-            <div className="hero-overlay">
-              <div className="hero-content">
-                <h1 className="hero-title animate-slide-in">Cloud Infrastructure Solutions</h1>
-                <p className="hero-paragraph animate-fade-up">
-                  Build a robust, scalable, and secure cloud infrastructure tailored to your business.
-                </p>
-                <Link to="/contact" className="hero-button animate-fade-up-delayed">Contact Us</Link>
-              </div>
+  useEffect(() => {
+    document.title = t.pageTitle;
+    document.documentElement.dir = ['ar', 'he'].includes(language) ? 'rtl' : 'ltr';
+  }, [language, t.pageTitle]);
+
+  return (
+    <div className="service-page" dir={document.documentElement.dir}>
+      <div className="home-page">
+        {/* Hero Section */}
+        <section className="hero-section">
+          <video autoPlay muted loop playsInline className="hero-bg-video">
+            <source src={t.hero.video} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <div className="hero-overlay">
+            <div className="hero-content">
+              <h1 className="hero-title animate-slide-in">{t.hero.title}</h1>
+              <p className="hero-paragraph animate-fade-up">{t.hero.paragraph}</p>
+              <Link to="/contact" className="hero-button animate-fade-up-delayed">
+                {t.hero.button}
+              </Link>
             </div>
-          </section>
+          </div>
+        </section>
 
-          {/* Features Section */}
-          <section className="section features-section">
-            <div className="container">
+        {/* Features Section */}
+        <section className="section features-section">
+          <div className="container">
+            <motion.div
+              className="section-header text-center"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <h2>{t.coreServicesTitle}</h2>
+              <p>{t.coreServicesDesc}</p>
+            </motion.div>
+
+            <div className="features-grid">
+              {t.cloudFeatures.map((feature, index) => (
+                <motion.div
+                  key={index}
+                  className="feature-card premium-card"
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -10, scale: 1.03 }}
+                >
+                  <div className="feature-icon">
+                    <feature.icon />
+                  </div>
+                  <h3>{feature.title}</h3>
+                  <p>{feature.description}</p>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="btn-learn-wrapper">
+              <Link to="/contact" className="btn-learn">
+                {t.learnMoreBtn} <FaArrowRight />
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Benefits Section */}
+        <section className="section benefits-section">
+          <div className="container">
+            <div className="grid-2">
               <motion.div
-                className="section-header text-center"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
+                className="benefits-content"
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
               >
-                <h2>Core Cloud Services</h2>
-                <p>
-                  Discover our comprehensive cloud infrastructure solutions designed to empower your business.
-                </p>
-              </motion.div>
+                <h2>{t.benefitsTitle}</h2>
+                <p>{t.benefitsDesc}</p>
 
-              <div className="features-grid">
-                {cloudFeatures.map((feature, index) => (
-                  <motion.div
-                    key={index}
-                    className="feature-card premium-card"
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    whileHover={{ y: -10, scale: 1.03 }}
-                  >
-                    <div className="feature-icon">
-                      <feature.icon />
-                    </div>
-                    <h3>{feature.title}</h3>
-                    <p>{feature.description}</p>
-                  </motion.div>
-                ))}
-              </div>
-
-              <div className="btn-learn-wrapper">
-                <Link to="/contact" className="btn-learn">
-                  Learn More <FaArrowRight />
-                </Link>
-              </div>
-            </div>
-          </section>
-
-          {/* Benefits Section */}
-          <section className="section benefits-section">
-            <div className="container">
-              <div className="grid-2">
-                <motion.div
-                  className="benefits-content"
-                  initial={{ opacity: 0, x: -50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8 }}
-                  viewport={{ once: true }}
-                >
-                  <h2>Why Choose Our Cloud Infrastructure?</h2>
-                  <p>
-                    We provide reliable, secure, and scalable cloud services that adapt to your needs.
-                  </p>
-
-                  <div className="benefits-list">
-                    {benefits.map((benefit, idx) => (
-                      <motion.div key={idx} className="benefit-item"
-                        initial={{ opacity: 0, x: -30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: idx * 0.1 }}
-                        viewport={{ once: true }}>
-                        <FaCheck className="check-icon" />
-                        <span>{benefit}</span>
-                      </motion.div>
-                    ))}
-                  </div>
-
-                  <Link to="/contact" className="btn btn-primary">
-                    Get Started <FaArrowRight />
-                  </Link>
-                </motion.div>
-
-                <motion.div className="benefits-visual"
-                  initial={{ opacity: 0, x: 50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8 }}
-                  viewport={{ once: true }}>
-                  <div className="benefits-image">
-                    <img src="images/services26.jpg" alt="Cloud Infrastructure Visual" />
-                  </div>
-                </motion.div>
-              </div>
-            </div>
-          </section>
-
-         <section className="section gallery-wrapper">
-  <div className="container">
-    <motion.div
-      className="gallery-header"
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      viewport={{ once: true }}
-    >
-      <h2 className="gallery-title">Core Cloud Services Visual Gallery</h2>
-      <p className="gallery-subtitle">
-        Explore our cloud infrastructure through these visuals showcasing our robust solutions.
-      </p>
-    </motion.div>
-
-    <div className="gallery-container">
-      {/* First Row */}
-      <div className="gallery-row">
-        <div className="gallery-big">
-          <img src="images/services5.jpg" alt="Cloud infrastructure overview" />
-        </div>
-        <div className="gallery-grid">
-          <img src="images/services16.jpg" alt="Server management" />
-          <img src="images/services17.jpg" alt="Cloud security" />
-          <img src="images/services18.jpg" alt="Server management" />
-          <img src="images/services19.jpg" alt="Cloud security" />
-        </div>
-      </div>
-
-      {/* Second Row */}
-      <div className="gallery-row reverse">
-        <div className="gallery-big">
-          <img src="images/services20.jpg" alt="Global network map" />
-        </div>
-        <div className="gallery-grid">
-          <img src="images/services21.jpg" alt="Compliance and Governance" />
-          <img src="images/services22.jpg" alt="Custom cloud solutions" />
-          <img src="images/services23.jpg" alt="Server management" />
-          <img src="images/services24.jpg" alt="Cloud security" />
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-        {/* CTA Section */}
-              <section className="cta-section">
-                <div className="cta-overlay">
-                  <div className="container">
+                <div className="benefits-list">
+                  {t.benefitsList.map((benefit, idx) => (
                     <motion.div
-                      className="cta-content text-center"
-                      initial={{ opacity: 0, y: 50 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8 }}
+                      key={idx}
+                      className="benefit-item"
+                      initial={{ opacity: 0, x: -30 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: idx * 0.1 }}
                       viewport={{ once: true }}
                     >
-                      <h2>Ready to Transform Your Business?</h2>
-                      <p>
-                        Get started today with a free consultation and discover how we can help you achieve your goals.
-                      </p>
-                      <div className="cta-buttons">
-                        <Link to="/contact" className="btn btn-primary btn-large">
-                          Start Your Journey <FaArrowRight />
-                        </Link>
-                        <Link to="/about" className="btn btn-outline btn-large">
-                          Learn More About Us
-                        </Link>
-                      </div>
+                      <FaCheck className="check-icon" />
+                      <span>{benefit}</span>
                     </motion.div>
-                  </div>
+                  ))}
                 </div>
-              </section>
+
+                <Link to="/contact" className="btn btn-primary">
+                  {language === 'ar'
+                    ? 'ابدأ الآن'
+                    : language === 'he'
+                    ? 'התחל עכשיו'
+                    : 'Get Started'}{' '}
+                  <FaArrowRight />
+                </Link>
+              </motion.div>
+
+              <motion.div
+                className="benefits-visual"
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+              >
+                <div className="benefits-image">
+                  <img src="images/services26.jpg" alt={t.benefitsImageAlt || 'Cloud Infrastructure Visual'} />
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* Gallery Section */}
+        <section className="section gallery-wrapper">
+          <div className="container">
+            <motion.div
+              className="gallery-header"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="gallery-title">{t.galleryTitle || ''}</h2>
+              <p className="gallery-subtitle">{t.gallerySubtitle || ''}</p>
+            </motion.div>
+
+            <div className="gallery-container">
+              {/* First Row */}
+              <div className="gallery-row">
+                <div className="gallery-big">
+                  <img
+                    src="images/services5.jpg"
+                    alt={
+                      language === 'ar'
+                        ? 'نظرة عامة على البنية التحتية السحابية'
+                        : language === 'he'
+                        ? 'סקירת תשתיות ענן'
+                        : 'Cloud infrastructure overview'
+                    }
+                  />
+                </div>
+                <div className="gallery-grid">
+                  <img
+                    src="images/services16.jpg"
+                    alt={language === 'ar' ? 'إدارة الخادم' : language === 'he' ? 'ניהול שרת' : 'Server management'}
+                  />
+                  <img
+                    src="images/services17.jpg"
+                    alt={language === 'ar' ? 'أمان السحابة' : language === 'he' ? 'אבטחת ענן' : 'Cloud security'}
+                  />
+                  <img
+                    src="images/services18.jpg"
+                    alt={language === 'ar' ? 'إدارة الخادم' : language === 'he' ? 'ניהול שרת' : 'Server management'}
+                  />
+                  <img
+                    src="images/services19.jpg"
+                    alt={language === 'ar' ? 'أمان السحابة' : language === 'he' ? 'אבטחת ענן' : 'Cloud security'}
+                  />
+                </div>
+              </div>
+
+              {/* Second Row */}
+              <div className="gallery-row reverse">
+                <div className="gallery-big">
+                  <img
+                    src="images/services20.jpg"
+                    alt={language === 'ar' ? 'خريطة الشبكة العالمية' : language === 'he' ? 'מפת רשת עולמית' : 'Global network map'}
+                  />
+                </div>
+                <div className="gallery-grid">
+                  <img
+                    src="images/services21.jpg"
+                    alt={language === 'ar' ? 'الامتثال والحكم' : language === 'he' ? 'ציות ומשילות' : 'Compliance and Governance'}
+                  />
+                  <img
+                    src="images/services22.jpg"
+                    alt={language === 'ar' ? 'حلول سحابية مخصصة' : language === 'he' ? 'פתרונות ענן מותאמים' : 'Custom cloud solutions'}
+                  />
+                  <img
+                    src="images/services23.jpg"
+                    alt={language === 'ar' ? 'إدارة الخادم' : language === 'he' ? 'ניהול שרת' : 'Server management'}
+                  />
+                  <img
+                    src="images/services24.jpg"
+                    alt={language === 'ar' ? 'أمان السحابة' : language === 'he' ? 'אבטחת ענן' : 'Cloud security'}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="cta-section">
+          <div className="cta-overlay">
+            <div className="container">
+              <motion.div
+                className="cta-content text-center"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+              >
+                <h2>{t.ctaTitle}</h2>
+                <p>{t.ctaText}</p>
+                <div className="cta-buttons">
+                  <Link to="/contact" className="btn btn-primary btn-large">
+                    {t.ctaStartBtn} <FaArrowRight />
+                  </Link>
+                  <Link to="/about" className="btn btn-outline btn-large">
+                    {t.ctaLearnBtn}
+                  </Link>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
 
               
 
@@ -457,6 +628,31 @@
             margin: 0;
             font-size: 0.9rem;
           }
+
+               @media (max-width: 480px) {
+              html, body, #root, .home-page, .aboutit-section, .aboutit-grid, .hero-section, .hero-overlay {
+                width: 100vw !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-sizing: border-box !important;
+              }
+              .hero-title, .hero-paragraph, .hero-button { margin-right: 0 !important; }
+              header { left: 0; right: 0; width: 100vw !important; max-width: 100vw !important; }
+    html, body, #root, .home-page, .aboutit-section, .aboutit-grid, .hero-section, .hero-overlay {
+      width: 100vw !important;
+      max-width: 100vw !important;
+      overflow-x: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+    }
+    .hero-title, .hero-paragraph, .hero-button { margin-right: 0 !important; }
+    header { left: 0; right: 0; width: 100vw !important; max-width: 100vw !important; }
+  }
+
+  
 
   .features-section {
     background: var(--sidebar-bg);

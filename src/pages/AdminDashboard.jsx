@@ -9,26 +9,227 @@ import {
 } from "recharts";
 import { useNavigate } from "react-router-dom";
 
+const translations = {
+  en: {
+    adminDashboard: "Admin Dashboard",
+    operationsPanel: "IT Services Operations Panel",
+    newUser: "New User",
+    users: "Users",
+    dashboard: "Dashboard",
+    registrations: "Registrations",
+    tickets: "Tickets",
+    sessions: "Active Sessions",
+    audit: "Audit Log",
+    logout: "Logout",
+    totalUsers: "Total Users",
+    registeredToday: "Registered Today",
+    thisMonth: "This Month",
+    openTickets: "Open Tickets",
+    userFName: "First Name",
+    userLName: "Last Name",
+    userEmail: "Email",
+    userSignupDate: "Signup Date",
+    userSignupTime: "Signup Time",
+    actions: "Actions",
+    deleteUser: "Delete User",
+    noUsers: "No users found.",
+    registrationAnalytics: "Registration Analytics",
+    today: "Today",
+    last7: "Last 7 Days",
+    month: "This Month",
+    allTime: "All-Time",
+    regChartTitle: "User Registrations by Day",
+    regStats: "Registration Stats",
+    createUserTitle: "Register New User",
+    createTicketTitle: "Create Support Ticket",
+    newTicket: "New Ticket",
+    supportTickets: "Support Tickets",
+    ticketId: "ID",
+    ticketTitle: "Title",
+    ticketStatus: "Status",
+    ticketAssigned: "Assigned To",
+    ticketDue: "Due Date",
+    ticketSubmitter: "Submitted By",
+    ticketCreated: "Created",
+    resolve: "Resolve",
+    delete: "Delete",
+    noTickets: "No tickets found.",
+    registrationByDay: "Registrations by Day (last {d}d)",
+    activeSessions: "Active Sessions",
+    user: "User",
+    email: "Email",
+    loginTime: "Login Time",
+    date: "Date",
+    auditLog: "Audit Log",
+    dateTime: "Date Time",
+    action: "Action",
+    by: "By",
+    detail: "Details",
+    noActions: "No recent actions.",
+    submit: "Submit",
+    cancel: "Cancel",
+    register: "Register",
+    firstName: "First Name",
+    lastName: "Last Name",
+    password: "Password",
+    allFieldsReq: "All required fields must be filled.",
+    emailInUse: "Email already in use.",
+    eventCreated: "Event created successfully!",
+    langLabel: "Language",
+    selectLang: "Select Language"
+  },
+  ar: {
+    adminDashboard: "لوحة المشرف",
+    operationsPanel: "لوحة عمليات خدمات تكنولوجيا المعلومات",
+    newUser: "مستخدم جديد",
+    users: "المستخدمون",
+    dashboard: "الرئيسية",
+    registrations: "التسجيلات",
+    tickets: "التذاكر",
+    sessions: "الجلسات النشطة",
+    audit: "سجل التدقيق",
+    logout: "تسجيل الخروج",
+    totalUsers: "إجمالي المستخدمين",
+    registeredToday: "تم التسجيل اليوم",
+    thisMonth: "هذا الشهر",
+    openTickets: "تذاكر مفتوحة",
+    userFName: "الاسم الأول",
+    userLName: "اسم العائلة",
+    userEmail: "البريد الإلكتروني",
+    userSignupDate: "تاريخ التسجيل",
+    userSignupTime: "وقت التسجيل",
+    actions: "إجراءات",
+    deleteUser: "حذف مستخدم",
+    noUsers: "لا يوجد مستخدمون.",
+    registrationAnalytics: "تحليلات التسجيل",
+    today: "اليوم",
+    last7: "آخر ٧ أيام",
+    month: "هذا الشهر",
+    allTime: "كل الوقت",
+    regChartTitle: "تسجيلات المستخدمين حسب اليوم",
+    regStats: "إحصائيات التسجيل",
+    createUserTitle: "تسجيل مستخدم جديد",
+    createTicketTitle: "إنشاء تذكرة دعم",
+    newTicket: "تذكرة جديدة",
+    supportTickets: "تذاكر الدعم",
+    ticketId: "المعرف",
+    ticketTitle: "العنوان",
+    ticketStatus: "الحالة",
+    ticketAssigned: "تم إسنادها إلى",
+    ticketDue: "تاريخ الاستحقاق",
+    ticketSubmitter: "أرسل بواسطة",
+    ticketCreated: "تم الإنشاء",
+    resolve: "حل",
+    delete: "حذف",
+    noTickets: "لا توجد تذاكر.",
+    registrationByDay: "تسجيلات حسب اليوم (آخر {d} أيام)",
+    activeSessions: "الجلسات النشطة",
+    user: "المستخدم",
+    email: "البريد الإلكتروني",
+    loginTime: "وقت تسجيل الدخول",
+    date: "التاريخ",
+    auditLog: "سجل التدقيق",
+    dateTime: "التاريخ والوقت",
+    action: "الإجراء",
+    by: "بواسطة",
+    detail: "تفاصيل",
+    noActions: "لا توجد إجراءات حديثة.",
+    submit: "إرسال",
+    cancel: "إلغاء",
+    register: "تسجيل",
+    firstName: "الاسم الأول",
+    lastName: "اسم العائلة",
+    password: "كلمة المرور",
+    allFieldsReq: "يجب تعبئة جميع الحقول المطلوبة.",
+    emailInUse: "البريد الإلكتروني مستخدم بالفعل.",
+    eventCreated: "تم إنشاء الحدث بنجاح!",
+    langLabel: "اللغة",
+    selectLang: "اختر اللغة"
+  },
+  he: {
+    adminDashboard: "לוח ניהול",
+    operationsPanel: "פאנל תפעול שירותי IT",
+    newUser: "משתמש חדש",
+    users: "משתמשים",
+    dashboard: "ראשי",
+    registrations: "הרשמות",
+    tickets: "קריאות תמיכה",
+    sessions: "הפעלות פעילות",
+    audit: "יומן ביקורת",
+    logout: "יציאה מהמערכת",
+    totalUsers: "סה\"כ משתמשים",
+    registeredToday: "נרשמו היום",
+    thisMonth: "החודש",
+    openTickets: "קריאות פתוחות",
+    userFName: "שם פרטי",
+    userLName: "שם משפחה",
+    userEmail: "דואר אלקטרוני",
+    userSignupDate: "תאריך הרשמה",
+    userSignupTime: "שעת הרשמה",
+    actions: "פעולות",
+    deleteUser: "מחק משתמש",
+    noUsers: "לא נמצאו משתמשים.",
+    registrationAnalytics: "אנליטיקת הרשמות",
+    today: "היום",
+    last7: "7 הימים האחרונים",
+    month: "החודש",
+    allTime: "כל הזמנים",
+    regChartTitle: "הרשמות משתמשים לפי יום",
+    regStats: "סטטיסטיקות הרשמה",
+    createUserTitle: "רישום משתמש חדש",
+    createTicketTitle: "צור קריאת תמיכה",
+    newTicket: "קריאה חדשה",
+    supportTickets: "קריאות תמיכה",
+    ticketId: "מזהה",
+    ticketTitle: "כותרת",
+    ticketStatus: "סטטוס",
+    ticketAssigned: "הוקצה ל",
+    ticketDue: "תאריך יעד",
+    ticketSubmitter: "הוגש ע\"י",
+    ticketCreated: "נוצר",
+    resolve: "סיים",
+    delete: "מחק",
+    noTickets: "לא נמצאו קריאות.",
+    registrationByDay: "הרשמות לפי יום ({d} ימים)",
+    activeSessions: "הפעלות פעילות",
+    user: "משתמש",
+    email: "דואר אלקטרוני",
+    loginTime: "שעת כניסה",
+    date: "תאריך",
+    auditLog: "יומן ביקורת",
+    dateTime: "תאריך ושעה",
+    action: "פעולה",
+    by: "ע\"י",
+    detail: "פירוט",
+    noActions: "אין פעולות אחרונות.",
+    submit: "שלח",
+    cancel: "בטל",
+    register: "הרשם",
+    firstName: "שם פרטי",
+    lastName: "שם משפחה",
+    password: "סיסמה",
+    allFieldsReq: "יש למלא את כל השדות הדרושים.",
+    emailInUse: "האימייל כבר בשימוש.",
+    eventCreated: "האירוע נוצר בהצלחה!",
+    langLabel: "שפה",
+    selectLang: "בחר שפה"
+  }
+};
+
+const LANG_OPTIONS = [
+  { value: "en", label: "English" },
+  { value: "ar", label: "العربية" },
+  { value: "he", label: "עברית" }
+];
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A020F0"];
-
-
 const getToday = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; };
 const dateString = (d) => (d ? d.toISOString().slice(0, 10) : "");
-const daysBetween = (dt) => Math.round((getToday() - dt) / (24 * 3600 * 1000));
-
-// Save audit log to localStorage
 function saveAudit(message, performer = "System") {
   const logs = JSON.parse(localStorage.getItem("auditlog") || "[]");
-  logs.unshift({
-    ts: new Date().toLocaleString(),
-    msg: message,
-    by: performer
-  });
+  logs.unshift({ ts: new Date().toLocaleString(), msg: message, by: performer });
   localStorage.setItem("auditlog", JSON.stringify(logs));
 }
-
-// Registration analytics helpers
 function getRegistrationCounts(users, { range = "all", days = 0 } = {}) {
   const today = getToday();
   let within = (dt) => true;
@@ -53,9 +254,53 @@ function getRegistrationsByDay(users, days = 30) {
   return ret;
 }
 
+const LangDropdownFixed = ({ language, setLanguage, label, dir }) => (
+  <div style={{
+    position: 'fixed',
+    top: 24,
+    right: dir === 'rtl' ? 'unset' : 32,
+    left: dir === 'rtl' ? 32 : 'unset',
+    zIndex: 999,
+    display: 'flex',
+    alignItems: 'center',
+    gap: 6,
+    flexDirection: dir === 'rtl' ? 'row-reverse' : 'row'
+  }}>
+    <label className="font-bold text-blue-900 mr-1" htmlFor="lang-sel">{label}:</label>
+    <select
+      id="lang-sel"
+      className="px-2 py-1 border rounded bg-white text-blue-900 font-semibold"
+      style={{ minWidth: 92, outline: 0 }}
+      value={language}
+      onChange={(e) => setLanguage(e.target.value)}
+      title={label}
+    >
+      {LANG_OPTIONS.map((opt) => (
+        <option key={opt.value} value={opt.value}>{opt.label}</option>
+      ))}
+    </select>
+  </div>
+);
+
+const StatCard = ({ title, value, icon, color }) => (
+  <div className={`flex flex-col items-center justify-center p-6 rounded-xl shadow-lg text-white ${color} transform hover:scale-105 transition-transform duration-300 ease-in-out`}>
+    <div className="mb-3">{icon}</div>
+    <h3 className="text-lg font-medium mb-1">{title}</h3>
+    <p className="text-2xl font-bold">{value}</p>
+  </div>
+);
+
+const StatBlock = ({ label, value, color }) => (
+  <div className={`bg-white shadow p-6 rounded-lg flex-1 min-w-[220px]`}>
+    <h3 className={`font-bold text-lg mb-2 ${color}`}>{label}</h3>
+    <p className="text-2xl font-mono">{value}</p>
+  </div>
+);
 
 const AdminDashboard = () => {
-  // Sidebar & state
+  const [language, setLanguage] = useState("en");
+  const t = translations[language] || translations.en;
+  const dir = ["ar", "he", "fa", "ur"].includes(language) ? "rtl" : "ltr";
   const [activeMenu, setActiveMenu] = useState("dashboard");
   const [users, setUsers] = useState([]);
   const [currentUser] = useState({
@@ -77,13 +322,9 @@ const AdminDashboard = () => {
   const [regCounts, setRegCounts] = useState({ day: 0, week: 0, month: 0, all: 0, custom: 0 });
   const navigate = useNavigate();
 
-
-  // Load users and tickets every show/operation
   useEffect(() => { setUsers(JSON.parse(localStorage.getItem("users") || "[]")); }, [showUserForm]);
   useEffect(() => { setTickets(JSON.parse(localStorage.getItem("tickets") || "[]")); }, [showTicketForm]);
   useEffect(() => { setAudit(JSON.parse(localStorage.getItem("auditlog") || "[]")); }, [activeMenu, showUserForm, showTicketForm]);
-
-  // Update registration counts whenever users or customDays change
   useEffect(() => {
     setRegCounts({
       day: getRegistrationCounts(users, { range: "today" }),
@@ -96,23 +337,19 @@ const AdminDashboard = () => {
 
   const regByDay = getRegistrationsByDay(users, interval === 'custom' ? customDays : interval === 'week' ? 7 : interval === 'month' ? 30 : 365);
 
-
-  // Pie data – only "Today" and "All" for clear display
   const pieData = [
-    { name: "Today", value: regCounts.day },
-    { name: "All", value: regCounts.all - regCounts.day }
+    { name: t.today, value: regCounts.day },
+    { name: t.allTime, value: regCounts.all - regCounts.day }
   ];
 
-
-  // User CRUD
   const handleAddUser = (e) => {
     e.preventDefault();
     if (!newUser.firstName || !newUser.email || !newUser.password) {
-      setError("All required fields must be filled.");
+      setError(t.allFieldsReq);
       return;
     }
     if (users.find(u => u.email === newUser.email)) {
-      setError("Email already in use.");
+      setError(t.emailInUse);
       return;
     }
     const now = new Date();
@@ -129,8 +366,6 @@ const AdminDashboard = () => {
     saveAudit(`Registered user ${userObj.firstName} (${userObj.email})`, currentUser.name);
   };
 
-
-  // Delete user
   const handleDeleteUser = (email) => {
     const updated = users.filter(u => u.email !== email);
     setUsers(updated);
@@ -138,8 +373,6 @@ const AdminDashboard = () => {
     saveAudit(`Deleted user with email ${email}`, currentUser.name);
   };
 
-
-  // Ticket CRUD
   const handleAddTicket = (e) => {
     e.preventDefault();
     if (!newTicket.title || !newTicket.detail || !newTicket.assignedTo || !newTicket.dueDate) return;
@@ -150,6 +383,7 @@ const AdminDashboard = () => {
     setShowTicketForm(false); setNewTicket({ title: "", detail: "", assignedTo: "", dueDate: "" });
     saveAudit(`New ticket opened: ${record.title}.`, currentUser.name);
   };
+
   const handleTicketAction = (tid, action) => {
     let up = tickets.map(t => t.id === tid ? { ...t, status: action === "resolve" ? "Closed" : "Open" } : t);
     if (action === "delete") up = tickets.filter(t => t.id !== tid);
@@ -158,29 +392,23 @@ const AdminDashboard = () => {
     saveAudit(`${action === "delete" ? "Deleted" : action === "resolve" ? "Resolved" : "Updated"} ticket ${tid}`, currentUser.name);
   };
 
-
-  // Sessions (demo): Only admin is online
   const sessions = [currentUser];
 
-
   const menu = [
-    { key: "dashboard", name: "Dashboard", icon: <FaChartBar size={20} /> },
-    { key: "users", name: "Users", icon: <FaUsers size={20} /> },
-    { key: "registrations", name: "Registrations", icon: <FaUserPlus size={20} /> },
-    { key: "tickets", name: "Tickets", icon: <FaClipboardList size={20} /> },
-    { key: "sessions", name: "Active Sessions", icon: <FaDoorOpen size={20} /> },
-    { key: "audit", name: "Audit Log", icon: <FaTable size={20} /> },
-    { key: "logout", name: "Logout", icon: <FaSignOutAlt size={20} /> },
+    { key: "dashboard", name: t.dashboard, icon: <FaChartBar size={20} /> },
+    { key: "users", name: t.users, icon: <FaUsers size={20} /> },
+    { key: "registrations", name: t.registrations, icon: <FaUserPlus size={20} /> },
+    { key: "tickets", name: t.tickets, icon: <FaClipboardList size={20} /> },
+    { key: "sessions", name: t.sessions, icon: <FaDoorOpen size={20} /> },
+    { key: "audit", name: t.audit, icon: <FaTable size={20} /> },
+    { key: "logout", name: t.logout, icon: <FaSignOutAlt size={20} /> }
   ];
 
-
-  // Helper for audit log expansion
   const toggleAuditExpand = (i) => setExpandAudit(expandAudit.includes(i) ? expandAudit.filter(idx => idx !== i) : [...expandAudit, i]);
 
-
   return (
-    <div className="min-h-screen flex bg-gradient-to-tr from-blue-900 to-indigo-900 font-inter">
-      {/* Sidebar */}
+    <div className="min-h-screen flex bg-gradient-to-tr from-blue-900 to-indigo-900 font-inter" dir={dir}>
+      <LangDropdownFixed language={language} setLanguage={setLanguage} label={t.langLabel} dir={dir} />
       <aside className="w-64 min-h-screen bg-gradient-to-b from-blue-800 to-indigo-900 shadow-xl flex flex-col py-8 px-5 sticky top-0 z-40">
         <div className="text-3xl font-extrabold text-white mb-10 text-center tracking-wide">
           IT Services
@@ -212,65 +440,35 @@ const AdminDashboard = () => {
           </ul>
         </nav>
       </aside>
-
-
-      {/* Main Area */}
       <main className="flex-1 p-7 bg-blue-50 min-h-screen">
-        {/* Header */}
+        {/* HEADER */}
         <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-5 mb-5">
           <div>
-            <h1 className="text-3xl font-bold text-blue-800 mb-1">Admin Dashboard</h1>
-            <p className="text-gray-600">IT Services Operations Panel</p>
-          </div>
-          <div className="flex gap-3 items-center">
-            {activeMenu === "users" && (
-              <button className="bg-indigo-600 text-white px-3 py-2 rounded shadow-lg flex items-center gap-2"
-                onClick={() => setShowUserForm(true)}>
-                <FaPlus /> New User
-              </button>
-            )}
-            {activeMenu === "tickets" && (
-              <button className="bg-green-600 text-white px-3 py-2 rounded shadow-lg flex items-center gap-2"
-                onClick={() => setShowTicketForm(true)}>
-                <FaPlus /> New Ticket
-              </button>
-            )}
+            <h1 className="text-3xl font-bold text-blue-800 mb-1">{t.adminDashboard}</h1>
+            <p className="text-gray-600">{t.operationsPanel}</p>
           </div>
         </header>
-
-
-        {/* Dashboard Overview */}
+        {/* DASHBOARD */}
         {activeMenu === "dashboard" && (
           <section>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-              <StatCard title="Total Users" value={users.length} icon={<FaUsers size={28} />} color="bg-blue-600" />
-              <StatCard title="Registered Today" value={regCounts.day} icon={<FaUserPlus size={28} />} color="bg-green-600" />
-              <StatCard title="This Month" value={regCounts.month} icon={<FaRegCalendarAlt size={28} />} color="bg-yellow-500" />
-              <StatCard title="Open Tickets" value={tickets.filter(t => t.status === "Open").length} icon={<FaClipboardList size={28} />} color="bg-indigo-600" />
+              <StatCard title={t.totalUsers} value={users.length} icon={<FaUsers size={28} />} color="bg-blue-600" />
+              <StatCard title={t.registeredToday} value={regCounts.day} icon={<FaUserPlus size={28} />} color="bg-green-600" />
+              <StatCard title={t.thisMonth} value={regCounts.month} icon={<FaRegCalendarAlt size={28} />} color="bg-yellow-500" />
+              <StatCard title={t.openTickets} value={tickets.filter(ti => ti.status === "Open").length} icon={<FaClipboardList size={28} />} color="bg-indigo-600" />
             </div>
+            {/* Interval/Charts/Stats */}
             <div className="mb-4 flex gap-3 items-center">
-              <span className="font-semibold mr-1">Chart Interval:</span>
-              <button onClick={() => setIntervalRange("week")} className={`px-2 rounded ${interval === "week" ? "bg-blue-700 text-white" : "bg-white"}`}>Week</button>
-              <button onClick={() => setIntervalRange("month")} className={`px-2 rounded ${interval === "month" ? "bg-blue-700 text-white" : "bg-white"}`}>Month</button>
+              <span className="font-semibold mr-1">{dir === "rtl" ? ":فترة المخطط" : "Chart Interval:"}</span>
+              <button onClick={() => setIntervalRange("week")} className={`px-2 rounded ${interval === "week" ? "bg-blue-700 text-white" : "bg-white"}`}>{t.last7 || "Week"}</button>
+              <button onClick={() => setIntervalRange("month")} className={`px-2 rounded ${interval === "month" ? "bg-blue-700 text-white" : "bg-white"}`}>{t.month || "Month"}</button>
               <button onClick={() => setIntervalRange("year")} className={`px-2 rounded ${interval === "year" ? "bg-blue-700 text-white" : "bg-white"}`}>Year</button>
               <button onClick={() => setIntervalRange("custom")} className={`px-2 rounded ${interval === "custom" ? "bg-blue-700 text-white" : "bg-white"}`}>Custom</button>
-              {interval === "custom" && <input type="number" min="2" max="365" value={customDays} onChange={e => setCustomDays(e.target.value)} className="w-20 ml-2 p-1 rounded" />}
+              {interval === "custom" && <input type="number" min="2" max="365" value={customDays} onChange={e => setCustomDays(+e.target.value)} className="w-20 ml-2 p-1 rounded" />}
             </div>
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
               <div className="bg-white shadow rounded-xl p-8 flex flex-col items-center">
-                <h2 className="text-xl font-bold mb-3 text-gray-800">User Registrations by Day</h2>
-                <ResponsiveContainer width="100%" height={250}>
-                  <LineChart data={regByDay}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#c7d4ef" />
-                    <XAxis dataKey="date" stroke="#8884d8" />
-                    <YAxis stroke="#8884d8" />
-                    <Tooltip />
-                    <Line type="monotone" dataKey="count" stroke="#3b82f6" strokeWidth={3} dot={{ r: 6 }} />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="bg-white shadow rounded-xl p-8 flex flex-col items-center">
-                <h2 className="text-xl font-bold mb-3 text-gray-800">Registration Stats</h2>
+                <h2 className="text-xl font-bold mb-3 text-gray-800">{t.regStats}</h2>
                 <ResponsiveContainer width="100%" height={250}>
                   <PieChart>
                     <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={90}
@@ -287,25 +485,41 @@ const AdminDashboard = () => {
                   </PieChart>
                 </ResponsiveContainer>
               </div>
+              <div className="bg-white shadow rounded-xl p-8 flex flex-col items-center">
+                <h2 className="text-xl font-bold mb-3 text-gray-800">{t.regChartTitle}</h2>
+                <ResponsiveContainer width="100%" height={250}>
+                  <LineChart data={regByDay}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#c7d4ef" />
+                    <XAxis dataKey="date" stroke="#8884d8" />
+                    <YAxis stroke="#8884d8" />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="count" stroke="#3b82f6" strokeWidth={3} dot={{ r: 6 }} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
             </div>
           </section>
         )}
-
-
-        {/* Users Table */}
+        {/* USERS */}
         {activeMenu === "users" && (
           <section>
-            <h2 className="text-2xl font-bold mb-5 text-blue-900">Users</h2>
+            <div className={`${dir === "rtl" ? "flex justify-start mb-4" : "flex justify-end mb-4"}`}>
+              <button className="bg-indigo-600 text-white px-3 py-2 rounded shadow-lg flex items-center gap-2"
+                onClick={() => setShowUserForm(true)}>
+                <FaPlus /> {t.newUser}
+              </button>
+            </div>
+            <h2 className="text-2xl font-bold mb-5 text-blue-900">{t.users}</h2>
             <div className="overflow-x-auto">
               <table className="min-w-full bg-white rounded-lg shadow-xl">
                 <thead>
                   <tr>
-                    <th className="px-4 py-3 text-left">First Name</th>
-                    <th className="px-4 py-3 text-left">Last Name</th>
-                    <th className="px-4 py-3 text-left">Email</th>
-                    <th className="px-4 py-3 text-left">Signup Date</th>
-                    <th className="px-4 py-3 text-left">Signup Time</th>
-                    <th className="px-4 py-3"></th>
+                    <th className="px-4 py-3 text-left">{t.userFName}</th>
+                    <th className="px-4 py-3 text-left">{t.userLName}</th>
+                    <th className="px-4 py-3 text-left">{t.userEmail}</th>
+                    <th className="px-4 py-3 text-left">{t.userSignupDate}</th>
+                    <th className="px-4 py-3 text-left">{t.userSignupTime}</th>
+                    <th className="px-4 py-3">{t.actions}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -318,34 +532,34 @@ const AdminDashboard = () => {
                       <td className="px-4 py-2">{u.signupTime || "—"}</td>
                       <td className="px-4 py-2">
                         <button className="ml-2 text-red-600 hover:text-red-900"
-                          onClick={() => handleDeleteUser(u.email)} title="Delete User">
+                          onClick={() => handleDeleteUser(u.email)} title={t.deleteUser}>
                           <FaTrash />
                         </button>
                       </td>
                     </tr>
                   ))}
                   {users.length === 0 && (
-                    <tr><td colSpan={6} className="p-4 text-center text-gray-400">No users found.</td></tr>
+                    <tr><td colSpan={6} className="p-4 text-center text-gray-400">{t.noUsers}</td></tr>
                   )}
                 </tbody>
               </table>
             </div>
           </section>
         )}
-
-
-        {/* Registrations Analytics */}
+        {/* REGISTRATIONS */}
         {activeMenu === "registrations" && (
           <section>
-            <h2 className="text-2xl font-bold mb-5 text-blue-900">Registration Analytics</h2>
+            <h2 className="text-2xl font-bold mb-5 text-blue-900">{t.registrationAnalytics}</h2>
             <div className="flex flex-wrap gap-6 mb-7">
-              <StatBlock label="Today" value={regCounts.day} color="text-blue-500" />
-              <StatBlock label="Last 7 Days" value={regCounts.week} color="text-green-600" />
-              <StatBlock label="This Month" value={regCounts.month} color="text-indigo-600" />
-              <StatBlock label="All-Time" value={regCounts.all} color="text-gray-800" />
+              <StatBlock label={t.today} value={regCounts.day} color="text-blue-500" />
+              <StatBlock label={t.last7} value={regCounts.week} color="text-green-600" />
+              <StatBlock label={t.month} value={regCounts.month} color="text-indigo-600" />
+              <StatBlock label={t.allTime} value={regCounts.all} color="text-gray-800" />
             </div>
             <div className="bg-white shadow rounded-lg p-8">
-              <h3 className="mb-3 font-semibold text-blue-700">Registrations by Day (last {interval === 'custom' ? customDays : interval === "week" ? 7 : interval === "month" ? 30 : 365}d)</h3>
+              <h3 className="mb-3 font-semibold text-blue-700">
+                {t.registrationByDay.replace("{d}", (interval === 'custom' ? customDays : interval === "week" ? 7 : interval === "month" ? 30 : 365))}
+              </h3>
               <ResponsiveContainer width="100%" height={240}>
                 <LineChart data={regByDay}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
@@ -358,69 +572,79 @@ const AdminDashboard = () => {
             </div>
           </section>
         )}
-
-
-        {/* Tickets */}
+        {/* TICKETS */}
         {activeMenu === "tickets" && (
           <section>
-            <h2 className="text-2xl font-bold mb-5 text-blue-900">Support Tickets</h2>
+            <div className={`${dir === "rtl" ? "flex justify-start mb-4" : "flex justify-end mb-4"}`}>
+              <button className="bg-green-600 text-white px-3 py-2 rounded shadow-lg flex items-center gap-2"
+                onClick={() => setShowTicketForm(true)}>
+                <FaPlus /> {t.newTicket}
+              </button>
+            </div>
+            <h2 className="text-2xl font-bold mb-5 text-blue-900">{t.supportTickets}</h2>
             <div className="overflow-x-auto">
               <table className="min-w-full bg-white rounded shadow-md text-sm">
                 <thead>
                   <tr>
-                    <th className="px-3 py-2 text-left">ID</th>
-                    <th className="px-3 py-2 text-left">Title</th>
-                    <th className="px-3 py-2 text-left">Status</th>
-                    <th className="px-3 py-2 text-left">Assigned To</th>
-                    <th className="px-3 py-2 text-left">Due Date</th>
-                    <th className="px-3 py-2 text-left">Submitted By</th>
-                    <th className="px-3 py-2 text-left">Created</th>
+                    <th className="px-3 py-2 text-left">{t.ticketId}</th>
+                    <th className="px-3 py-2 text-left">{t.ticketTitle}</th>
+                    <th className="px-3 py-2 text-left">{t.ticketStatus}</th>
+                    <th className="px-3 py-2 text-left">{t.ticketAssigned}</th>
+                    <th className="px-3 py-2 text-left">{t.ticketDue}</th>
+                    <th className="px-3 py-2 text-left">{t.ticketSubmitter}</th>
+                    <th className="px-3 py-2 text-left">{t.ticketCreated}</th>
                     <th className="px-3 py-2"></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {tickets.map((t) => (
-                    <tr key={t.id} className={`${t.status === "Open" ? "bg-green-50" : "bg-gray-50"} border-t`}>
-                      <td className="px-3 py-2">{t.id}</td>
-                      <td className="px-3 py-2">{t.title}</td>
+                  {tickets.map((tk) => (
+                    <tr key={tk.id} className={`${tk.status === "Open" ? "bg-green-50" : "bg-gray-50"} border-t`}>
+                      <td className="px-3 py-2">{tk.id}</td>
+                      <td className="px-3 py-2">{tk.title}</td>
                       <td className="px-3 py-2">
-                        <span className={`badge ${t.status === "Open" ? "bg-green-400 text-white" : "bg-gray-400 text-white"}`}>
-                          {t.status}
+                        <span className={`badge ${tk.status === "Open" ? "bg-green-400 text-white" : "bg-gray-400 text-white"}`}>
+                          {tk.status}
                         </span>
                       </td>
                       <td className="px-3 py-2">
                         <span className="flex items-center space-x-2">
-                          <FaUserCircle className="text-blue-400 mr-1" /> {t.assignedTo || "-"}
+                          <FaUserCircle className="text-blue-400 mr-1" /> {tk.assignedTo || "-"}
                         </span>
                       </td>
                       <td className="px-3 py-2">
                         <span className="flex items-center space-x-2">
-                          <FaCalendarAlt className="text-pink-400 mr-1" /> {t.dueDate || "-"}
+                          <FaCalendarAlt className="text-pink-400 mr-1" /> {tk.dueDate || "-"}
                         </span>
                       </td>
-                      <td className="px-3 py-2">{t.submitter}</td>
-                      <td className="px-3 py-2">{t.created}</td>
+                      <td className="px-3 py-2">{tk.submitter}</td>
+                      <td className="px-3 py-2">{tk.created}</td>
                       <td className="px-3 py-2 flex gap-1">
-                        {t.status === "Open" && <button className="bg-blue-500 text-white px-2 py-1 rounded mr-1" onClick={() => handleTicketAction(t.id, "resolve")}>Resolve</button>}
-                        <button className="bg-red-500 text-white px-2 py-1 rounded" onClick={() => handleTicketAction(t.id, "delete")}>Delete</button>
+                        {tk.status === "Open" && <button className="bg-blue-500 text-white px-2 py-1 rounded mr-1" onClick={() => handleTicketAction(tk.id, "resolve")}>{t.resolve}</button>}
+                        <button className="bg-red-500 text-white px-2 py-1 rounded" onClick={() => handleTicketAction(tk.id, "delete")}>{t.delete}</button>
                       </td>
                     </tr>
                   ))}
-                  {tickets.length === 0 && <tr><td colSpan={8} className="text-center text-gray-400 py-4">No tickets found.</td></tr>}
+                  {tickets.length === 0 && <tr><td colSpan={8} className="text-center text-gray-400 py-4">{t.noTickets}</td></tr>}
                 </tbody>
               </table>
             </div>
           </section>
         )}
-
-
-        {/* Active Sessions */}
+        {/* SESSIONS */}
         {activeMenu === "sessions" && (
           <section>
-            <h2 className="text-2xl font-bold mb-5 text-blue-900">Active Sessions</h2>
+            <h2 className="text-2xl font-bold mb-5 text-blue-900">{t.activeSessions}</h2>
             <div className="bg-gradient-to-r from-blue-100 to-indigo-200 rounded-2xl shadow-lg p-6 max-w-lg border-l-4 border-blue-500">
               <table className="w-full text-left">
-                <thead><tr><th></th><th>User</th><th>Email</th><th>Login Time</th><th>Date</th></tr></thead>
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>{t.user}</th>
+                    <th>{t.email}</th>
+                    <th>{t.loginTime}</th>
+                    <th>{t.date}</th>
+                  </tr>
+                </thead>
                 <tbody>
                   {sessions.map((s, i) =>
                     <tr key={s.email}>
@@ -440,19 +664,17 @@ const AdminDashboard = () => {
             </div>
           </section>
         )}
-
-
-        {/* Audit Log */}
+        {/* AUDIT */}
         {activeMenu === "audit" && (
           <section>
-            <h2 className="text-2xl font-bold mb-5 text-blue-900">Audit Log</h2>
+            <h2 className="text-2xl font-bold mb-5 text-blue-900">{t.auditLog}</h2>
             <div className="bg-white shadow-md rounded-lg p-5 max-w-2xl w-full">
               <table className="w-full text-left text-sm">
                 <thead>
                   <tr>
-                    <th>Date Time</th>
-                    <th>Action</th>
-                    <th>By</th>
+                    <th>{t.dateTime}</th>
+                    <th>{t.action}</th>
+                    <th>{t.by}</th>
                     <th>+</th>
                   </tr>
                 </thead>
@@ -476,7 +698,7 @@ const AdminDashboard = () => {
                       {expandAudit.includes(i) && (
                         <tr>
                           <td colSpan={4} className="p-2 bg-blue-50 text-sm">
-                            <span className="font-semibold">Details:</span> {a.msg}
+                            <span className="font-semibold">{t.detail}:</span> {a.msg}
                           </td>
                         </tr>
                       )}
@@ -484,7 +706,7 @@ const AdminDashboard = () => {
                   )}
                   {audit.length === 0 &&
                     <tr>
-                      <td colSpan={4} className="text-center text-gray-400 py-4">No recent actions.</td>
+                      <td colSpan={4} className="text-center text-gray-400 py-4">{t.noActions}</td>
                     </tr>
                   }
                 </tbody>
@@ -492,68 +714,45 @@ const AdminDashboard = () => {
             </div>
           </section>
         )}
+        {/* --- MODALS --- */}
+        {showUserForm && (
+          <div className="fixed inset-0 z-50 bg-black bg-opacity-30 flex items-center justify-center">
+            <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md mx-3 relative">
+              <h2 className="text-2xl font-bold mb-5">{t.createUserTitle}</h2>
+              {error && <div className="text-red-600 mb-2">{error}</div>}
+              <form onSubmit={handleAddUser} className="space-y-3">
+                <input type="text" className="w-full border p-2 rounded" placeholder={t.firstName} value={newUser.firstName} onChange={e => setNewUser({ ...newUser, firstName: e.target.value })} />
+                <input type="text" className="w-full border p-2 rounded" placeholder={t.lastName} value={newUser.lastName} onChange={e => setNewUser({ ...newUser, lastName: e.target.value })} />
+                <input type="email" className="w-full border p-2 rounded" placeholder={t.email} value={newUser.email} onChange={e => setNewUser({ ...newUser, email: e.target.value })} />
+                <input type="password" className="w-full border p-2 rounded" placeholder={t.password} value={newUser.password} onChange={e => setNewUser({ ...newUser, password: e.target.value })} />
+                <div className="flex gap-3 justify-end mt-4">
+                  <button type="submit" className="px-5 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold">{t.register}</button>
+                  <button type="button" className="px-5 py-2 bg-red-600 text-white rounded hover:bg-red-700 font-semibold" onClick={() => { setShowUserForm(false); setError(""); }}>{t.cancel}</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+        {showTicketForm && (
+          <div className="fixed inset-0 z-50 bg-black bg-opacity-30 flex items-center justify-center">
+            <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md mx-3 relative">
+              <h2 className="text-2xl font-bold mb-5">{t.createTicketTitle}</h2>
+              <form onSubmit={handleAddTicket} className="space-y-3">
+                <input type="text" className="w-full border p-2 rounded" placeholder={t.ticketTitle} value={newTicket.title} onChange={e => setNewTicket({ ...newTicket, title: e.target.value })} />
+                <textarea className="w-full border p-2 rounded" placeholder={t.detail} value={newTicket.detail} onChange={e => setNewTicket({ ...newTicket, detail: e.target.value })} />
+                <input type="text" className="w-full border p-2 rounded" placeholder={t.ticketAssigned} value={newTicket.assignedTo} onChange={e => setNewTicket({ ...newTicket, assignedTo: e.target.value })} />
+                <input type="date" className="w-full border p-2 rounded" placeholder={t.ticketDue} value={newTicket.dueDate} onChange={e => setNewTicket({ ...newTicket, dueDate: e.target.value })} />
+                <div className="flex gap-3 justify-end mt-4">
+                  <button type="submit" className="px-5 py-2 bg-green-600 text-white rounded hover:bg-green-700 font-semibold">{t.submit}</button>
+                  <button type="button" className="px-5 py-2 bg-red-600 text-white rounded hover:bg-red-700 font-semibold" onClick={() => { setShowTicketForm(false); }}>{t.cancel}</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </main>
-
-
-      {/* Add User Modal */}
-      {showUserForm && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-30 flex items-center justify-center">
-          <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md mx-3 relative">
-            <h2 className="text-2xl font-bold mb-5">Register New User</h2>
-            {error && <div className="text-red-600 mb-2">{error}</div>}
-            <form onSubmit={handleAddUser} className="space-y-3">
-              <input type="text" className="w-full border p-2 rounded" placeholder="First Name" value={newUser.firstName} onChange={e => setNewUser({ ...newUser, firstName: e.target.value })} />
-              <input type="text" className="w-full border p-2 rounded" placeholder="Last Name" value={newUser.lastName} onChange={e => setNewUser({ ...newUser, lastName: e.target.value })} />
-              <input type="email" className="w-full border p-2 rounded" placeholder="Email" value={newUser.email} onChange={e => setNewUser({ ...newUser, email: e.target.value })} />
-              <input type="password" className="w-full border p-2 rounded" placeholder="Password" value={newUser.password} onChange={e => setNewUser({ ...newUser, password: e.target.value })} />
-              <div className="flex gap-3 justify-end mt-4">
-                <button type="submit" className="px-5 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold">Register</button>
-                <button type="button" className="px-5 py-2 bg-red-600 text-white rounded hover:bg-red-700 font-semibold" onClick={() => { setShowUserForm(false); setError(""); }}>Cancel</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-
-      {/* Add Ticket Modal */}
-      {showTicketForm && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-30 flex items-center justify-center">
-          <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md mx-3 relative">
-            <h2 className="text-2xl font-bold mb-5">Create Support Ticket</h2>
-            <form onSubmit={handleAddTicket} className="space-y-3">
-              <input type="text" className="w-full border p-2 rounded" placeholder="Title" value={newTicket.title} onChange={e => setNewTicket({ ...newTicket, title: e.target.value })} />
-              <textarea className="w-full border p-2 rounded" placeholder="Detail" value={newTicket.detail} onChange={e => setNewTicket({ ...newTicket, detail: e.target.value })} />
-              <input type="text" className="w-full border p-2 rounded" placeholder="Assigned To (Name)" value={newTicket.assignedTo} onChange={e => setNewTicket({ ...newTicket, assignedTo: e.target.value })} />
-              <input type="date" className="w-full border p-2 rounded" placeholder="Due Date" value={newTicket.dueDate} onChange={e => setNewTicket({ ...newTicket, dueDate: e.target.value })} />
-              <div className="flex gap-3 justify-end mt-4">
-                <button type="submit" className="px-5 py-2 bg-green-600 text-white rounded hover:bg-green-700 font-semibold">Submit</button>
-                <button type="button" className="px-5 py-2 bg-red-600 text-white rounded hover:bg-red-700 font-semibold" onClick={() => { setShowTicketForm(false); }}>Cancel</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
-
-
-const StatCard = ({ title, value, icon, color }) => (
-  <div className={`flex flex-col items-center justify-center p-6 rounded-xl shadow-lg text-white ${color} transform hover:scale-105 transition-transform duration-300 ease-in-out`}>
-    <div className="mb-3">{icon}</div>
-    <h3 className="text-lg font-medium mb-1">{title}</h3>
-    <p className="text-2xl font-bold">{value}</p>
-  </div>
-);
-
-
-const StatBlock = ({ label, value, color }) => (
-  <div className={`bg-white shadow p-6 rounded-lg flex-1 min-w-[220px]`}>
-    <h3 className={`font-bold text-lg mb-2 ${color}`}>{label}</h3>
-    <p className="text-2xl font-mono">{value}</p>
-  </div>
-);
-
 
 export default AdminDashboard;

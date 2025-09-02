@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -13,177 +13,362 @@ import {
   FaShare,
   FaComment
 } from 'react-icons/fa';
+import { useLanguage } from '../context.jsx/LanguageContext';
 
-function formatDate(dateString) {
-  if (!dateString) return '';
-  const d = new Date(dateString);
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-}
-
-function getBlogReadInfo(postId, defaultReadTime, defaultDate) {
-  try {
-    const stats = JSON.parse(localStorage.getItem('blogInteractions') || '{}');
-    const post = stats[postId] || {};
-    return {
-      lastViewed: post.lastViewed,
-      readTime: post.readTime || defaultReadTime,
-      date: defaultDate
-    };
-  } catch {
-    return { lastViewed: null, readTime: defaultReadTime, date: defaultDate };
+const translations = {
+  en: {
+    pageTitle: 'Blog',
+    welcomeText: 'Welcome to ForStackly’s IT blog—a curated hub of insights, innovation, and expert advice tailored for modern businesses embracing technology.',
+    reachOut: 'Reach Out Today',
+    searchPlaceholder: 'Search blog posts...',
+    allPosts: 'All Posts',
+    categoriesTitle: 'Categories',
+    recentPostsTitle: 'Recent Posts',
+    postsTitle: 'Latest Articles',
+    featuredBadge: 'Featured',
+    readMore: 'Read More',
+    postActions: {
+      like: 'Like',
+      comment: 'Comment',
+      share: 'Share',
+      post: 'Post',
+    },
+    knowledgeHubTitle: 'Knowledge Hub',
+    knowledgeHubSubtitle: 'Premium insights at a glance — trends shaping tomorrow’s tech.',
+    knowledgeStats: [
+      { icon: '💡', stat: '78%', text: 'Businesses now scale faster through cloud adoption.' },
+      { icon: '🛡️', stat: '65%', text: 'SMBs faced at least one cybersecurity incident last year.' },
+      { icon: '🤖', stat: '92%', text: 'Leaders believe AI will transform industries in 5 years.' }
+    ],
+    ctaTitle: 'Ready to Transform Your Business?',
+    ctaText: 'Get started today with a free consultation and discover how we can help you achieve your goals.',
+    ctaStart: 'Start Your Journey',
+    ctaLearnMore: 'Learn More About Us',
+    posts: [
+      {
+        id: 1,
+        title: 'The Rise of Cloud Computing and Business Transformation',
+        excerpt: 'Learn how cloud technologies streamline operations, improve security, and enable innovation for modern enterprises.',
+        author: 'Alex Johnson',
+        date: '2025-03-10',
+        readTime: 7,
+        category: 'Cloud Computing',
+        image: 'images/blog2.jpg',
+        featured: true
+      },
+      {
+        id: 2,
+        title: 'Cybersecurity Best Practices for Small Businesses',
+        excerpt: 'Protect your business from threats with essential cybersecurity tips tailored for small and medium businesses.',
+        author: 'Linda Yang',
+        date: '2025-02-28',
+        readTime: 8,
+        category: 'Cybersecurity',
+        image: 'images/blog3.jpg',
+        featured: false
+      },
+      {
+        id: 3,
+        title: 'AI and Machine Learning Applications in IT',
+        excerpt: 'Explore the transformative impact of AI/ML in automating processes and generating actionable insights.',
+        author: 'Neil Roberts',
+        date: '2025-02-20',
+        readTime: 9,
+        category: 'Artificial Intelligence',
+        image: 'images/blog4.jpg',
+        featured: false
+      },
+      {
+        id: 4,
+        title: 'Why DevOps is Essential for Today’s Agile Businesses',
+        excerpt: 'Discover how DevOps accelerates development cycles and improves collaboration across teams.',
+        author: 'Maxine Patel',
+        date: '2025-02-15',
+        readTime: 6,
+        category: 'DevOps',
+        image: 'images/blog5.jpg',
+        featured: true
+      }
+    ]
+  },
+  ar: {
+    pageTitle: 'المدونة',
+    welcomeText: 'مرحبًا بكم في مدونة فورستاكلي لتكنولوجيا المعلومات - مركز مختار للرؤى والابتكار والنصائح المتخصصة للشركات الحديثة التي تتبنى التكنولوجيا.',
+    reachOut: 'تواصل الآن',
+    searchPlaceholder: 'ابحث في مقالات المدونة...',
+    allPosts: 'كل المشاركات',
+    categoriesTitle: 'الفئات',
+    recentPostsTitle: 'المشاركات الحديثة',
+    postsTitle: 'أحدث المقالات',
+    featuredBadge: 'مميز',
+    readMore: 'اقرأ المزيد',
+    postActions: {
+      like: 'إعجاب',
+      comment: 'تعليق',
+      share: 'مشاركة',
+      post: 'نشر',
+    },
+    knowledgeHubTitle: 'محور المعرفة',
+    knowledgeHubSubtitle: 'رؤى متميزة لمحة سريعة - الاتجاهات التي تشكل مستقبل التكنولوجيا.',
+    knowledgeStats: [
+      { icon: '💡', stat: '78%', text: 'تسريع المؤسسات من خلال تبني السحابة.' },
+      { icon: '🛡️', stat: '65%', text: 'واجهت الشركات الصغيرة والمتوسطة حادثة أمان واحدة على الأقل العام الماضي.' },
+      { icon: '🤖', stat: '92%', text: 'يعتقد القادة أن الذكاء الاصطناعي سيغير الصناعات في غضون 5 سنوات.' }
+    ],
+    ctaTitle: 'هل أنت مستعد لتحويل عملك؟',
+    ctaText: 'ابدأ اليوم مع استشارة مجانية واكتشف كيف يمكننا مساعدتك.',
+    ctaStart: 'ابدأ رحلتك',
+    ctaLearnMore: 'تعرف علينا أكثر',
+    posts: [
+      {
+        id: 1,
+        title: 'اتجاهات الحوسبة السحابية في 2025',
+        excerpt: 'تعرف على كيفية تسهيل تقنيات السحابة للعمليات، وتحسين الأمان، وتمكين الابتكار للمؤسسات الحديثة.',
+        author: 'أليكس جونسون',
+        date: '2025-03-10',
+        readTime: 7,
+        category: 'الحوسبة السحابية',
+        image: 'images/blog2.jpg',
+        featured: true
+      },
+      {
+        id: 2,
+        title: 'أفضل ممارسات الأمن السيبراني للشركات الصغيرة',
+        excerpt: 'حماية عملك من التهديدات مع نصائح الأمن السيبراني الضرورية للشركات الصغيرة والمتوسطة.',
+        author: 'ليندا يانغ',
+        date: '2025-02-28',
+        readTime: 8,
+        category: 'الأمن السيبراني',
+        image: 'images/blog3.jpg',
+        featured: false
+      },
+      {
+        id: 3,
+        title: 'تطبيقات الذكاء الاصطناعي وتعلم الآلة في تكنولوجيا المعلومات',
+        excerpt: 'استكشف التأثير التحويلي للذكاء الاصطناعي وتعلم الآلة في أتمتة العمليات وتوليد رؤى قابلة للتنفيذ.',
+        author: 'نيل روبرتس',
+        date: '2025-02-20',
+        readTime: 9,
+        category: 'الذكاء الاصطناعي',
+        image: 'images/blog4.jpg',
+        featured: false
+      },
+      {
+        id: 4,
+        title: 'لماذا DevOps ضروري لأعمال الأعمال الرشيقة اليوم',
+        excerpt: 'اكتشف كيف يسرع DevOps دورات التطوير ويحسن التعاون بين الفرق.',
+        author: 'ماكسين باتيل',
+        date: '2025-02-15',
+        readTime: 6,
+        category: 'DevOps',
+        image: 'images/blog5.jpg',
+        featured: true
+      }
+    ]
+  },
+  he: {
+    pageTitle: 'הבלוג',
+    welcomeText: 'ברוכים הבאים לבלוג של ForStackly IT - מרכז מובחר של תובנות, חידושים וייעוץ מומחה לעסקים מודרניים עם טכנולוגיה.',
+    reachOut: 'צור קשר היום',
+    searchPlaceholder: 'חפש פוסטים בבלוג...',
+    allPosts: 'כל הפוסטים',
+    categoriesTitle: 'קטגוריות',
+    recentPostsTitle: 'פוסטים אחרונים',
+    postsTitle: 'המדריכים האחרונים',
+    featuredBadge: 'מומלץ',
+    readMore: 'קרא עוד',
+    postActions: {
+      like: 'אהבתי',
+      comment: 'תגובה',
+      share: 'שיתוף',
+      post: 'פרסם',
+    },
+    knowledgeHubTitle: 'מרכז ידע',
+    knowledgeHubSubtitle: 'תובנות פרמיום במבט חטוף – מגמות שישנו את עולם הטכנולוגיה מחר.',
+    knowledgeStats: [
+      { icon: '💡', stat: '78%', text: 'עסקים מגדילים את ההיקף מהר יותר בזכות אימוץ ענן.' },
+      { icon: '🛡️', stat: '65%', text: 'עסקים קטנים ובינוניים חוו לפחות אירוע אבטחה אחד בשנה האחרונה.' },
+      { icon: '🤖', stat: '92%', text: 'מנהיגים מאמינים שבינה מלאכותית תהפוך את התעשיות תוך 5 שנים.' }
+    ],
+    ctaTitle: 'מוכנים לשינוי העסק שלכם?',
+    ctaText: 'התחילו היום עם ייעוץ חינם וגלו כיצד נוכל לעזור לכם.',
+    ctaStart: 'התחילו את המסע',
+    ctaLearnMore: 'למידע נוסף עלינו',
+    posts: [
+      {
+        id: 1,
+        title: 'מגמות מחשוב ענן ב-2025',
+        excerpt: 'למד כיצד טכנולוגיות ענן משפרות את התפעול, האבטחה ומאפשרות חדשנות לעסקים מודרניים.',
+        author: 'אלכס ג’ונסון',
+        date: '2025-03-10',
+        readTime: 7,
+        category: 'מחשוב ענן',
+        image: 'images/blog2.jpg',
+        featured: true
+      },
+      {
+        id: 2,
+        title: 'שיטות אבטחת סייבר לעסקים קטנים',
+        excerpt: 'הגן על העסק שלך מפני איומים עם טיפים חיוניים לאבטחת סייבר לעסקים קטנים ובינוניים.',
+        author: 'לינדה יאנג',
+        date: '2025-02-28',
+        readTime: 8,
+        category: 'אבטחת סייבר',
+        image: 'images/blog3.jpg',
+        featured: false
+      },
+      {
+        id: 3,
+        title: 'יישומי בינה מלאכותית ולמידת מכונה ב-IT',
+        excerpt: 'חקור את ההשפעה המשנה של בינה מלאכותית ולמידת מכונה באוטומציה ויצירת תובנות.',
+        author: 'ניל רוברטס',
+        date: '2025-02-20',
+        readTime: 9,
+        category: 'בינה מלאכותית',
+        image: 'images/blog4.jpg',
+        featured: false
+      },
+      {
+        id: 4,
+        title: 'מדוע DevOps חיוני לעסקים אג’יליים כיום',
+        excerpt: 'גלה כיצד DevOps מאיץ מחזורי פיתוח ומשפר שיתוף פעולה בין צוותים.',
+        author: 'מקסין פטאל',
+        date: '2025-02-15',
+        readTime: 6,
+        category: 'DevOps',
+        image: 'images/blog5.jpg',
+        featured: true
+      }
+    ]
   }
-}
-
-const blogPosts = [
-  {
-    id: 1,
-    title: 'The Rise of Cloud Computing and Business Transformation',
-    excerpt: 'Learn how cloud technologies streamline operations, improve security, and enable innovation for modern enterprises.',
-    author: 'Alex Johnson',
-    date: '2025-03-10',
-    readTime: 7,
-    category: 'Cloud Computing',
-    image: 'images/blog2.jpg',
-    featured: true
-  },
-  {
-    id: 2,
-    title: 'Cybersecurity Best Practices for Small Businesses',
-    excerpt: 'Protect your business from threats with essential cybersecurity tips tailored for small and medium businesses.',
-    author: 'Linda Yang',
-    date: '2025-02-28',
-    readTime: 8,
-    category: 'Cybersecurity',
-    image: 'images/blog3.jpg',
-    featured: false
-  },
-  {
-    id: 3,
-    title: 'AI and Machine Learning Applications in IT',
-    excerpt: 'Explore the transformative impact of AI/ML in automating processes and generating actionable insights.',
-    author: 'Neil Roberts',
-    date: '2025-02-20',
-    readTime: 9,
-    category: 'Artificial Intelligence',
-    image: 'images/blog4.jpg',
-    featured: false
-  },
-  {
-    id: 4,
-    title: 'Why DevOps is Essential for Today’s Agile Businesses',
-    excerpt: 'Discover how DevOps accelerates development cycles and improves collaboration across teams.',
-    author: 'Maxine Patel',
-    date: '2025-02-15',
-    readTime: 6,
-    category: 'DevOps',
-    image: 'images/blog5.jpg',
-    featured: true
-  }
-];
-
-const categories = [
-  'all',
-  'Cloud Computing',
-  'Cybersecurity',
-  'Artificial Intelligence',
-  'DevOps',
-  'Networking',
-  'IT Support'
-];
-
-function getInitialInteractions() {
-  let stored = {};
-  try { stored = JSON.parse(localStorage.getItem('blogInteractions') || '{}'); } catch {}
-  const obj = {};
-  blogPosts.forEach(post => {
-    obj[post.id] = {
-      likes: stored[post.id]?.likes || 0,
-      comments: stored[post.id]?.comments || 0,
-      shares: stored[post.id]?.shares || 0,
-      showCommentInput: false
-    };
-  });
-  return obj;
-}
-
-function saveInteractions(data) {
-  localStorage.setItem('blogInteractions', JSON.stringify(data));
-}
+};
 
 const Blog = () => {
+  const { language } = useLanguage();
+  const dir = ['ar', 'he', 'fa', 'ur'].includes(language) ? 'rtl' : 'ltr';
+  const t = translations[language] || translations.en;
+
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [postInteractions, setPostInteractions] = useState(getInitialInteractions());
-
-  useEffect(() => { document.title = 'Blog - ForStackly IT Solutions'; }, []);
-  useEffect(() => { saveInteractions(postInteractions); }, [postInteractions]);
-
-  const filteredPosts = blogPosts.filter(post => {
-    const matchesCategory = selectedCategory === 'all' || post.category === selectedCategory;
-    const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesCategory && matchesSearch;
+  const [postInteractions, setPostInteractions] = useState(() => {
+    try {
+      const stats = JSON.parse(localStorage.getItem('blogInteractions') || '{}');
+      return stats;
+    } catch {
+      return {};
+    }
   });
 
-  // Featured by likes, then last viewed date for tie
-  const getFeatured = () => {
-    const maxLikes = Math.max(...Object.values(postInteractions).map(x => x.likes), 0);
-    const candidates = blogPosts.filter(p => postInteractions[p.id]?.likes === maxLikes);
+  useEffect(() => {
+    document.title = t.pageTitle;
+  }, [t.pageTitle]);
+
+  useEffect(() => {
+    localStorage.setItem('blogInteractions', JSON.stringify(postInteractions));
+  }, [postInteractions]);
+
+  const categories = ['all', 'Cloud Computing', 'Cybersecurity', 'Artificial Intelligence', 'DevOps', 'Networking', 'IT Support'];
+
+  function formatDate(dateString) {
+    if (!dateString) return '';
+    const d = new Date(dateString);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  }
+
+  function getBlogReadInfo(postId, defaultReadTime, defaultDate) {
+    try {
+      const stats = JSON.parse(localStorage.getItem('blogInteractions') || '{}');
+      const post = stats[postId] || {};
+      return {
+        lastViewed: post.lastViewed,
+        readTime: post.readTime || defaultReadTime,
+        date: defaultDate
+      };
+    } catch {
+      return { lastViewed: null, readTime: defaultReadTime, date: defaultDate };
+    }
+  }
+
+  // Filter posts according to search and category
+  const filteredPosts = t.posts.filter(post => {
+    const matchCategory = selectedCategory === 'all' || post.category === selectedCategory;
+    const matchSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) || post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchCategory && matchSearch;
+  });
+
+  // Get featured post determination
+  const getFeaturedPost = () => {
+    const maxLikes = Math.max(...Object.values(postInteractions).map(stat => stat.likes || 0), 0);
+    const candidates = t.posts.filter(post => (postInteractions[post.id]?.likes || 0) === maxLikes);
     if (candidates.length === 1) return candidates[0];
-    let mostRecent = candidates, latest = 0;
-    candidates.forEach(p => {
-      let stats = JSON.parse(localStorage.getItem('blogInteractions')||'{}')[p.id]?.lastViewed;
-      let date = stats ? new Date(stats).getTime() : 0;
-      if (date > latest) { latest = date; mostRecent = p; }
+    let mostRecent = null;
+    let latest = 0;
+    const stats = JSON.parse(localStorage.getItem('blogInteractions') || '{}');
+    candidates.forEach(post => {
+      const lastViewed = stats[post.id]?.lastViewed;
+      const viewTime = lastViewed ? new Date(lastViewed).getTime() : 0;
+      if (viewTime > latest) {
+        latest = viewTime;
+        mostRecent = post;
+      }
     });
-    return mostRecent;
+    return mostRecent || candidates[0];
   };
 
-  const featuredPost = selectedCategory === 'all' && searchTerm === '' ? getFeatured() : null;
-  const regularPosts = filteredPosts;
+  const featuredPost = (selectedCategory === 'all' && searchTerm === '') ? getFeaturedPost() : null;
+  const regularPosts = filteredPosts.filter(post => !featuredPost || post.id !== featuredPost.id);
 
+  // Interaction handlers
   const handleLike = postId => setPostInteractions(prev => ({
-    ...prev, [postId]: { ...prev[postId], likes: prev[postId].likes + 1 }
+    ...prev,
+    [postId]: {...(prev[postId] || {}), likes: (prev[postId]?.likes || 0) + 1 }
   }));
+
   const handleShare = postId => setPostInteractions(prev => ({
-    ...prev, [postId]: { ...prev[postId], shares: prev[postId].shares + 1 }
+    ...prev,
+    [postId]: {...(prev[postId] || {}), shares: (prev[postId]?.shares || 0) + 1 }
   }));
+
   const toggleCommentInput = postId => setPostInteractions(prev => ({
-    ...prev, [postId]: { ...prev[postId], showCommentInput: !prev[postId].showCommentInput }
+    ...prev,
+    [postId]: {...(prev[postId] || {}), showCommentInput: !prev[postId]?.showCommentInput }
   }));
+
   const handleCommentSubmit = (postId, e) => {
     e.preventDefault();
     setPostInteractions(prev => ({
-      ...prev, [postId]: { ...prev[postId], comments: prev[postId].comments + 1, showCommentInput: false }
+      ...prev,
+      [postId]: {...(prev[postId] || {}), comments: (prev[postId]?.comments || 0) + 1, showCommentInput: false }
     }));
   };
 
+
   return (
-    <div className="blog-page">
+    <div className="blog-page" dir={dir}>
       <section className="hero-section">
         <video autoPlay muted loop playsInline className="hero-bg-video">
           <source src="/images/blog.mp4" type="video/mp4" />
         </video>
         <div className="hero-overlay">
           <div className="hero-content">
-            <h1 className="hero-title">Blog</h1>
-            <p className="hero-paragraph">
-              Welcome to ForStackly’s IT blog—a curated hub of insights, innovation, and expert advice tailored for modern businesses embracing technology.
-            </p>
-            <Link to="/contact" className="hero-button">Reach Out Today</Link>
+            <h1 className="hero-title">{t.pageTitle}</h1>
+            <p className="hero-paragraph">{t.welcomeText}</p>
+            <Link to="/contact" className="hero-button">{t.reachOut}</Link>
           </div>
         </div>
       </section>
+
       <div className="blog-main container">
         <div className="blog-grid">
+
           {/* Sidebar */}
-          <motion.aside className="blog-sidebar" initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
+          <motion.aside className="blog-sidebar" initial={{opacity: 0, x: -50}} animate={{opacity:1, x:0}} transition={{duration: 0.8}}>
             <div className="search-widget">
-              <h3>Search Articles</h3>
+              <h3>{t.pageTitle}</h3>
               <div className="search-box">
                 <input
                   type="text"
-                  placeholder="Search blog posts..."
+                  placeholder={t.searchPlaceholder}
                   value={searchTerm}
                   onChange={e => setSearchTerm(e.target.value)}
                   className="search-input"
@@ -192,24 +377,24 @@ const Blog = () => {
               </div>
             </div>
             <div className="categories-widget">
-              <h3>Categories</h3>
+              <h3>{t.categoriesTitle}</h3>
               <div className="categories-list">
-                {categories.map((category, idx) => (
+                {categories.map(cat => (
                   <button
-                    key={category}
-                    className={`category-btn ${selectedCategory === category ? 'active' : ''}`}
-                    onClick={() => setSelectedCategory(category)}
+                    key={cat}
+                    className={`category-btn ${selectedCategory === cat ? 'active' : ''}`}
+                    onClick={() => setSelectedCategory(cat)}
                   >
                     <FaFilter className="category-icon" />
-                    {category === 'all' ? 'All Posts' : category}
+                    {cat === 'all' ? t.allPosts : cat}
                   </button>
                 ))}
               </div>
             </div>
             <div className="recent-widget">
-              <h3>Recent Posts</h3>
+              <h3>{t.recentPostsTitle}</h3>
               <div className="recent-list">
-                {blogPosts.slice(0, 3).map(post => (
+                {t.posts.slice(0, 3).map(post => (
                   <div key={post.id} className="recent-item">
                     <div className="recent-link">
                       <img src={post.image} alt={post.title} />
@@ -223,11 +408,20 @@ const Blog = () => {
               </div>
             </div>
           </motion.aside>
-          <motion.main className="blog-content" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
+
+          {/* Main Content */}
+          <motion.main className="blog-content" initial={{opacity: 0, x: 50}} animate={{opacity: 1, x:0}} transition={{duration: 0.8}}>
+
             {/* Featured Post */}
             {featuredPost && (
-              <motion.article className="featured-post" initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }}>
-                <div className="featured-badge">Featured</div>
+              <motion.article
+                className="featured-post"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <div className="featured-badge">{t.featuredBadge}</div>
                 <div className="post-image">
                   <img src={featuredPost.image} alt={featuredPost.title} />
                   <div className="post-overlay">
@@ -240,7 +434,7 @@ const Blog = () => {
                     return (
                       <div className="post-meta">
                         <span className="post-author"><FaUser /> {featuredPost.author}</span>
-                        <span className="post-date"><FaCalendar />{info.lastViewed ? formatDate(info.lastViewed) : info.date}</span>
+                        <span className="post-date"><FaCalendar /> {info.lastViewed ? formatDate(info.lastViewed) : info.date}</span>
                         <span className="post-read-time"><FaClock /> {info.readTime} min read</span>
                       </div>
                     );
@@ -249,40 +443,50 @@ const Blog = () => {
                   <p>{featuredPost.excerpt}</p>
                   <div className="post-actions">
                     <Link to={`/blog${featuredPost.id}`} className="btn btn-primary">
-                      Read More <FaArrowRight />
+                      {t.readMore} <FaArrowRight />
                     </Link>
                     <div className="post-buttons">
-                      <button className="action-btn" onClick={() => handleLike(featuredPost.id)}>
+                      <button className="action-btn" onClick={() => handleLike(featuredPost.id)} title={t.postActions.like}>
                         <FaThumbsUp /> {postInteractions[featuredPost.id]?.likes || 0}
                       </button>
-                      <button className="action-btn" onClick={() => toggleCommentInput(featuredPost.id)}>
+                      <button className="action-btn" onClick={() => toggleCommentInput(featuredPost.id)} title={t.postActions.comment}>
                         <FaComment /> {postInteractions[featuredPost.id]?.comments || 0}
                       </button>
-                      <button className="action-btn" onClick={() => handleShare(featuredPost.id)}>
+                      <button className="action-btn" onClick={() => handleShare(featuredPost.id)} title={t.postActions.share}>
                         <FaShare /> {postInteractions[featuredPost.id]?.shares || 0}
                       </button>
                     </div>
                     {postInteractions[featuredPost.id]?.showCommentInput && (
                       <form onSubmit={e => handleCommentSubmit(featuredPost.id, e)} className="comment-form">
-                        <input type="text" placeholder="Write a comment..." required className="comment-input" />
-                        <button type="submit" className="btn btn-primary btn-small">Post</button>
+                        <input type="text" placeholder={t.postActions.post} required className="comment-input" />
+                        <button type="submit" className="btn btn-primary btn-small">{t.postActions.post}</button>
                       </form>
                     )}
                   </div>
                 </div>
               </motion.article>
             )}
-            {/* Posts */}
+
+            {/* Regular Posts */}
             <div className="posts-section">
-              <div className="section-header"><h2>{selectedCategory === 'all' ? 'Latest Articles' : `${selectedCategory} Articles`}</h2><p>{regularPosts.length} articles found</p></div>
+              <div className="section-header">
+                <h2>{selectedCategory === 'all' ? t.postsTitle : `${selectedCategory} Articles`}</h2>
+                <p>{regularPosts.length} articles found</p>
+              </div>
               <div className="posts-grid">
                 {regularPosts.map((post, idx) => {
-                  const interaction = postInteractions[post.id];
+                  const interaction = postInteractions[post.id] || {};
                   const info = getBlogReadInfo(post.id, post.readTime, post.date);
                   return (
-                    <motion.article key={post.id} className="post-card" initial={{ opacity: 0, y: 50 }}
-                      whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: idx * 0.1 }}
-                      viewport={{ once: true }} whileHover={{ y: -10 }}>
+                    <motion.article
+                      key={post.id}
+                      className="post-card"
+                      initial={{opacity: 0, y: 50}}
+                      whileInView={{opacity: 1, y: 0}}
+                      transition={{duration: 0.6, delay: idx * 0.1}}
+                      viewport={{once: true}}
+                      whileHover={{y: -10}}
+                    >
                       <div className="post-image">
                         <img src={post.image} alt={post.title} />
                         <div className="post-overlay">
@@ -292,31 +496,31 @@ const Blog = () => {
                       <div className="post-content">
                         <div className="post-meta">
                           <span className="post-author"><FaUser /> {post.author}</span>
-                          <span className="post-date"><FaCalendar />{info.lastViewed ? formatDate(info.lastViewed) : info.date}</span>
+                          <span className="post-date"><FaCalendar /> {info.lastViewed ? formatDate(info.lastViewed) : info.date}</span>
                           <span className="post-read-time"><FaClock /> {info.readTime} min read</span>
                         </div>
                         <h3>{post.title}</h3>
                         <p>{post.excerpt}</p>
                         <div className="post-actions">
                           <Link to={`/blog${post.id}`} className="read-more btn btn-primary">
-                            Read More <FaArrowRight />
+                            {t.readMore} <FaArrowRight />
                           </Link>
                           <div className="post-buttons">
-                            <button className="action-btn" onClick={() => handleLike(post.id)} title="Like">
-                              <FaThumbsUp /> {interaction?.likes || 0}
+                            <button className="action-btn" onClick={() => handleLike(post.id)} title={t.postActions.like}>
+                              <FaThumbsUp /> {interaction.likes || 0}
                             </button>
-                            <button className="action-btn" onClick={() => toggleCommentInput(post.id)} title="Comment">
-                              <FaComment /> {interaction?.comments || 0}
+                            <button className="action-btn" onClick={() => toggleCommentInput(post.id)} title={t.postActions.comment}>
+                              <FaComment /> {interaction.comments || 0}
                             </button>
-                            <button className="action-btn" onClick={() => handleShare(post.id)} title="Share">
-                              <FaShare /> {interaction?.shares || 0}
+                            <button className="action-btn" onClick={() => handleShare(post.id)} title={t.postActions.share}>
+                              <FaShare /> {interaction.shares || 0}
                             </button>
                           </div>
                         </div>
-                        {interaction?.showCommentInput && (
+                        {interaction.showCommentInput && (
                           <form onSubmit={(e) => handleCommentSubmit(post.id, e)} className="comment-form">
-                            <input type="text" placeholder="Write a comment..." required className="comment-input" />
-                            <button type="submit" className="btn btn-primary btn-small">Post</button>
+                            <input type="text" placeholder={t.postActions.post} required className="comment-input" />
+                            <button type="submit" className="btn btn-primary btn-small">{t.postActions.post}</button>
                           </form>
                         )}
                       </div>
@@ -325,111 +529,75 @@ const Blog = () => {
                 })}
               </div>
             </div>
+
           </motion.main>
         </div>
       </div>
 
-
       {/* Knowledge Hub */}
- <section className="knowledge-hub">
-  <motion.h2 
-    className="knowledge-title"
-    initial={{ opacity: 0, y: -20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6 }}
-    viewport={{ once: true }}
-  >
-    Knowledge Hub
-  </motion.h2>
-
-  <motion.p 
-    className="knowledge-subtitle"
-    initial={{ opacity: 0 }}
-    whileInView={{ opacity: 1 }}
-    transition={{ duration: 0.8, delay: 0.2 }}
-    viewport={{ once: true }}
-  >
-    Premium insights at a glance — trends shaping tomorrow’s tech.
-  </motion.p>
-
-  <div className="knowledge-grid">
-    {/* Left Card */}
-    <motion.div
-      className="knowledge-card left"
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.2 }}
-      viewport={{ once: true }}
-      whileHover={{ rotateX: 6, rotateY: -6 }}
-    >
-      <div className="icon-badge">💡</div>
-      <h3 className="knowledge-stat">78%</h3>
-      <p className="knowledge-text">
-        Businesses now scale faster through cloud adoption.
-      </p>
-    </motion.div>
-
-    {/* Center Card */}
-    <motion.div
-      className="knowledge-card center"
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.4 }}
-      viewport={{ once: true }}
-      whileHover={{ rotateX: 6, rotateY: -6 }}
-    >
-      <div className="icon-badge">🛡️</div>
-      <h3 className="knowledge-stat">65%</h3>
-      <p className="knowledge-text">
-        SMBs faced at least one cybersecurity incident last year.
-      </p>
-    </motion.div>
-
-    {/* Right Card */}
-    <motion.div
-      className="knowledge-card right"
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.6 }}
-      viewport={{ once: true }}
-      whileHover={{ rotateX: 6, rotateY: -6 }}
-    >
-      <div className="icon-badge">🤖</div>
-      <h3 className="knowledge-stat">92%</h3>
-      <p className="knowledge-text">
-        Leaders believe AI will transform industries in 5 years.
-      </p>
-    </motion.div>
-  </div>
-</section>
+      <section className="knowledge-hub">
+        <motion.h2
+          className="knowledge-title"
+          initial={{opacity: 0, y: -20}}
+          whileInView={{opacity: 1, y: 0}}
+          transition={{duration: 0.6}}
+          viewport={{once: true}}
+        >
+          {t.knowledgeHubTitle}
+        </motion.h2>
+        <motion.p
+          className="knowledge-subtitle"
+          initial={{opacity: 0}}
+          whileInView={{opacity: 1}}
+          transition={{duration: 0.8, delay: 0.2}}
+          viewport={{once: true}}
+        >
+          {t.knowledgeHubSubtitle}
+        </motion.p>
+        <div className="knowledge-grid">
+          {t.knowledgeStats.map(({icon, stat, text}, idx) => (
+            <motion.div
+              key={idx}
+              className={`knowledge-card ${(idx === 0 ? 'left' : idx === 1 ? 'center' : 'right')}`}
+              initial={{opacity: 0, y: 40}}
+              whileInView={{opacity: 1, y: 0}}
+              transition={{duration: 0.6, delay: 0.2 + idx*0.2}}
+              viewport={{once: true}}
+              whileHover={{rotateX: 6, rotateY: -6}}
+            >
+              <div className="icon-badge">{icon}</div>
+              <h3 className="knowledge-stat">{stat}</h3>
+              <p className="knowledge-text">{text}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
 
       {/* CTA Section */}
-        <section className="cta-section">
-          <div className="cta-overlay">
-            <div className="container">
-              <motion.div
-                className="cta-content text-center"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-              >
-                <h2>Ready to Transform Your Business?</h2>
-                <p>
-                  Get started today with a free consultation and discover how we can help you achieve your goals.
-                </p>
-                <div className="cta-buttons">
-                  <Link to="/contact" className="btn btn-primary btn-large">
-                    Start Your Journey <FaArrowRight />
-                  </Link>
-                  <Link to="/about" className="btn btn-outline btn-large">
-                    Learn More About Us
-                  </Link>
-                </div>
-              </motion.div>
-            </div>
+      <section className="cta-section">
+        <div className="cta-overlay">
+          <div className="container">
+            <motion.div
+              className="cta-content text-center"
+              initial={{opacity: 0, y: 50}}
+              whileInView={{opacity: 1, y: 0}}
+              transition={{duration: 0.8}}
+              viewport={{once: true}}
+            >
+              <h2>{t.ctaTitle}</h2>
+              <p>{t.ctaText}</p>
+              <div className="cta-buttons">
+                <Link to="/contact" className="btn btn-primary btn-large">
+                  {t.ctaStart} <FaArrowRight />
+                </Link>
+                <Link to="/about" className="btn btn-outline btn-large">
+                  {t.ctaLearnMore}
+                </Link>
+              </div>
+            </motion.div>
           </div>
-        </section>
+        </div>
+      </section>
         
 
 
@@ -621,6 +789,31 @@ const Blog = () => {
           margin: 0;
           font-size: 0.9rem;
         }
+
+             @media (max-width: 480px) {
+              html, body, #root, .home-page, .aboutit-section, .aboutit-grid, .hero-section, .hero-overlay {
+                width: 100vw !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-sizing: border-box !important;
+              }
+              .hero-title, .hero-paragraph, .hero-button { margin-right: 0 !important; }
+              header { left: 0; right: 0; width: 100vw !important; max-width: 100vw !important; }
+    html, body, #root, .home-page, .aboutit-section, .aboutit-grid, .hero-section, .hero-overlay {
+      width: 100vw !important;
+      max-width: 100vw !important;
+      overflow-x: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+    }
+    .hero-title, .hero-paragraph, .hero-button { margin-right: 0 !important; }
+    header { left: 0; right: 0; width: 100vw !important; max-width: 100vw !important; }
+  }
+
+  
 
         .blog-main {
           background: var(--bg-color);

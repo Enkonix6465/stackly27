@@ -1,385 +1,513 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import CountUp from 'react-countup';
-import { useInView } from 'react-intersection-observer';
-import { 
-  FaUsers, 
-  FaRocket, 
-  FaShieldAlt, 
-  FaCogs, 
-  FaRobot,
-  FaCalendarCheck, 
-  FaBuilding, 
-  FaHeart, 
-  FaAward,
-  FaArrowRight,
-  FaCheck,
-  FaStar,
-  FaRing,
-  FaBriefcase,
-  FaPalette,
-  FaUtensils,
-  FaLock,
-  FaTrophy,
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import CountUp from "react-countup";
+import { useInView } from "react-intersection-observer";
+import {
+  FaUsers,
+  FaShieldAlt,
   FaServer,
   FaCloud,
+  FaLock,
   FaTools,
   FaQuoteLeft,
+  FaArrowRight,
   FaCloudUploadAlt,
+} from "react-icons/fa";
+import { useLanguage } from "../context.jsx/LanguageContext";
 
-} from 'react-icons/fa';
+const translations = {
+  en: {
+    pageTitle: "ForStackly - Professional Business Solutions",
+    hero: {
+      title: "Creating Unforgettable Experiences",
+      paragraph:
+        "From weddings and corporate gatherings to private celebrations, we design and manage events that leave lasting impressions. Your vision, our expertise — together we make moments memorable.",
+      button: "Reach Out Today",
+      videoSrc: "images/home1.mp4",
+    },
+    servicesPreview: {
+      heading: "Our IT & Cloud Solutions",
+      paragraph:
+        "ForStackly is a leading provider of comprehensive IT and cloud solutions, dedicated to empowering businesses with cutting-edge technology and unparalleled support. With over 15 years of industry experience, we help organizations navigate digital transformation, enhance security, and optimize operations.",
+      benefits: [
+        "Mission-Driven: Committed to client success and innovation.",
+        "Expert Team: Certified professionals with diverse specializations.",
+        "Client-Centric Approach: Tailored solutions for unique business needs.",
+        "Proven Track Record: Delivering reliable and impactful results.",
+        "Future-Focused: Embracing new technologies for sustainable growth.",
+        "24/7 Support: Always available to ensure seamless operations.",
+      ],
+      learnMore: "Learn More About Us",
+      imageSrc: "images/home-1.jpg",
+      imageAlt: "Our Expert IT Team",
+    },
+    management: {
+      heading: "Management Solutions",
+      paragraph:
+        "From corporate conferences to grand celebrations, we deliver end-to-end event planning that ensures unforgettable experiences and keeps your guests delighted.",
+      list: [
+        "Corporate Events & Conferences",
+        "Weddings & Social Celebrations",
+        "Product Launches & Brand Activations",
+        "Exhibitions & Trade Shows",
+        "Concerts & Cultural Festivals",
+        "Virtual & Hybrid Events",
+      ],
+      viewAll: "View All Services",
+      imageSrc: "images/home-11.jpg",
+      imageAlt: "Team collaboration",
+    },
+    features: {
+      heading: "Delivering Exceptional IT Solutions",
+      subtitle:
+        "We deliver comprehensive business solutions tailored to your unique IT needs",
+      items: [
+        {
+          icon: "FaCloudUploadAlt",
+          title: "Cloud Infrastructure Management",
+          description:
+            "Optimize and securely manage your cloud resources to ensure scalability, availability, and performance across your business.",
+          color: "var(--primary-color)",
+        },
+        {
+          icon: "FaLock",
+          title: "Cybersecurity Solutions",
+          description:
+            "Protect your digital assets with next-gen security protocols, real-time threat detection, and compliance management.",
+          color: "var(--accent-color)",
+        },
+        {
+          icon: "FaTools",
+          title: "IT Automation & DevOps",
+          description:
+            "Streamline your IT operations using automation, continuous integration, and delivery pipelines to accelerate innovation.",
+          color: "var(--secondary-color)",
+        },
+      ],
+    },
+    stats: [
+      { number: 1200, suffix: "+", label: "Active Servers", icon: "FaServer" },
+      { number: 300, suffix: "+", label: "Cloud Deployment", icon: "FaCloud" },
+      { number: 1500, suffix: "+", label: "Security Audits", icon: "FaShieldAlt" },
+      { number: 500, suffix: "+", label: "Satisfied Clients", icon: "FaUsers" },
+    ],
+    testimonials: {
+      heading: "What Our Clients Say",
+      subheading: "Trusted feedback from industry leaders worldwide",
+      items: [
+        {
+          name: "Alex Morgan",
+          company: "Tech Innovations Ltd.",
+          role: "CTO",
+          content:
+            "ForStackly’s cloud migration expertise seamlessly transitioned our systems with zero downtime and improved performance significantly.",
+          rating: 5,
+          image: "images/home-12.jpg",
+        },
+        {
+          name: "Priya Sharma",
+          company: "SecureNet Solutions",
+          role: "Head of Security",
+          content:
+            "Their cybersecurity strategies fortified our network against emerging threats; proactive monitoring saved us from potential breaches.",
+          rating: 5,
+          image: "images/home-13.jpg",
+        },
+        {
+          name: "Jorge Ramirez",
+          company: "NextGen Automations",
+          role: "DevOps Manager",
+          content:
+            "Automation workflows and continuous integration setups proposed by ForStackly accelerated our deployment cycles by 40%.",
+          rating: 5,
+          image: "images/home-14.jpg",
+        },
+      ],
+    },
+    cta: {
+      heading: "Ready to Transform Your Business?",
+      paragraph:
+        "Get started today with a free consultation and discover how we can help you achieve your goals.",
+      btnStart: "Start Your Journey",
+      btnLearnMore: "Learn More About Us",
+    },
+  },
 
+  ar: {
+    pageTitle: "ForStackly - حلول الأعمال المهنية",
+    hero: {
+      title: "صنع تجارب لا تُنسى",
+      paragraph:
+        "من حفلات الزفاف والتجمعات الشركاتية إلى الاحتفالات الخاصة، نصمم وندير فعاليات تترك انطباعات دائمة. رؤيتك، خبرتنا - معاً نصنع لحظات لا تُنسى.",
+      button: "تواصل معنا اليوم",
+      videoSrc: "images/home1.mp4",
+    },
+    servicesPreview: {
+      heading: "حلول تكنولوجيا المعلومات والسحابة لدينا",
+      paragraph:
+        "ForStackly هي مزود رائد لحلول تكنولوجيا المعلومات والسحابة الشاملة، مكرسة لتمكين الشركات من خلال التكنولوجيا المتقدمة والدعم غير المسبوق. مع أكثر من 15 عامًا من الخبرة في الصناعة، نساعد المؤسسات على التنقل في التحول الرقمي، وتعزيز الأمان، وتحسين العمليات.",
+      benefits: [
+        "مهمة واضحة: ملتزمون بنجاح العملاء والابتكار.",
+        "فريق خبير: محترفون معتمدون بتخصصات متنوعة.",
+        "نهج يركز على العميل: حلول مصممة لاحتياجات العمل الفريدة.",
+        "سجل حافل: تقديم نتائج موثوقة وفعالة.",
+        "مستقبلية: تبني التكنولوجيا الجديدة للنمو المستدام.",
+        "دعم على مدار الساعة: دائمًا متاح لضمان العمليات السلسة.",
+      ],
+      learnMore: "تعرف علينا أكثر",
+      imageSrc: "images/home-1.jpg",
+      imageAlt: "فريق تكنولوجيا المعلومات الخبير لدينا",
+    },
+    management: {
+      heading: "حلول الإدارة",
+      paragraph:
+        "من المؤتمرات الشركاتية إلى الاحتفالات الكبرى، نقدم تخطيطًا شاملاً للفعاليات يضمن تجارب لا تنسى ويبقي ضيوفك مبتهجين.",
+      list: [
+        "فعاليات ومؤتمرات شركاتية",
+        "حفلات زفاف واحتفالات اجتماعية",
+        "إطلاق منتجات وتنشيط علامات تجارية",
+        "معارض وعروض تجارية",
+        "حفلات موسيقية ومهرجانات ثقافية",
+        "فعاليات افتراضية ومختلطة",
+      ],
+      viewAll: "شاهد جميع الخدمات",
+      imageSrc: "images/home-11.jpg",
+      imageAlt: "التعاون الجماعي للفريق",
+    },
+    features: {
+      heading: "تقديم حلول تكنولوجيا معلومات استثنائية",
+      subtitle:
+        "نقدم حلول أعمال شاملة مُصممة لتلبية احتياجات تكنولوجيا المعلومات الفريدة الخاصة بك",
+      items: [
+        {
+          icon: "FaCloudUploadAlt",
+          title: "إدارة البنية التحتية السحابية",
+          description:
+            "تحسين وإدارة موارد السحابة الخاصة بك بأمان لضمان القابلية للتوسع والتوفر والأداء عبر عملك.",
+          color: "var(--primary-color)",
+        },
+        {
+          icon: "FaLock",
+          title: "حلول الأمن السيبراني",
+          description:
+            "حماية أصولك الرقمية من خلال بروتوكولات أمان الجيل التالي والكشف عن التهديدات في الوقت الحقيقي وإدارة الامتثال.",
+          color: "var(--accent-color)",
+        },
+        {
+          icon: "FaTools",
+          title: "أتمتة تكنولوجيا المعلومات و DevOps",
+          description:
+            "تبسيط عمليات تكنولوجيا المعلومات الخاصة بك باستخدام الأتمتة والتكامل والتسليم المستمر لتسريع الابتكار.",
+          color: "var(--secondary-color)",
+        },
+      ],
+    },
+    stats: [
+      { number: 1200, suffix: "+", label: "الخوادم النشطة", icon: "FaServer" },
+      { number: 300, suffix: "+", label: "نشر السحابة", icon: "FaCloud" },
+      { number: 1500, suffix: "+", label: "تدقيقات الأمان", icon: "FaShieldAlt" },
+      { number: 500, suffix: "+", label: "عملاء سعداء", icon: "FaUsers" },
+    ],
+    testimonials: {
+      heading: "ماذا يقول عملاؤنا",
+      subheading: "تعليقات موثوقة من قادة الصناعة في جميع أنحاء العالم",
+      items: [
+        {
+          name: "أليكس مورغان",
+          company: "تكنولوجيات الابتكار",
+          role: "كبير موظفي التكنولوجيا",
+          content:
+            "لقد نقل خبراء ForStackly أنظمتنا إلى السحابة بسلاسة دون توقف وحققوا أداءً محسنًا بشكل كبير.",
+          rating: 5,
+          image: "images/home-12.jpg",
+        },
+        {
+          name: "بريا شارما",
+          company: "حلول الشبكة الآمنة",
+          role: "رئيس الأمن",
+          content:
+            "عززت استراتيجيات الأمن السيبراني لدينا الشبكة ضد التهديدات الناشئة؛ مراقبة استباقية أنقذتنا من الاختراقات المحتملة.",
+          rating: 5,
+          image: "images/home-13.jpg",
+        },
+        {
+          name: "خورخي راميريز",
+          company: "الأتمتة الحديثة",
+          role: "مدير DevOps",
+          content:
+            "سرّعت سير عمل الأتمتة وإعدادات التكامل المستمر التي اقترحتها ForStackly دورات النشر بنسبة 40٪.",
+          rating: 5,
+          image: "images/home-14.jpg",
+        },
+      ],
+    },
+    cta: {
+      heading: "هل أنت مستعد لتحويل عملك؟",
+      paragraph:
+        "ابدأ اليوم مع استشارة مجانية واكتشف كيف يمكننا مساعدتك في تحقيق أهدافك.",
+      btnStart: "ابدأ رحلتك",
+      btnLearnMore: "تعرف علينا أكثر",
+    },
+  },
+};
 
-
-
+const iconMap = {
+  FaCloudUploadAlt,
+  FaLock,
+  FaTools,
+  FaServer,
+  FaCloud,
+  FaShieldAlt,
+  FaUsers,
+};
 
 const Home1 = () => {
-  useEffect(() => {
-    document.title = 'ForStackly - Professional Business Solutions';
-  }, []);
+  const { language } = useLanguage();
+  const t = translations[language] || translations.en;
 
-  const FaCheck = () => <span className="mock-icon-check">✔️</span>;
-
-const features = [
-  {
-    icon: FaCloudUploadAlt,
-    title: 'Cloud Infrastructure Management',
-    description: 'Optimize and securely manage your cloud resources to ensure scalability, availability, and performance across your business.',
-    color: 'var(--primary-color)',
-  },
-  {
-    icon: FaLock,
-    title: 'Cybersecurity Solutions',
-    description: 'Protect your digital assets with next-gen security protocols, real-time threat detection, and compliance management.',
-    color: 'var(--accent-color)',
-  },
-  {
-    icon: FaTools,
-    title: 'IT Automation & DevOps',
-    description: 'Streamline your IT operations using automation, continuous integration, and delivery pipelines to accelerate innovation.',
-    color: 'var(--secondary-color)',
-  },
-];
-
-
-  const stats = [
-    { number: 1200, suffix: '+', label: 'Active Servers', icon: FaServer },
-    { number: 300, suffix: '+', label: 'Cloud Deployment', icon: FaCloud },
-    { number: 1500, suffix: '+', label: 'Security Audits', icon: FaShieldAlt },
-    { number: 500, suffix: '+', label: 'Satisfied Clients', icon: FaUsers },
-  ];
   const [ref, inView] = useInView({
-    triggerOnce: true, // Animate only once
-    threshold: 0.3,    // Trigger when 30% visible
+    triggerOnce: true,
+    threshold: 0.3,
   });
 
+  useEffect(() => {
+    document.title = t.pageTitle;
+    document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+  }, [language, t.pageTitle]);
 
-  const testimonials = [
-  {
-    name: 'Alex Morgan',
-    company: 'Tech Innovations Ltd.',
-    role: 'CTO',
-    content:
-      'ForStackly’s cloud migration expertise seamlessly transitioned our systems with zero downtime and improved performance significantly.',
-    rating: 5,
-    image: 'images/home-12.jpg',
-  },
-  {
-    name: 'Priya Sharma',
-    company: 'SecureNet Solutions',
-    role: 'Head of Security',
-    content:
-      'Their cybersecurity strategies fortified our network against emerging threats; proactive monitoring saved us from potential breaches.',
-    rating: 5,
-    image: 'images/home-13.jpg',
-  },
-  {
-    name: 'Jorge Ramirez',
-    company: 'NextGen Automations',
-    role: 'DevOps Manager',
-    content:
-      'Automation workflows and continuous integration setups proposed by ForStackly accelerated our deployment cycles by 40%.',
-    rating: 5,
-    image: 'images/home-14.jpg',
-  },
-];
-
-const values = [
-  {
-    icon: FaCloud,
-    title: "Cloud Innovation",
-    description: "Leveraging scalable cloud solutions to power your digital transformation."
-  },
-  {
-    icon: FaShieldAlt,
-    title: "Cybersecurity",
-    description: "Implementing robust security measures to protect your data and assets."
-  },
-  {
-    icon: FaRobot,
-    title: "AI & Automation",
-    description: "Harnessing artificial intelligence to increase efficiency and reduce errors."
-  },
-  {
-    icon: FaCogs,
-    title: "Custom Solutions",
-    description: "Tailored software and systems engineered to meet your specific business needs."
-  }
-];
+  const FaCheckIcon = () => <span className="mock-icon-check">✔️</span>;
 
   return (
     <div className="home-page">
       {/* Hero Section */}
       <section className="hero-section">
-  <video
-    autoPlay
-    muted
-    loop
-    playsInline
-    className="hero-bg-video"
-  >
-    <source src="images/home1.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
+        <video autoPlay muted loop playsInline className="hero-bg-video">
+          <source src={t.hero.videoSrc} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
 
-  <div className="hero-overlay">
-    <div className="hero-content">
-     <h1 className="hero-title animate-slide-in">Creating Unforgettable Experiences</h1>
-<p className="hero-paragraph animate-fade-up">
-  From weddings and corporate gatherings to private celebrations, we design and manage events that leave lasting impressions. 
-  Your vision, our expertise — together we make moments memorable.
-</p>
+        <div className="hero-overlay">
+          <div className="hero-content">
+            <h1 className="hero-title animate-slide-in">{t.hero.title}</h1>
+            <p className="hero-paragraph animate-fade-up">{t.hero.paragraph}</p>
 
-      <Link
-        to="/contact"
-        className="hero-button animate-fade-up-delayed"
-      >
-        Reach Out Today
-      </Link>
-    </div>
-  </div>
-</section>
-
-<section className="section services-preview">
-  <div className="container">
-    <div className="grid-2">
-      {/* Image on the left */}
-      <div className="services-visual">
-        <div className="services-image">
-          <img src="images/home-1.jpg" alt="Our Expert IT Team" />
+            <Link to="/contact" className="hero-button animate-fade-up-delayed">
+              {t.hero.button}
+            </Link>
+          </div>
         </div>
-      </div>
+      </section>
 
-      {/* Content on the right */}
-      <div className="services-content">
-        <h2>Our IT & Cloud Solutions</h2>
-        <p>
-          ForStackly is a leading provider of comprehensive IT and cloud solutions, dedicated to empowering businesses with cutting-edge technology and unparalleled support. With over 15 years of industry experience, we help organizations navigate digital transformation, enhance security, and optimize operations.
-        </p>
-        <ul className="benefits-list">
-          <li><FaCheck />Mission-Driven: Committed to client success and innovation.</li>
-          <li><FaCheck /> Expert Team: Certified professionals with diverse specializations.</li>
-          <li><FaCheck /> Client-Centric Approach: Tailored solutions for unique business needs.</li>
-          <li><FaCheck /> Proven Track Record: Delivering reliable and impactful results.</li>
-          <li><FaCheck /> Future-Focused:Embracing new technologies for sustainable growth.</li>
-          <li><FaCheck /> 24/7 Support: Always available to ensure seamless operations.</li>
-        </ul>
-        <div className="services-btn-container">
-          <Link to="/about" className="btn view-all-btn">
-            Learn More About Us
-          </Link>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section className="section-preview">
-  <div className="container">
-    <div className="grid-2">
-      <motion.div
-        className="services"
-        initial={{ opacity: 0, x: -50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
-        <h2>Management Solutions</h2>
-        <p>
-          From corporate conferences to grand celebrations, we deliver end-to-end event planning that ensures unforgettable experiences and keeps your guests delighted.
-        </p>
-        <ul className="section-list">
-          <li><FaCheck /> Corporate Events & Conferences</li>
-          <li><FaCheck /> Weddings & Social Celebrations</li>
-          <li><FaCheck /> Product Launches & Brand Activations</li>
-          <li><FaCheck /> Exhibitions & Trade Shows</li>
-          <li><FaCheck /> Concerts & Cultural Festivals</li>
-          <li><FaCheck /> Virtual & Hybrid Events</li>
-        </ul>
-        <div className="section-btn-container">
-          <Link to="/services" className="btn view-all-btn">
-            View All Services
-          </Link>
-        </div>
-      </motion.div>
-
-      <motion.div
-        className="services-visual"
-        initial={{ opacity: 0, x: 50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
-        <div className="section-image">
-          <img src="images/home-11.jpg" alt="Team collaboration" />
-        </div>
-      </motion.div>
-    </div>
-  </div>
-</section>
-
-
-    {/* Features Section */}
-
-    <section className="section features-section">
-      <div className="container">
-        <motion.div
-          className="section-header text-center"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <h2>Delivering Exceptional IT Solutions</h2>
-          <p>We deliver comprehensive business solutions tailored to your unique IT needs</p>
-        </motion.div>
-
-        <div className="features-grid">
-          {features.map(({ icon: Icon, title, description, color }, index) => (
-            <motion.div
-              className="feature-card"
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
-              viewport={{ once: true }}
-              whileHover={{ y: -10, boxShadow: '0 12px 40px rgba(0, 123, 255, 0.5)' }}
-            >
-              <div className="feature-icon" style={{ backgroundColor: color }}>
-                <Icon />
+      {/* Services Preview */}
+      <section className="section services-preview">
+        <div className="container">
+          <div className="grid-2">
+            <div className="services-visual">
+              <div className="services-image">
+                <img src={t.servicesPreview.imageSrc} alt={t.servicesPreview.imageAlt} />
               </div>
-              <h3>{title}</h3>
-              <p>{description}</p>
-              <Link to="/services" className="feature-link">
-                Learn More <FaArrowRight />
-              </Link>
-            </motion.div>
-          ))}
+            </div>
+
+            <div className="services-content">
+              <h2>{t.servicesPreview.heading}</h2>
+              <p>{t.servicesPreview.paragraph}</p>
+              <ul className="benefits-list">
+                {t.servicesPreview.benefits.map((item, i) => (
+                  <li key={i}>
+                    <FaCheckIcon /> {item}
+                  </li>
+                ))}
+              </ul>
+              <div className="services-btn-container">
+                <Link to="/about" className="btn view-all-btn">
+                  {t.servicesPreview.learnMore}
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
+
+      {/* Section Preview */}
+      <section className="section-preview">
+        <div className="container">
+          <div className="grid-2">
+            <motion.div
+              className="services"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <h2>{t.management.heading}</h2>
+              <p>{t.management.paragraph}</p>
+              <ul className="section-list">
+                {t.management.list.map((item, i) => (
+                  <li key={i}>
+                    <FaCheckIcon /> {item}
+                  </li>
+                ))}
+              </ul>
+              <div className="section-btn-container">
+                <Link to="/services" className="btn view-all-btn">
+                  {t.servicesPreview.learnMore}
+                </Link>
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="services-visual"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <div className="section-image">
+                <img src={t.management.imageSrc} alt={t.management.imageAlt} />
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="section features-section">
+        <div className="container">
+          <motion.div
+            className="section-header text-center"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2>{t.features.heading}</h2>
+            <p>{t.features.subtitle}</p>
+          </motion.div>
+
+          <div className="features-grid">
+            {t.features.items.map((feat, idx) => {
+              const Icon = iconMap[feat.icon];
+              return (
+                <motion.div
+                  className="feature-card"
+                  key={idx}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: idx * 0.15 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -10, boxShadow: "0 12px 40px rgba(0, 123, 255, 0.5)" }}
+                >
+                  <div className="feature-icon" style={{ backgroundColor: feat.color }}>
+                    <Icon />
+                  </div>
+                  <h3>{feat.title}</h3>
+                  <p>{feat.description}</p>
+                  <Link to="/services" className="feature-link">
+                    Learn More <FaArrowRight />
+                  </Link>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
       </section>
 
       {/* Stats Section */}
       <section className="stats" ref={ref}>
-      <div className="container">
-        <div className="stats-grid">
-          {stats.map(({ number, suffix, label, icon: Icon }, index) => (
-            <motion.div
-              className="stat-item"
-              key={index}
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-            >
-              <Icon className="stat-icon" />
-              <h3>
-                {inView ? (
-                  <CountUp start={0} end={number} duration={2.5} separator="," />
-                ) : (
-                  "0"
-                )}
-                {suffix}
-              </h3>
-              <p>{label}</p>
-            </motion.div>
-          ))}
+        <div className="container">
+          <div className="stats-grid">
+            {t.stats.map(({ number, suffix, label, icon }, idx) => {
+              const Icon = iconMap[icon];
+              return (
+                <motion.div
+                  className="stat-item"
+                  key={idx}
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={inView ? { opacity: 1, scale: 1 } : {}}
+                  transition={{ duration: 0.6, delay: idx * 0.1 }}
+                >
+                  <Icon className="stat-icon" />
+                  <h3>
+                    {inView ? <CountUp start={0} end={number} duration={2.5} separator="," /> : "0"}
+                    {suffix}
+                  </h3>
+                  <p>{label}</p>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
       {/* Testimonials Section */}
       <section className="testimonials-section">
-    <div className="container">
-      <motion.div
-        className="section-header text-center"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-      >
-        <h2>What Our Clients Say</h2>
-        <p>Trusted feedback from industry leaders worldwide</p>
-      </motion.div>
-
-      <div className="testimonials-grid">
-        {testimonials.map((t, i) => (
+        <div className="container">
           <motion.div
-            className="testimonial-card-unique"
-            key={i}
-            initial={{ opacity: 0, y: 60 }}
+            className="section-header text-center"
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: i * 0.15 }}
+            transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <div className="quote-icon-wrap">
-              <FaQuoteLeft className="quote-icon" />
-            </div>
-            <p className="testimonial-text">"{t.content}"</p>
-            <div className="testimonial-author">
-              <img src={t.image} alt={t.name} />
-              <div className="author-info">
-                <h4>{t.name}</h4>
-                <p>{t.role}, {t.company}</p>
-              </div>
-            </div>
+            <h2>{t.testimonials.heading}</h2>
+            <p>{t.testimonials.subheading}</p>
           </motion.div>
-        ))}
-      </div>
-    </div>
-    </section>
-      
 
-      
+          <div className="testimonials-grid">
+            {t.testimonials.items.map((item, idx) => (
+              <motion.div
+                className="testimonial-card-unique"
+                key={idx}
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: idx * 0.15 }}
+                viewport={{ once: true }}
+              >
+                <div className="quote-icon-wrap">
+                  <FaQuoteLeft className="quote-icon" />
+                </div>
+                <p className="testimonial-text">"{item.content}"</p>
+                <div className="testimonial-author">
+                  <img src={item.image} alt={item.name} />
+                  <div className="author-info">
+                    <h4>{item.name}</h4>
+                    <p>
+                      {item.role}, {item.company}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* CTA Section */}
-<section className="cta-section">
-  <div className="cta-overlay">
-    <div className="container">
-      <motion.div
-        className="cta-content text-center"
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
-        <h2>Ready to Transform Your Business?</h2>
-        <p>
-          Get started today with a free consultation and discover how we can help you achieve your goals.
-        </p>
-        <div className="cta-buttons">
-          <Link to="/contact" className="btn btn-primary btn-large">
-            Start Your Journey <FaArrowRight />
-          </Link>
-          <Link to="/about" className="btn btn-outline btn-large">
-            Learn More About Us
-          </Link>
+      <section className="cta-section">
+        <div className="cta-overlay">
+          <div className="container">
+            <motion.div
+              className="cta-content text-center"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <h2>{t.cta.heading}</h2>
+              <p>{t.cta.paragraph}</p>
+              <div className="cta-buttons">
+                <Link to="/contact" className="btn btn-primary btn-large">
+                  {t.cta.btnStart} <FaArrowRight />
+                </Link>
+                <Link to="/about" className="btn btn-outline btn-large">
+                  {t.cta.btnLearnMore}
+                </Link>
+              </div>
+            </motion.div>
+          </div>
         </div>
-      </motion.div>
-    </div>
-  </div>
-</section>
-
+      </section>
 
       <style jsx>{`
         .home-page {

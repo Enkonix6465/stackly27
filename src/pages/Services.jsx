@@ -1,402 +1,529 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion,AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaCloud, FaShieldAlt, FaCheck, FaArrowRight } from 'react-icons/fa';
+import { useLanguage } from '../context.jsx/LanguageContext';
 
-import { FaCloud, FaShieldAlt, FaRobot, FaChartBar, FaCheck, FaArrowRight } from 'react-icons/fa';
+const translations = {
+  en: {
+    heroTitle: "Our Services",
+    heroText:
+      "From intimate gatherings to grand celebrations, we provide end-to-end event planning, design, and execution to make every occasion unforgettable.",
+    heroVideo: "images/services.mp4",
+    servicesHeading: "Our IT Services",
+    servicesText:
+      "We deliver cutting-edge IT services tailored to your business needs—seamlessly merging innovation, security, and scalability. Partner with us to transform your digital infrastructure with confidence and expertise.",
+    servicesList: [
+      "Cloud Migration & Management",
+      "Cybersecurity & Risk Assessment",
+      "Custom Software Development",
+      "Data Analytics & AI Solutions",
+      "24/7 IT Support & Monitoring",
+      "DevOps Automation & Consulting",
+      "Enterprise Network Architecture",
+    ],
 
+    itGridTitle: "What We Offer",
+    itGridSubtitle: "Modern IT services designed for transformation and security.",
+    itServices: [
+      {
+        id: 1,
+        title: "Cloud Infrastructure",
+        color: "#2684ff",
+        image: "images/services4.jpg",
+        description:
+          "Enterprise-grade public, private, and hybrid cloud environments for resilient, scalable business operations.",
+        features: ["AWS & Azure Integration", "Cloud Cost Optimization", "Automated Backups"],
+        isNew: true,
+      },
+      {
+        id: 2,
+        title: "Cybersecurity Solutions",
+        color: "#27b47a",
+        image: "images/services5.jpg",
+        description:
+          "Proactive multi-layered protection from threats, covering assessment, prevention, monitoring.",
+        features: ["24/7 Threat Detection", "Penetration Testing", "Data Loss Prevention"],
+        isNew: true,
+      },
+      {
+        id: 3,
+        title: "AI & Automation",
+        color: "#815cd3",
+        image: "images/services6.jpg",
+        description:
+          "Streamline processes with cutting-edge AI, intelligent data analysis, and business process automation.",
+        features: ["Custom AI Models", "RPA Development", "Predictive Analytics"],
+        isNew: true,
+      },
+      {
+        id: 4,
+        title: "Business Intelligence",
+        color: "#fd7e14",
+        image: "images/services7.jpg",
+        description:
+          "Uncover insights with advanced dashboards, reporting, and actionable analytics for growing enterprises.",
+        features: ["Real-Time Dashboards", "ETL/Data Pipelines", "AI-Powered Insights"],
+        isNew: true,
+      },
+      {
+        id: 5,
+        title: "DevOps & CI/CD Services",
+        color: "#39bda7",
+        image: "images/services8.jpg",
+        description:
+          "Accelerate your deployment process with automated pipelines, version control, and best-in-class DevOps.",
+        features: ["CI/CD Pipeline Automation", "Infrastructure as Code", "Environment Provisioning"],
+        isNew: true,
+      },
+      {
+        id: 6,
+        title: "IT Consulting & Support",
+        color: "#ff914d",
+        image: "images/services9.jpg",
+        description:
+          "Expert guidance for digital transformation, plus 24/7 support to keep your technology running smoothly.",
+        features: ["Digital Transformation Roadmaps", "24x7 Issue Resolution", "IT Infrastructure Audit"],
+        isNew: true,
+      },
+    ],
+    portfolioTitle: "Our Portfolio",
+    portfolioDesc: "A glimpse of our premium event experiences",
+    portfolioFilters: [
+      "All",
+      "Cloud",
+      "Security",
+      "Automation",
+      "Analytics",
+      "DevOps",
+      "Infrastructure",
+    ],
+    portfolioItems: [
+      { id: 1, title: "Cloud Migration Project", category: "Cloud", image: "images/services10.jpg" },
+      { id: 2, title: "Enterprise Security Audit", category: "Security", image: "images/services11.jpg" },
+      { id: 3, title: "AI Automation Deployment", category: "Automation", image: "images/services12.jpg" },
+      { id: 4, title: "Business Analytics Platform", category: "Analytics", image: "images/services13.jpg" },
+      { id: 5, title: "DevOps Transformation", category: "DevOps", image: "images/services14.jpg" },
+      { id: 6, title: "IT Infrastructure Upgrade", category: "Infrastructure", image: "images/services15.jpg" },
+    ],
+    processTitle: "Our Proven IT Project Methodology",
+    processDesc:
+      "From vision to optimization, our stepwise approach delivers secure, scalable, and future-ready technology for your enterprise.",
+    processSteps: [
+      {
+        step: '01',
+        title: 'Discovery & Assessment',
+        description:
+          'We thoroughly audit your IT environment and business needs, defining a tailored path forward for innovation and security.',
+      },
+      {
+        step: '02',
+        title: 'Solution Design',
+        description:
+          'Our architects craft robust, scalable solutions—cloud, automation, or cyber—precisely mapped to your requirements.',
+      },
+      {
+        step: '03',
+        title: 'Agile Implementation',
+        description:
+          'Seasoned engineers deploy and integrate next-gen technologies with professional project management and minimal disruption.',
+      },
+      {
+        step: '04',
+        title: 'Quality & Security Validation',
+        description:
+          'Deep-dive testing and compliance checks ensure everything is reliable, secure, and future-proof before launch.',
+      },
+      {
+        step: '05',
+        title: 'User Enablement',
+        description:
+          'We support your teams with clear documentation, hands-on training, and collaborative go-lives for fast adoption.',
+      },
+      {
+        step: '06',
+        title: 'Optimization & Support',
+        description:
+          'Our experts monitor performance, troubleshoot in real time, and refine your IT landscape to unlock sustained value.',
+      },
+    ],
+    ctaTitle: "Ready to Transform Your Business?",
+    ctaText:
+      "Get started today with a free consultation and discover how we can help you achieve your goals.",
+    ctaStartBtn: "Start Your Journey",
+    ctaLearnBtn: "Learn More About Us",
+  },
 
+  ar: {
+    heroTitle: "خدماتنا",
+    heroText:
+      "من التجمعات الحميمة إلى الاحتفالات الكبرى، نوفر تخطيط وتنفيذ فعاليات متميزة.",
+    heroVideo: "images/services.mp4",
+    servicesHeading: "خدمات تكنولوجيا المعلومات",
+    servicesText:
+      "نقدم خدمات تقنية متقدمة مصممة لتلبية احتياجات عملك—نمزج بين الابتكار والأمان والقابلية للتوسعة بسلاسة. شاركنا لتحويل بنيتك الرقمية بثقة وخبرة.",
+    servicesList: [
+      "الهجرة والإدارة السحابية",
+      "تقييم الأمن السيبراني والمخاطر",
+      "تطوير البرمجيات حسب الطلب",
+      "تحليلات البيانات والذكاء الاصطناعي",
+      "الدعم الفني على مدار الساعة",
+      "أتمتة واستشارات DevOps",
+      "هيكلية الشبكات المؤسسية",
+    ],
+
+    itGridTitle: "ما نقدمه",
+    itGridSubtitle: "خدمات تكنولوجيا معلومات حديثة للتحول والأمان.",
+    itServices: [
+      {
+        id: 1,
+        title: "البنية التحتية السحابية",
+        color: "#2684ff",
+        image: "images/services4.jpg",
+        description:
+          "بيئات سحابية عامة وخاصة وهجينة بجودة المؤسسة لعمليات تجارية مرنة وقابلة للتوسع.",
+        features: ["تكامل AWS و Azure", "تحسين تكلفة السحابة", "نسخ احتياطية آلية"],
+        isNew: true,
+      },
+      {
+        id: 2,
+        title: "حلول الأمن السيبراني",
+        color: "#27b47a",
+        image: "images/services5.jpg",
+        description:
+          "حماية متعددة الطبقات من التهديدات، تشمل التقييم والوقاية والرصد.",
+        features: ["كشف التهديدات على مدار الساعة", "اختبارات الاختراق", "منع فقدان البيانات"],
+        isNew: true,
+      },
+      {
+        id: 3,
+        title: "الذكاء الاصطناعي والأتمتة",
+        color: "#815cd3",
+        image: "images/services6.jpg",
+        description:
+          "تبسيط العمليات باستخدام الذكاء الاصطناعي، وتحليل بيانات ذكي، وأتمتة عمليات الأعمال.",
+        features: ["نماذج ذكاء اصطناعي مخصصة", "تطوير RPA", "تحليلات تنبؤية"],
+        isNew: true,
+      },
+      {
+        id: 4,
+        title: "ذكاء الأعمال",
+        color: "#fd7e14",
+        image: "images/services7.jpg",
+        description:
+          "اكتشاف الرؤى من خلال لوحات تحكم وتقارير متقدمة وتحليلات قابلة للتنفيذ للمؤسسات النامية.",
+        features: ["لوحات تحكم في الوقت الفعلي", "أنابيب ETL/البيانات", "رؤى مدعومة بالذكاء الاصطناعي"],
+        isNew: true,
+      },
+      {
+        id: 5,
+        title: "خدمات DevOps و CI/CD",
+        color: "#39bda7",
+        image: "images/services8.jpg",
+        description:
+          "تسريع عملية النشر بأتمتة خطوط الأنابيب، وإدارة النسخ، وأفضل ممارسات DevOps.",
+        features: ["أتمتة خطوط CI/CD", "البنية التحتية ككود", "تهيئة البيئات"],
+        isNew: true,
+      },
+      {
+        id: 6,
+        title: "الاستشارات والدعم الفني",
+        color: "#ff914d",
+        image: "images/services9.jpg",
+        description:
+          "توجيه خبير للتحول الرقمي ودعم 24/7 للحفاظ على تشغيل تقنيتك بسلاسة.",
+        features: [
+          "خطط التحول الرقمي",
+          "حل المشكلات على مدار الساعة",
+          "تدقيق البنية التحتية التقنية",
+        ],
+        isNew: true,
+      },
+    ],
+    portfolioTitle: "معرض أعمالنا",
+    portfolioDesc: "لمحة عن تجاربنا المتميزة",
+    portfolioFilters: [
+      "الكل",
+      "السحابة",
+      "الأمن",
+      "الأتمتة",
+      "التحليلات",
+      "ديف أوبس",
+      "البنية التحتية",
+    ],
+    portfolioItems: [
+      { id: 1, title: "مشروع هجرة السحابة", category: "السحابة", image: "images/services10.jpg" },
+      { id: 2, title: "تدقيق أمني للمؤسسة", category: "الأمن", image: "images/services11.jpg" },
+      { id: 3, title: "نشر أتمتة الذكاء الاصطناعي", category: "الأتمتة", image: "images/services12.jpg" },
+      { id: 4, title: "منصة تحليلات الأعمال", category: "التحليلات", image: "images/services13.jpg" },
+      { id: 5, title: "تحول ديف أوبس", category: "ديف أوبس", image: "images/services14.jpg" },
+      { id: 6, title: "ترقية البنية التحتية لتكنولوجيا المعلومات", category: "البنية التحتية", image: "images/services15.jpg" },
+    ],
+    processTitle: "منهجيتنا الموثوقة لمشروع تكنولوجيا المعلومات",
+    processDesc:
+      "من الرؤية إلى التحسين، نهجنا المرحلي يقدم تكنولوجيا آمنة وقابلة للتوسع ومجهزة للمستقبل لمؤسستك.",
+    processSteps: [
+      {
+        step: '01',
+        title: 'الاكتشاف والتقييم',
+        description: 'نقوم بتدقيق شامل لبيئة تكنولوجيا المعلومات واحتياجات العمل، مع تحديد مسار مخصص للابتكار والأمان.',
+      },
+      {
+        step: '02',
+        title: 'تصميم الحل',
+        description: 'يضع مهندسونا حلولًا قوية وقابلة للتوسع—السحابة، الأتمتة، أو الأمن—مطابقة تمامًا لمتطلباتك.',
+      },
+      {
+        step: '03',
+        title: 'التنفيذ المرن',
+        description: 'يقوم المهندسون المخضرمون بنشر ودمج التقنيات الحديثة مع إدارة مشاريع احترافية وأقل تعطيل ممكن.',
+      },
+      {
+        step: '04',
+        title: 'اختبار الجودة والأمان',
+        description: 'الاختبارات العميقة وفحوصات الامتثال تضمن الاعتمادية، الأمان، والاستعداد للمستقبل قبل الإطلاق.',
+      },
+      {
+        step: '05',
+        title: 'تمكين المستخدم',
+        description: 'ندعم فرقك بوثائق واضحة، تدريب عملي، وتشغيل تعاوني لتبني سريع.',
+      },
+      {
+        step: '06',
+        title: 'التحسين والدعم',
+        description: 'يراقب خبراؤنا الأداء، ويعالجون القضايا في الوقت الحقيقي، ويطورون بيئة تكنولوجيا المعلومات لتحقيق قيمة مستدامة.',
+      },
+    ],
+    ctaTitle: "هل أنت مستعد لتحويل عملك؟",
+    ctaText:
+      "ابدأ اليوم مع استشارة مجانية واكتشف كيف يمكننا مساعدتك في تحقيق أهدافك.",
+    ctaStartBtn: "ابدأ رحلتك",
+    ctaLearnBtn: "تعرف علينا أكثر",
+  },
+};
 
 const Services = () => {
- useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % images.length);
-    }, 4000);
+  const { language } = useLanguage();
+  const t = translations[language] || translations.en;
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [portfolioFilter, setPortfolioFilter] = useState("All");
+
+  const filteredItems =
+    portfolioFilter === "All"
+      ? t.portfolioItems
+      : t.portfolioItems.filter((item) => item.category === portfolioFilter);
+
+  useEffect(() => {
+    document.documentElement.dir = ["ar", "he", "fa", "ur"].includes(language)
+      ? "rtl"
+      : "ltr";
+  }, [language]);
+
+  useEffect(() => {
+    const interval = setInterval(
+      () => setCurrentIndex((prev) => (prev + 1) % 3),
+      4000
+    );
     return () => clearInterval(interval);
   }, []);
 
-  const images = [
-  "images/service1.jpg",
-  "images/services2.jpg",
-  "images/services3.jpg",
-];
-const [currentIndex, setCurrentIndex] = useState(0);
-const servicesList = [
-  "Cloud Migration & Management",
-  "Cybersecurity & Risk Assessment",
-  "Custom Software Development",
-  "Data Analytics & AI Solutions",
-  "24/7 IT Support & Monitoring",
-  "DevOps Automation & Consulting",
-  "Enterprise Network Architecture",
-];
-
-
-
-const portfolioItems = [
-  { id: 1, title: "Cloud Migration Project", category: "Cloud", image: "images/services10.jpg" },
-  { id: 2, title: "Enterprise Security Audit", category: "Security", image: "images/services11.jpg" },
-  { id: 3, title: "AI Automation Deployment", category: "Automation", image: "images/services12.jpg" },
-  { id: 4, title: "Business Analytics Platform", category: "Analytics", image: "images/services13.jpg" },
-  { id: 5, title: "DevOps Transformation", category: "DevOps", image: "images/services14.jpg" },
-  { id: 6, title: "IT Infrastructure Upgrade", category: "Infrastructure", image: "images/services15.jpg" }
-];
-
-
-// State to store currently selected filter category
-  const [portfolioFilter, setPortfolioFilter] = useState("All");
-
-  // Filter portfolio items based on selected filter
-  const filteredItems = portfolioFilter === "All"
-    ? portfolioItems
-    : portfolioItems.filter(item => item.category === portfolioFilter);
-
-
-
-  const itServices = [
-  {
-    id: 1,
-    title: "Cloud Infrastructure",
-    color: "#2684ff",
-    image: "images/services4.jpg",
-    description: "Enterprise-grade public, private, and hybrid cloud environments for resilient, scalable business operations.",
-    features: [
-      "AWS & Azure Integration",
-      "Cloud Cost Optimization",
-      "Automated Backups",
-    ],
-    isNew: true
-  },
-  {
-    id: 2,
-    title: "Cybersecurity Solutions",
-    color: "#27b47a",
-    image: "images/services5.jpg",
-    description: "Proactive multi-layered protection from threats, covering assessment, prevention, monitoring.",
-    features: [
-      "24/7 Threat Detection",
-      "Penetration Testing",
-      "Data Loss Prevention",
-    ],
-    isNew: true
-  },
-  {
-    id: 3,
-    title: "AI & Automation",
-    color: "#815cd3",
-    image: "images/services6.jpg",
-    description: "Streamline processes with cutting-edge AI, intelligent data analysis, and business process automation.",
-    features: [
-      "Custom AI Models",
-      "RPA Development",
-      "Predictive Analytics",
-    ],
-    isNew: true
-  },
-  {
-    id: 4,
-    title: "Business Intelligence",
-    color: "#fd7e14",
-    image: "images/services7.jpg",
-    description: "Uncover insights with advanced dashboards, reporting, and actionable analytics for growing enterprises.",
-    features: [
-      "Real-Time Dashboards",
-      "ETL/Data Pipelines",
-      "AI-Powered Insights",
-    ],
-    isNew: true
-  },
-  {
-    id: 5,
-    title: "DevOps & CI/CD Services",
-    color: "#39bda7",
-    image: "images/services8.jpg",
-    description: "Accelerate your deployment process with automated pipelines, version control, and best-in-class DevOps.",
-    features: [
-      "CI/CD Pipeline Automation",
-      "Infrastructure as Code",
-      "Environment Provisioning",
-    ],
-    isNew: true
-  },
-  {
-    id: 6,
-    title: "IT Consulting & Support",
-    color: "#ff914d",
-    image: "images/services9.jpg",
-    description: "Expert guidance for digital transformation, plus 24/7 support to keep your technology running smoothly.",
-    features: [
-      "Digital Transformation Roadmaps",
-      "24x7 Issue Resolution",
-      "IT Infrastructure Audit",
-    ],
-    isNew: true
-  }
-];
-
-
-const processSteps = [
-  {
-    step: '01',
-    title: 'Discovery & Assessment',
-    description: 'We thoroughly audit your IT environment and business needs, defining a tailored path forward for innovation and security.'
-  },
-  {
-    step: '02',
-    title: 'Solution Design',
-    description: 'Our architects craft robust, scalable solutions—cloud, automation, or cyber—precisely mapped to your requirements.'
-  },
-  {
-    step: '03',
-    title: 'Agile Implementation',
-    description: 'Seasoned engineers deploy and integrate next-gen technologies with professional project management and minimal disruption.'
-  },
-  {
-    step: '04',
-    title: 'Quality & Security Validation',
-    description: 'Deep-dive testing and compliance checks ensure everything is reliable, secure, and future-proof before launch.'
-  },
-  {
-    step: '05',
-    title: 'User Enablement',
-    description: 'We support your teams with clear documentation, hands-on training, and collaborative go-lives for fast adoption.'
-  },
-  {
-    step: '06',
-    title: 'Optimization & Support',
-    description: 'Our experts monitor performance, troubleshoot in real time, and refine your IT landscape to unlock sustained value.'
-  }
-];
-
-
-
-
-
-  
+  const images = ["images/service1.jpg", "images/services2.jpg", "images/services3.jpg"];
 
   return (
-    <div className="services-page">
+    <div className="services-page" dir={document.documentElement.dir}>
       {/* Hero Section */}
-             <section className="hero-section">
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="hero-bg-video"
+      <section className="hero-section">
+        <video autoPlay muted loop playsInline className="hero-bg-video">
+          <source src={t.heroVideo} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+
+        <div className="hero-overlay">
+          <div className="hero-content">
+            <h1 className="hero-title animate-slide-in">{t.heroTitle}</h1>
+            <p className="hero-paragraph animate-fade-up">{t.heroText}</p>
+            <Link to="/contact" className="hero-button animate-fade-up-delayed">
+              {language === "ar" && "تواصل معنا اليوم"}
+              {language !== "ar" && "Reach Out Today"}
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section className="services-section">
+        <div className="services-grid">
+          {/* Left Slideshow */}
+          <div className="services-image slideshow-container">
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={images[currentIndex]}
+                src={images[currentIndex]}
+                alt={`IT Service Slide ${currentIndex + 1}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1 }}
+                className="slide-image"
+              />
+            </AnimatePresence>
+          </div>
+
+          {/* Right Content */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            className="services-content"
+          >
+            <h2 className="services-heading">{t.servicesHeading}</h2>
+            <p className="services-text">{t.servicesText}</p>
+            <ul className="services-list">
+              {t.servicesList.map((item, i) => (
+                <motion.li
+                  key={i}
+                  whileHover={{ scale: 1.05, x: 5 }}
+                  transition={{ duration: 0.2 }}
+                  className="services-item"
+                >
+                  <span className="bullet"></span>
+                  {item}
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* IT Services Grid */}
+      <section className="section it-grid-section">
+        <div className="container">
+          <motion.div
+            className="it-section-header align-center"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2>{t.itGridTitle}</h2>
+            <p>{t.itGridSubtitle}</p>
+          </motion.div>
+
+          <div className="it-services-flex">
+            {t.itServices.map((service, index) => (
+              <motion.div
+                key={service.id}
+                className="it-service-tile"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -10 }}
               >
-                <source src="images/services.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            
-              <div className="hero-overlay">
-                <div className="hero-content">
-                 <h1 className="hero-title animate-slide-in">Our Services</h1>
-<p className="hero-paragraph animate-fade-up">
-  From intimate gatherings to grand celebrations, we provide end-to-end event planning, design, and execution to make every occasion unforgettable.
-</p>
+                <div className="it-img-box">
+                  <img src={service.image} alt={service.title} />
+                  {service.isNew && <span className="it-badge-new">New!</span>}
+                </div>
+                <div className="it-card-content">
+                  <h3>{service.title}</h3>
+                  <p>{service.description}</p>
+                  <div className="it-feature-list">
+                    {service.features.map((feature, idx) => (
+                      <div key={idx} className="it-feature-row">
+                        <FaCheck className="it-check" />
+                        <span>{feature}</span>
+                      </div>
+                    ))}
+                  </div>
                   <Link
-                    to="/contact"
-                    className="hero-button animate-fade-up-delayed"
+                    to={`/service${service.id}`}
+                    className="it-link"
+                    style={{ color: service.color }}
                   >
-                    Reach Out Today
+                    {language === "ar" ? "تعرف على المزيد" : "Learn More"} <FaArrowRight />
                   </Link>
                 </div>
-              </div>
-            </section>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-<section className="services-section">
-      <div className="services-grid">
-        {/* Left Slideshow */}
-        <div className="services-image slideshow-container">
-          <AnimatePresence mode="wait">
-            <motion.img
-              key={images[currentIndex]}
-              src={images[currentIndex]}
-              alt={`IT Service Slide ${currentIndex + 1}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1 }}
-              className="slide-image"
-            />
-          </AnimatePresence>
+      {/* Portfolio Section */}
+      <section className="portfolio-section">
+        <div className="portfolio-header text-center">
+          <h2>{t.portfolioTitle}</h2>
+          <p>{t.portfolioDesc}</p>
         </div>
 
-        {/* Right Content */}
-        <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-          className="services-content"
-        > <h2 className="services-heading">Our IT Services</h2>
-          <p className="services-text">
-            We deliver cutting-edge IT services tailored to your business needs—seamlessly merging innovation, security, and scalability. Partner with us to transform your digital infrastructure with confidence and expertise.
-          </p>
+        <div className="portfolio-filters">
+          {t.portfolioFilters.map((cat) => (
+            <button
+              key={cat}
+              className={portfolioFilter === cat ? "active" : ""}
+              onClick={() => setPortfolioFilter(cat)}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
 
-          <ul className="services-list">
-            {servicesList.map((item, i) => (
-              <motion.li
-                key={i}
-                whileHover={{ scale: 1.05, x: 5 }}
-                transition={{ duration: 0.2 }}
-                className="services-item"
-              >
-                <span className="bullet"></span>
-                {item}
-              </motion.li>
-            ))}
-          </ul>
-        </motion.div>
-      </div>
-    </section>
+        <div className="portfolio-grid">
+          {filteredItems.map((item) => (
+            <div key={item.id} className="portfolio-card">
+              <img src={item.image} alt={item.title} />
+              <h3>{item.title}</h3>
+              <p>{item.category}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
+      {/* Process Section */}
+      <section className="vertical-process-section">
+        <div className="process-header text-center">
+          <h2>{t.processTitle}</h2>
+          <p>{t.processDesc}</p>
+        </div>
+        <div className="vertical-steps-container">
+          <div className="vertical-timeline" aria-hidden="true"></div>
+          {t.processSteps.map((step) => (
+            <div className="vertical-step-card" key={step.step}>
+              <div className="vertical-step-number">{step.step}</div>
+              <div className="vertical-step-content">
+                <h4>{step.title}</h4>
+                <p>{step.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
-      {/* Services Grid */}
-      <section className="section it-grid-section">
-      <div className="container">
-        <motion.div
-          className="it-section-header align-center"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <h2>What We Offer</h2>
-          <p>Modern IT services designed for transformation and security</p>
-        </motion.div>
-
-        <div className="it-services-flex">
-          {itServices.map((service, index) => (
+      {/* CTA Section */}
+      <section className="cta-section">
+        <div className="cta-overlay">
+          <div className="container">
             <motion.div
-              key={service.id}
-              className="it-service-tile"
+              className="cta-content text-center"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              whileHover={{ y: -10 }}
             >
-              <div className="it-img-box">
-                <img src={service.image} alt={service.title} />
-                <div className="it-img-overlay">
-                  {service.icon && (
-                    <service.icon className="it-service-icon" style={{ color: service.color }} />
-                  )}
-                </div>
-                {service.isNew && (
-                  <span className="it-badge-new">New!</span>
-                )}
-              </div>
-              <div className="it-card-content">
-                <h3>{service.title}</h3>
-                <p>{service.description}</p>
-                <div className="it-feature-list">
-                  {service.features.map((feature, idx) => (
-                    <div key={idx} className="it-feature-row">
-                      <FaCheck className="it-check" />
-                      <span>{feature}</span>
-                    </div>
-                  ))}
-                </div>
-                <Link 
-                  to={`/service${service.id}`} 
-                  className="it-link"
-                  style={{ color: service.color }}
-                >
-                  Learn More <FaArrowRight />
+              <h2>{t.ctaTitle}</h2>
+              <p>{t.ctaText}</p>
+              <div className="cta-buttons">
+                <Link to="/contact" className="btn btn-primary btn-large">
+                  {t.ctaStartBtn} <FaArrowRight />
+                </Link>
+                <Link to="/about" className="btn btn-outline btn-large">
+                  {t.ctaLearnBtn}
                 </Link>
               </div>
             </motion.div>
-          ))}
+          </div>
         </div>
-      </div>
-    </section>
-
-    {/** Portfolio Section */}
-  <section className="portfolio-section">
-  <div className="portfolio-header text-center">
-    <h2>Our Portfolio</h2>
-    <p>A glimpse of our premium event experiences</p>
-  </div>
-
-  <div className="portfolio-filters">
-  {["All", "Cloud", "Security", "Automation", "Analytics", "DevOps", "Infrastructure"].map(cat => (
-    <button
-      key={cat}
-      className={portfolioFilter === cat ? "active" : ""}
-      onClick={() => setPortfolioFilter(cat)}
-    >
-      {cat}
-    </button>
-  ))}
-</div>
-
-
-  <div className="portfolio-grid">
-    {filteredItems.map(item => (
-      <div key={item.id} className="portfolio-card">
-        <img src={item.image} alt={item.title} />
-        <h3>{item.title}</h3>
-        <p>{item.category}</p>
-      </div>
-    ))}
-  </div>
-</section>
-
-
-
-
-      {/* Process Section */}
-<section className="vertical-process-section">
-  <div className="process-header text-center">
-    <h2>Our Proven IT Project Methodology</h2>
-    <p>From vision to optimization, our stepwise approach delivers secure, scalable, and future-ready technology for your enterprise.</p>
-  </div>
-  <div className="vertical-steps-container">
-    <div className="vertical-timeline" aria-hidden="true"></div>
-    {processSteps.map((step, idx) => (
-      <div className="vertical-step-card" key={step.step}>
-        <div className="vertical-step-number">{step.step}</div>
-        <div className="vertical-step-content">
-          <h4>{step.title}</h4>
-          <p>{step.description}</p>
-        </div>
-      </div>
-    ))}
-  </div>
-</section>
-
-
-
-
-
-      {/* CTA Section */}
-           <section className="cta-section">
-             <div className="cta-overlay">
-               <div className="container">
-                 <motion.div
-                   className="cta-content text-center"
-                   initial={{ opacity: 0, y: 50 }}
-                   whileInView={{ opacity: 1, y: 0 }}
-                   transition={{ duration: 0.8 }}
-                   viewport={{ once: true }}
-                 >
-                   <h2>Ready to Transform Your Business?</h2>
-                   <p>
-                     Get started today with a free consultation and discover how we can help you achieve your goals.
-                   </p>
-                   <div className="cta-buttons">
-                     <Link to="/contact" className="btn btn-primary btn-large">
-                       Start Your Journey <FaArrowRight />
-                     </Link>
-                     <Link to="/about" className="btn btn-outline btn-large">
-                       Learn More About Us
-                     </Link>
-                   </div>
-                 </motion.div>
-               </div>
-             </div>
-           </section>
+      </section>
 
       <style jsx>{`
         .home2-page {

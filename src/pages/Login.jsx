@@ -1,20 +1,194 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 
+const translations = {
+  en: {
+    signin: "Sign In",
+    enterCredentials: "Enter your credentials",
+    emailAddress: "Email Address",
+    password: "Password",
+    forgotPassword: "Forgot Password?",
+    loginBtn: "Sign In",
+    dontHaveAccount: "Don't have an account?",
+    signupLink: "Sign up",
+    createAccount: "Create your account",
+    createAccountSubtitle: "It only takes a minute",
+    firstName: "First Name",
+    lastName: "Last Name",
+    email: "Email",
+    phone: "Phone",
+    confirmPassword: "Confirm Password",
+    signupBtn: "Sign Up",
+    alreadyAccount: "Already have an account?",
+    loginLink: "Login",
+    resetPassword: "Reset Password",
+    enterEmailNewPass: "Enter your email and a new password",
+    newPassword: "New Password",
+    confirmNewPassword: "Confirm New Password",
+    resetBtn: "Reset",
+    cancelBtn: "Cancel",
+    showPassword: "Show password",
+    hidePassword: "Hide password",
+    invalidCredentials: "Invalid email or password.",
+    passwordMismatch: "Passwords do not match.",
+    emailRegistered: "Email already registered.",
+    successSignup: "Signup successful!",
+    successPasswordChange: "Password updated successfully!",
+    emailNotFound: "Email not found.",
+    sessionExpired: "Session expired, please try again.",
+    languageLabel: "Language"
+  },
+  ar: {
+    signin: "تسجيل الدخول",
+    enterCredentials: "أدخل بيانات الدخول الخاصة بك",
+    emailAddress: "البريد الإلكتروني",
+    password: "كلمة المرور",
+    forgotPassword: "نسيت كلمة المرور؟",
+    loginBtn: "تسجيل الدخول",
+    dontHaveAccount: "ليس لديك حساب؟",
+    signupLink: "إنشاء حساب",
+    createAccount: "أنشئ حسابك",
+    createAccountSubtitle: "لن يستغرق إلا دقيقة واحدة",
+    firstName: "الاسم الأول",
+    lastName: "اسم العائلة",
+    email: "البريد الإلكتروني",
+    phone: "رقم الجوال",
+    confirmPassword: "تأكيد كلمة المرور",
+    signupBtn: "إنشاء حساب",
+    alreadyAccount: "هل لديك حساب؟",
+    loginLink: "تسجيل الدخول",
+    resetPassword: "إعادة تعيين كلمة المرور",
+    enterEmailNewPass: "أدخل بريدك الإلكتروني وكلمة المرور الجديدة",
+    newPassword: "كلمة المرور الجديدة",
+    confirmNewPassword: "تأكيد كلمة المرور الجديدة",
+    resetBtn: "إعادة تعيين",
+    cancelBtn: "إلغاء",
+    showPassword: "إظهار كلمة المرور",
+    hidePassword: "إخفاء كلمة المرور",
+    invalidCredentials: "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+    passwordMismatch: "كلمات المرور غير متطابقة.",
+    emailRegistered: "البريد الإلكتروني مسجل مسبقًا.",
+    successSignup: "تم التسجيل بنجاح!",
+    successPasswordChange: "تم تحديث كلمة المرور بنجاح!",
+    emailNotFound: "البريد الإلكتروني غير موجود.",
+    sessionExpired: "انتهت الجلسة، يرجى المحاولة مرة أخرى.",
+    languageLabel: "اللغة"
+  },
+  he: {
+    signin: "התחברות",
+    enterCredentials: "הזן את פרטי ההתחברות שלך",
+    emailAddress: "אימייל",
+    password: "סיסמה",
+    forgotPassword: "שכחת סיסמה?",
+    loginBtn: "התחבר",
+    dontHaveAccount: "אין לך חשבון?",
+    signupLink: "הרשם",
+    createAccount: "צור חשבון",
+    createAccountSubtitle: "זה לוקח רק דקה",
+    firstName: "שם פרטי",
+    lastName: "שם משפחה",
+    email: "אימייל",
+    phone: "טלפון",
+    confirmPassword: "אישור סיסמה",
+    signupBtn: "הרשמה",
+    alreadyAccount: "כבר יש לך חשבון?",
+    loginLink: "התחברות",
+    resetPassword: "איפוס סיסמה",
+    enterEmailNewPass: "הזן את האימייל והסיסמה החדשה שלך",
+    newPassword: "סיסמה חדשה",
+    confirmNewPassword: "אישור סיסמה חדשה",
+    resetBtn: "איפוס",
+    cancelBtn: "ביטול",
+    showPassword: "הצג סיסמה",
+    hidePassword: "הסתר סיסמה",
+    invalidCredentials: "אימייל או סיסמה לא תקינים.",
+    passwordMismatch: "הסיסמאות אינן תואמות.",
+    emailRegistered: "אימייל כבר רשום.",
+    successSignup: "הרשמה בוצעה בהצלחה!",
+    successPasswordChange: "הסיסמה עודכנה בהצלחה!",
+    emailNotFound: "אימייל לא נמצא.",
+    sessionExpired: "ה-session פג, אנא נסה מחדש.",
+    languageLabel: "שפה"
+  }
+};
+
+const LANG_OPTIONS = [
+  { value: 'en', label: 'English' },
+  { value: 'ar', label: 'العربية' },
+  { value: 'he', label: 'עברית' }
+];
+
+const EyeSVG = ({ hidden }) => (
+  hidden ? (
+    <svg height="24" width="24" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <rect x="2" y="2" width="18" height="18" rx="4"
+        fill="#182d3b" stroke="#10a4ff" strokeWidth="2.3" />
+      <path d="M7.5 7.5L14.5 14.5" stroke="#10a4ff" strokeWidth="2" />
+      <path d="M14.5 7.5L7.5 14.5" stroke="#10a4ff" strokeWidth="2" />
+    </svg>
+  ) : (
+    <svg height="24" width="24" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <rect x="2" y="2" width="18" height="18" rx="4"
+        fill="#182d3b" stroke="#10a4ff" strokeWidth="2.3" />
+      <ellipse cx="11" cy="11" rx="5" ry="5" stroke="#10a4ff" strokeWidth="2" />
+      <circle cx="11" cy="11" r="1.7" fill="#10a4ff" />
+    </svg>
+  )
+);
+
+const LangDropdown = ({ language, setLanguage, dir }) => (
+  <div style={{
+    position: 'fixed',
+    top: 16,
+    right: dir === 'ltr' ? 16 : 'auto',
+    left: dir === 'rtl' ? 16 : 'auto',
+    zIndex: 2000,
+    display: 'flex',
+    alignItems: 'center',
+    gap: 6,
+    flexDirection: dir === 'rtl' ? 'row-reverse' : 'row',
+    background: 'rgba(0,0,0,0.3)',
+    borderRadius: '6px',
+    padding: '2px 8px',
+    color: '#fff',
+    fontWeight: '600',
+    fontSize: '14px',
+    userSelect: 'none'
+  }}>
+    <label htmlFor="lang-select">{dir === 'rtl' ? 'اللغة' : dir === 'he' ? 'שפה' : 'Language'}:</label>
+    <select
+      id="lang-select"
+      value={language}
+      onChange={e => setLanguage(e.target.value)}
+      aria-label="Select Language"
+      style={{
+        cursor: 'pointer',
+        borderRadius: '3px',
+        padding: '2px 6px',
+        border: 'none',
+        outline: 'none',
+        fontWeight: '600',
+        fontSize: '14px',
+        background: 'rgba(255,255,255,0.9)',
+        color: '#000',
+        direction: 'ltr'
+      }}
+    >
+      {LANG_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+    </select>
+  </div>
+);
 
 const Login = () => {
   const navigate = useNavigate();
 
-
   const [showSignup, setShowSignup] = useState(false);
   const [showForgot, setShowForgot] = useState(false);
-
 
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-
 
   const [signupData, setSignupData] = useState({
     firstName: '',
@@ -22,24 +196,23 @@ const Login = () => {
     email: '',
     phone: '',
     password: '',
-    confirmPassword: '',
+    confirmPassword: ''
   });
 
-
-  // Forgot password additional state for "verify" mode
   const [forgotEmail, setForgotEmail] = useState('');
   const [forgotPassword, setForgotPassword] = useState('');
   const [forgotConfirm, setForgotConfirm] = useState('');
-  const [forgotStep, setForgotStep] = useState(1); // 1: verify email, 2: new password fields
-  const [error, setError] = useState('');
+  const [forgotStep, setForgotStep] = useState(1);
 
+  const [error, setError] = useState('');
+  const [language, setLanguage] = useState('en');
+  const dir = ['ar', 'he'].includes(language) ? 'rtl' : 'ltr';
 
   useEffect(() => {
     document.title = 'Login - ForStackly Business Solutions';
   }, []);
 
-
-  const handleLogin = (e) => {
+  const handleLogin = e => {
     e.preventDefault();
     if (loginEmail === 'admin@enkonix.in' && loginPassword === 'admin123') {
       localStorage.setItem('firstname', 'admin');
@@ -49,39 +222,38 @@ const Login = () => {
       return;
     }
     const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const user = users.find((u) => u.email === loginEmail && u.password === loginPassword);
+    const user = users.find(u => u.email === loginEmail && u.password === loginPassword);
     if (user) {
       localStorage.setItem('firstname', user.firstName || '');
       localStorage.setItem('lastname', user.lastName || '');
       localStorage.setItem('email', user.email || '');
       navigate('/home1');
     } else {
-      setError('Invalid email or password.');
+      setError(translations[language].invalidCredentials);
     }
   };
 
-
-  const handleSignup = (e) => {
+  const handleSignup = e => {
     e.preventDefault();
     if (signupData.password !== signupData.confirmPassword) {
-      setError('Passwords do not match.');
+      setError(translations[language].passwordMismatch);
       return;
     }
     const users = JSON.parse(localStorage.getItem('users') || '[]');
-    if (users.find((u) => u.email === signupData.email)) {
-      setError('Email already registered.');
+    if (users.find(u => u.email === signupData.email)) {
+      setError(translations[language].emailRegistered);
       return;
     }
     const now = new Date();
     const newUser = {
       ...signupData,
       signupTime: now.toLocaleTimeString(),
-      signupDate: now.toISOString().slice(0, 10),  // Change: Storing date in YYYY-MM-DD format
-      signupTimestamp: now.toISOString(),          // Change: Full timestamp including date/time/year in ISO format
+      signupDate: now.toISOString().slice(0, 10),
+      signupTimestamp: now.toISOString()
     };
     users.push(newUser);
     localStorage.setItem('users', JSON.stringify(users));
-    alert('Signup successful!');
+    alert(translations[language].successSignup);
     setShowSignup(false);
     setSignupData({
       firstName: '',
@@ -89,20 +261,17 @@ const Login = () => {
       email: '',
       phone: '',
       password: '',
-      confirmPassword: '',
+      confirmPassword: ''
     });
     setError('');
   };
 
-
-  // ---- ENHANCED "FORGOT PASSWORD" FLOW ----
-  // Step 1: Verify email exists
-  const handleForgotVerify = (e) => {
+  const handleForgotVerify = e => {
     e.preventDefault();
     const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const idx = users.findIndex((u) => u.email === forgotEmail.trim());
+    const idx = users.findIndex(u => u.email === forgotEmail.trim());
     if (idx === -1) {
-      setError('Email not found. Redirecting to login...');
+      setError(translations[language].emailNotFound);
       setTimeout(() => {
         setError('');
         setShowForgot(false);
@@ -118,18 +287,16 @@ const Login = () => {
     setForgotStep(2);
   };
 
-
-  // Step 2: Set new password
-  const handleForgotPassword = (e) => {
+  const handleForgotPassword = e => {
     e.preventDefault();
     if (forgotPassword !== forgotConfirm) {
-      setError('Passwords do not match.');
+      setError(translations[language].passwordMismatch);
       return;
     }
     const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const idx = users.findIndex((u) => u.email === forgotEmail.trim());
+    const idx = users.findIndex(u => u.email === forgotEmail.trim());
     if (idx === -1) {
-      setError('Session expired. Try again.');
+      setError(translations[language].sessionExpired);
       setShowForgot(false);
       setForgotStep(1);
       setForgotEmail('');
@@ -139,38 +306,19 @@ const Login = () => {
     }
     users[idx].password = forgotPassword;
     localStorage.setItem('users', JSON.stringify(users));
-    alert('Password updated successfully!');
+    alert(translations[language].successPasswordChange);
     setShowForgot(false);
     setForgotStep(1);
     setForgotEmail('');
     setForgotPassword('');
     setForgotConfirm('');
-    setError('');
     navigate('/');
   };
 
-
-  const EyeSVG = ({ hidden }) => (
-    hidden ? (
-      <svg height="24" width="24" viewBox="0 0 22 22" fill="none">
-        <rect x="2" y="2" width="18" height="18" rx="4"
-          fill="#182d3b" stroke="#10a4ff" strokeWidth="2.3"/>
-        <path d="M7.5 7.5L14.5 14.5" stroke="#10a4ff" strokeWidth="2" strokeLinecap="round"/>
-        <path d="M14.5 7.5L7.5 14.5" stroke="#10a4ff" strokeWidth="2" strokeLinecap="round"/>
-      </svg>
-    ) : (
-      <svg height="24" width="24" viewBox="0 0 22 22" fill="none">
-        <rect x="2" y="2" width="18" height="18" rx="4"
-          fill="#182d3b" stroke="#10a4ff" strokeWidth="2.3"/>
-        <ellipse cx="11" cy="11" rx="5" ry="5" stroke="#10a4ff" strokeWidth="2"/>
-        <circle cx="11" cy="11" r="1.7" fill="#10a4ff"/>
-      </svg>
-    )
-  );
-
-
   return (
-    <div className="glass-login-bg">
+    <div className={`glass-login-bg ${dir === 'rtl' ? 'rtl' : ''}`} style={{direction: dir}}>
+      <LangDropdown language={language} setLanguage={setLanguage} dir={dir} label={translations[language].languageLabel} />
+
       <motion.div
         className={`glass-login-card${showSignup && !showForgot ? " signup-active" : ""}`}
         initial={{ opacity: 0, y: 30 }}
@@ -186,42 +334,42 @@ const Login = () => {
             >{error}</motion.div>
           )}
 
-
-          {/* LOGIN MODE */}
           {!showSignup && !showForgot && (
             <>
               <div className="form-header">
-                <h2>Sign In</h2>
-                <p>Enter your credentials to access your account</p>
+                <h2>{translations[language].signin}</h2>
+                <p>{translations[language].enterCredentials}</p>
               </div>
-              <form onSubmit={handleLogin} className="login-form">
-                <div className="form-group glass-login-field">
-                  <label>Email Address</label>
+              <form onSubmit={handleLogin} className="login-form" dir={dir}>
+                <div className="form-group">
+                  <label htmlFor="loginEmail">{translations[language].emailAddress}</label>
                   <input
+                    id="loginEmail"
                     type="email"
                     className="form-control"
                     value={loginEmail}
                     onChange={(e) => setLoginEmail(e.target.value)}
-                    placeholder="Enter your email address"
+                    placeholder={translations[language].emailAddress}
                     required
                   />
                 </div>
-                <div className="form-group glass-login-field">
-                  <label>Password</label>
+                <div className="form-group">
+                  <label htmlFor="loginPassword">{translations[language].password}</label>
                   <div style={{position:'relative'}}>
                     <input
-                      type={showPassword ? 'text' : 'password'}
+                      id="loginPassword"
+                      type={showPassword ? "text" : "password"}
                       className="form-control"
                       value={loginPassword}
                       onChange={(e) => setLoginPassword(e.target.value)}
-                      placeholder="Enter your password"
+                      placeholder={translations[language].password}
                       required
                     />
                     <button
                       type="button"
                       className="glass-password-toggle"
                       onClick={() => setShowPassword(!showPassword)}
-                      aria-label={showPassword ? 'Hide password' : 'Show password'}
+                      aria-label={showPassword ? translations[language].hidePassword : translations[language].showPassword}
                       tabIndex="-1"
                     >
                       <EyeSVG hidden={showPassword} />
@@ -232,8 +380,12 @@ const Login = () => {
                   <button
                     type="button"
                     className="forgot-link"
-                    onClick={() => { setError(''); setShowForgot(true); setForgotStep(1); }}>
-                    Forgot Password?
+                    onClick={() => {
+                      setError('');
+                      setShowForgot(true);
+                  }}
+                  >
+                    {translations[language].forgotPassword}
                   </button>
                 </div>
                 <motion.button
@@ -241,104 +393,96 @@ const Login = () => {
                   className="btn btn-primary btn-block"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                >Sign In</motion.button>
+                >
+                  {translations[language].loginBtn}
+                </motion.button>
               </form>
-              <div className="signup-link">
-                <p>
-                  Don&apos;t have an account?{' '}
-                  <button
-                    type="button"
-                    className="inline-link"
-                    onClick={() => { setError(''); setShowSignup(true); }}
-                  >
-                    Sign up
-                  </button>
-                </p>
+              <div className="signup-link" style={{ direction: dir }}>
+                {translations[language].dontHaveAccount}&nbsp;
+                <button
+                  type="button"
+                  className="inline-link"
+                  onClick={() => {
+                    setError('');
+                    setShowSignup(true);
+                  }}
+                >
+                  {translations[language].signupLink}
+                </button>
               </div>
             </>
           )}
 
-
-          {/* SIGNUP MODE */}
           {showSignup && !showForgot && (
             <>
               <div className="signup-header">
-                <h2 className="signup-header-main">Create your account</h2>
-                <p className="signup-header-sub">It only takes a minute</p>
+                <h2 className="signup-header-main">{translations[language].createAccount}</h2>
+                <p className="signup-header-sub">{translations[language].createAccountSubtitle}</p>
               </div>
-              <form onSubmit={handleSignup} className="login-form signup-form">
+              <form onSubmit={handleSignup} className="login-form signup-form" dir={dir}>
                 <div className="form-group">
-                  <label>First Name</label>
+                  <label htmlFor="firstName">{translations[language].firstName}</label>
                   <input
+                    id="firstName"
                     type="text"
                     className="form-control"
                     value={signupData.firstName}
-                    onChange={(e) =>
-                      setSignupData({ ...signupData, firstName: e.target.value })
-                    }
+                    onChange={(e) => setSignupData({ ...signupData, firstName: e.target.value })}
                     required
                   />
                 </div>
                 <div className="form-group">
-                  <label>Last Name</label>
+                  <label htmlFor="lastName">{translations[language].lastName}</label>
                   <input
+                    id="lastName"
                     type="text"
                     className="form-control"
                     value={signupData.lastName}
-                    onChange={(e) =>
-                      setSignupData({ ...signupData, lastName: e.target.value })
-                    }
+                    onChange={(e) => setSignupData({ ...signupData, lastName: e.target.value })}
                     required
                   />
                 </div>
                 <div className="form-group">
-                  <label>Email</label>
+                  <label htmlFor="signupEmail">{translations[language].email}</label>
                   <input
+                    id="signupEmail"
                     type="email"
                     className="form-control"
                     value={signupData.email}
-                    onChange={(e) =>
-                      setSignupData({ ...signupData, email: e.target.value })
-                    }
+                    onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
                     required
                   />
                 </div>
                 <div className="form-group">
-                  <label>Phone</label>
+                  <label htmlFor="phone">{translations[language].phone}</label>
                   <input
+                    id="phone"
                     type="tel"
                     className="form-control"
                     value={signupData.phone}
-                    onChange={(e) =>
-                      setSignupData({ ...signupData, phone: e.target.value })
-                    }
+                    onChange={(e) => setSignupData({ ...signupData, phone: e.target.value })}
                     required
                   />
                 </div>
                 <div className="form-group">
-                  <label>Password</label>
+                  <label htmlFor="signupPassword">{translations[language].password}</label>
                   <input
+                    id="signupPassword"
                     type="password"
                     className="form-control"
                     value={signupData.password}
-                    onChange={(e) =>
-                      setSignupData({ ...signupData, password: e.target.value })
-                    }
+                    onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
                     required
                   />
                 </div>
                 <div className="form-group">
-                  <label>Confirm Password</label>
+                  <label htmlFor="confirmPassword">{translations[language].confirmPassword}</label>
                   <input
+                    id="confirmPassword"
                     type="password"
                     className="form-control"
                     value={signupData.confirmPassword}
-                    onChange={(e) =>
-                      setSignupData({
-                        ...signupData,
-                        confirmPassword: e.target.value,
-                      })
-                    }
+                    onChange={(e) => setSignupData({ ...signupData, confirmPassword: e.target.value })}
                     required
                   />
                 </div>
@@ -347,38 +491,37 @@ const Login = () => {
                   className="btn btn-primary btn-block"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                >Sign Up</motion.button>
+                >
+                  {translations[language].signupBtn}
+                </motion.button>
               </form>
-              <div className="signup-link">
-                <p>
-                  Already have an account?{' '}
-                  <button
-                    type="button"
-                    className="inline-link"
-                    onClick={() => { setError(''); setShowSignup(false); }}
-                  >
-                    Login
-                  </button>
-                </p>
+              <div className="signup-link" style={{ direction: dir }}>
+                {translations[language].alreadyAccount}&nbsp;
+                <button
+                  type="button"
+                  className="inline-link"
+                  onClick={() => {
+                    setError('');
+                    setShowSignup(false);
+                  }}
+                >
+                  {translations[language].loginLink}
+                </button>
               </div>
             </>
           )}
 
-
-          {/* FORGOT PASSWORD MODE (ENHANCED FLOW) */}
           {showForgot && (
             <>
               <div className="form-header">
-                <h2>Reset Password</h2>
-                <p>Enter your email and a new password</p>
+                <h2>{translations[language].resetPassword}</h2>
+                <p>{translations[language].enterEmailNewPass}</p>
               </div>
-              <form
-                className="login-form"
-                onSubmit={forgotStep === 1 ? handleForgotVerify : handleForgotPassword}
-              >
+              <form onSubmit={forgotStep === 1 ? handleForgotVerify : handleForgotPassword} className="login-form" dir={dir}>
                 <div className="form-group">
-                  <label>Email</label>
+                  <label htmlFor="forgotEmail">{translations[language].email}</label>
                   <input
+                    id="forgotEmail"
                     type="email"
                     className="form-control"
                     value={forgotEmail}
@@ -388,16 +531,21 @@ const Login = () => {
                   />
                 </div>
                 {forgotStep === 1 && (
-                  <button
+                  <motion.button
                     type="submit"
                     className="btn btn-primary btn-block"
-                  >Verify</button>
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Verify
+                  </motion.button>
                 )}
                 {forgotStep === 2 && (
                   <>
                     <div className="form-group">
-                      <label>New Password</label>
+                      <label htmlFor="forgotPassword">{translations[language].newPassword}</label>
                       <input
+                        id="forgotPassword"
                         type="password"
                         className="form-control"
                         value={forgotPassword}
@@ -406,8 +554,9 @@ const Login = () => {
                       />
                     </div>
                     <div className="form-group">
-                      <label>Confirm New Password</label>
+                      <label htmlFor="forgotConfirm">{translations[language].confirmNewPassword}</label>
                       <input
+                        id="forgotConfirm"
                         type="password"
                         className="form-control"
                         value={forgotConfirm}
@@ -420,21 +569,25 @@ const Login = () => {
                       className="btn btn-primary btn-block"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                    >Reset Password</motion.button>
+                    >
+                      {translations[language].resetBtn}
+                    </motion.button>
                   </>
                 )}
                 <button
                   type="button"
-                  className="btn btn-block"
+                  className="btn btn-cancel btn-block"
                   onClick={() => {
-                    setError('');
+                    setError('')
                     setShowForgot(false);
                     setForgotStep(1);
                     setForgotEmail('');
                     setForgotPassword('');
                     setForgotConfirm('');
                   }}
-                >Cancel</button>
+                >
+                  {translations[language].cancelBtn}
+                </button>
               </form>
             </>
           )}

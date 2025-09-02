@@ -9,103 +9,244 @@ import {
   FaLaptopCode,
   FaTools,
   FaHeadset,
-  FaShieldAlt
+  FaShieldAlt,
 } from 'react-icons/fa';
+import { useLanguage } from '../context.jsx/LanguageContext';
+
+const translations = {
+  en: {
+    pageTitle: 'Our IT Conference & Support Services',
+    hero: {
+      title: 'Our IT Conference & Support Services',
+      paragraph:
+        'Comprehensive solutions to organize, secure, and enhance your IT conferences and technology events.',
+      button: 'Contact Us',
+      video: 'images/services6.mp4',
+    },
+    coreServicesTitle: 'Our IT Conference & Support Services',
+coreServicesDesc: 'Comprehensive solutions to organize, secure, and enhance your IT conferences and technology events.',
+    itConsultingFeatures: [
+      {
+        icon: FaCogs,
+        title: 'Comprehensive IT Strategy',
+        description: 'Tailored IT plans that align technology with your business objectives.',
+      },
+      {
+        icon: FaTools,
+        title: 'Proactive System Maintenance',
+        description:
+          'Prevent issues before they occur with continuous monitoring and updates.',
+      },
+      {
+        icon: FaUsers,
+        title: 'Managed IT Services',
+        description:
+          'Complete management of your IT infrastructure, allowing you to focus on growth.',
+      },
+      {
+        icon: FaLaptopCode,
+        title: 'Custom Software Solutions',
+        description:
+          'Develop software tailored to optimize your unique business processes.',
+      },
+      {
+        icon: FaShieldAlt,
+        title: 'Security & Compliance',
+        description:
+          'Implement robust cybersecurity measures and ensure regulatory compliance.',
+      },
+      {
+        icon: FaHeadset,
+        title: '24/7 Support & Helpdesk',
+        description:
+          'Round-the-clock IT support to keep your operations running smoothly.',
+      },
+    ],
+    learnMoreBtn: 'Learn More',
+    benefitsTitle: 'Benefits of Our IT Consulting & Support',
+    benefitsDesc:
+      'Experience peace of mind and enhanced efficiency with professional IT guidance and responsive support.',
+    benefitsList: [
+      'Optimize IT assets to support business growth',
+      'Minimize downtime with proactive maintenance',
+      'Access expert technology consulting and guidance',
+      'Enhance security posture and data protection',
+      'Improve operational efficiency with tailored solutions',
+      'Reliable support whenever you need',
+    ],
+    benefitsImageAlt: 'IT Consulting & Support',
+    galleryTitle: 'Core Cloud Services Visual Gallery',
+    gallerySubtitle:
+      'Explore our cloud infrastructure through these visuals showcasing our robust solutions.',
+    ctaTitle: 'Ready to Elevate Your IT?',
+    ctaText:
+      'Contact our team to tailor IT solutions that accelerate your business success.',
+    ctaButton: 'Contact Us',
+  },
+  ar: {
+    pageTitle: 'مؤتمر تكنولوجيا المعلومات وخدمات الدعم لدينا Stackly',
+    hero: {
+      title:'حلول شاملة لتنظيم وتأمين وتعزيز مؤتمرات تكنولوجيا المعلومات والفعاليات التقنية.',
+      paragraph: 'قم بتمكين عملك من خلال استشارات تكنولوجيا المعلومات والخدمات الموثوقة للحفاظ على تقدمك.',
+      button: 'اتصل بنا',
+      video: 'images/services6.mp4',
+    },
+    coreServicesTitle: 'خدمات الاستشارات والدعم الفني لتكنولوجيا المعلومات لدينا',
+    coreServicesDesc: 'حلول لتحسين، تأمين، ودعم بيئة التكنولوجيا الخاصة بك.',
+    itConsultingFeatures: [
+      {
+        icon: FaCogs,
+        title: 'استراتيجية شاملة لتكنولوجيا المعلومات',
+        description: 'خطط تكنولوجيا معلومات مخصصة تتماشى مع أهداف عملك.',
+      },
+      {
+        icon: FaTools,
+        title: 'صيانة نظام استباقية',
+        description:
+          'منع المشاكل قبل حدوثها مع المراقبة المستمرة والتحديثات.',
+      },
+      {
+        icon: FaUsers,
+        title: 'خدمات تكنولوجيا المعلومات المدارة',
+        description:
+          'إدارة كاملة للبنية التحتية لتكنولوجيا المعلومات الخاصة بك، مما يتيح لك التركيز على النمو.',
+      },
+      {
+        icon: FaLaptopCode,
+        title: 'حلول برمجيات مخصصة',
+        description:
+          'تطوير برمجيات مصممة لتحسين عمليات عملك الفريدة.',
+      },
+      {
+        icon: FaShieldAlt,
+        title: 'الأمن والامتثال',
+        description:
+          'تنفيذ تدابير أمنية قوية وضمان الامتثال التنظيمي.',
+      },
+      {
+        icon: FaHeadset,
+        title: 'دعم ومكتب مساعدة 24/7',
+        description:
+          'دعم فني على مدار الساعة للحفاظ على سير عملياتك بسلاسة.',
+      },
+    ],
+    learnMoreBtn: 'تعرف أكثر',
+    benefitsTitle: 'فوائد الاستشارات والدعم الفني لتكنولوجيا المعلومات لدينا',
+    benefitsDesc:
+      'اختبر راحة البال والكفاءة المحسنة مع التوجيه المهني والدعم الاستجابي.',
+    benefitsList: [
+      'تحسين أصول تكنولوجيا المعلومات لدعم نمو الأعمال',
+      'تقليل وقت التوقف مع الصيانة الاستباقية',
+      'الحصول على استشارات توجيهية وخبرات تقنية',
+      'تعزيز مستوى الأمان وحماية البيانات',
+      'تحسين الكفاءة التشغيلية مع حلول مخصصة',
+      'دعم موثوق في أي وقت تحتاجه',
+    ],
+    benefitsImageAlt: 'الاستشارات والدعم الفني لتكنولوجيا المعلومات',
+    galleryTitle: 'معرض صور خدمات السحابة الأساسية',
+    gallerySubtitle:
+      'استكشف بنيتنا التحتية السحابية من خلال هذه الصور التي تعرض حلولنا المتينة.',
+    ctaTitle: 'هل أنت مستعد للارتقاء بتكنولوجيا المعلومات لديك؟',
+    ctaText:
+      'تواصل مع فريقنا لتخصيص حلول تكنولوجيا المعلومات التي تسرع من نجاح عملك.',
+    ctaButton: 'اتصل بنا',
+  },
+  he: {
+    pageTitle: 'כנס ה-IT ושירותי התמיכה שלנו Stackly',
+    hero: {
+      title: 'ייעוץ ותמיכת IT',
+      paragraph:
+        'העצם את העסק שלך עם ייעוץ IT מקצועי ושירותי תמיכה אמינים לשמירת היתרון התחרותי.',
+      button: 'צור קשר',
+      video: 'images/services6.mp4',
+    },
+    coreServicesTitle: 'שירותי הייעוץ והתמיכה שלנו בתחום ה-IT',
+    coreServicesDesc: 'פתרונות לאופטימיזציה, אבטחה ותמיכה בסביבת הטכנולוגיה שלך.',
+    itConsultingFeatures: [
+      {
+        icon: FaCogs,
+        title: 'אסטרטגיה מקיפה ל-IT',
+        description: 'תכניות IT מותאמות המותאמות למטרות העסק שלך.',
+      },
+      {
+        icon: FaTools,
+        title: 'תחזוקה מערכת יזומה',
+        description:
+          'מניעת תקלות עם ניטור מתמשך ועדכונים שוטפים.',
+      },
+      {
+        icon: FaUsers,
+        title: 'שירותי IT מנוהלים',
+        description:
+          'ניהול מלא של תשתיות ה-IT שלך, כך שתוכל להתמקד בצמיחה.',
+      },
+      {
+        icon: FaLaptopCode,
+        title: 'פתרונות תוכנה בהתאמה אישית',
+        description:
+          'פיתוח תוכנה המותאמת לייעול תהליכי העסק הייחודיים שלך.',
+      },
+      {
+        icon: FaShieldAlt,
+        title: 'אבטחה וציות',
+        description:
+          'יישום אמצעי אבטחה חזקים והבטחת עמידה ברגולציה.',
+      },
+      {
+        icon: FaHeadset,
+        title: 'תמיכה ומוקד שירות 24/7',
+        description:
+          'תמיכה טכנית מסביב לשעון לשמירה על פעילות רציפה.',
+      },
+    ],
+    learnMoreBtn: 'למידע נוסף',
+    benefitsTitle: 'יתרונות הייעוץ והתמיכה שלנו בתחום ה-IT',
+    benefitsDesc: 'שקט נפשי ויעילות מוגברת עם הכוונה מקצועית ותמיכה תגובתית.',
+    benefitsList: [
+      'אופטימיזציה של נכסי IT לתמיכה בצמיחת העסק',
+      'הפחתת זמני השבתה עם תחזוקה יזומה',
+      'קבלת ייעוץ מומחה וטכנולוגי',
+      'שיפור אבטחה והגנת נתונים',
+      'שיפור יעילות תפעולית עם פתרונות מותאמים',
+      'תמיכה אמינה בכל עת',
+    ],
+    benefitsImageAlt: 'ייעוץ ותמיכה בתחום ה-IT',
+    galleryTitle: 'גלריית תמונות לשירותי ענן מרכזיים',
+    gallerySubtitle: 'חקור את תשתיות הענן שלנו דרך תמונות המציגות את הפתרונות החזקים שלנו.',
+    ctaTitle: 'מוכן לשדרג את ה-IT שלך?',
+    ctaText: 'צור קשר עם הצוות שלנו להתאמת פתרונות IT שיקדמו את הצלחת העסק שלך.',
+    ctaButton: 'צור קשר',
+  },
+};
 
 const Service1 = () => {
+  const { language } = useLanguage();
+  const t = translations[language] || translations.en;
+
   useEffect(() => {
-    document.title = 'IT Consulting & Support - Stackly Services';
-  }, []);
-
-  const itConsultingFeatures = [
-    {
-      icon: FaCogs,
-      title: "Comprehensive IT Strategy",
-      description: "Tailored IT plans that align technology with your business objectives."
-    },
-    {
-      icon: FaTools,
-      title: "Proactive System Maintenance",
-      description: "Prevent issues before they occur with continuous monitoring and updates."
-    },
-    {
-      icon: FaUsers,
-      title: "Managed IT Services",
-      description: "Complete management of your IT infrastructure, allowing you to focus on growth."
-    },
-    {
-      icon: FaLaptopCode,
-      title: "Custom Software Solutions",
-      description: "Develop software tailored to optimize your unique business processes."
-    },
-    {
-      icon: FaShieldAlt,
-      title: "Security & Compliance",
-      description: "Implement robust cybersecurity measures and ensure regulatory compliance."
-    },
-    {
-      icon: FaHeadset,
-      title: "24/7 Support & Helpdesk",
-      description: "Round-the-clock IT support to keep your operations running smoothly."
-    }
-  ];
-
-  const benefits = [
-    'Optimize IT assets to support business growth',
-    'Minimize downtime with proactive maintenance',
-    'Access expert technology consulting and guidance',
-    'Enhance security posture and data protection',
-    'Improve operational efficiency with tailored solutions',
-    'Reliable support whenever you need it'
-  ];
-
-  const faqs = [
-    {
-      question: 'What type of IT consulting services do you offer?',
-      answer: 'We provide strategic planning, infrastructure assessment, software development, cybersecurity consulting, and more.'
-    },
-    {
-      question: 'Can you support hybrid or cloud IT environments?',
-      answer: 'Yes, our experts help manage both on-premise and cloud infrastructures tailored to your business needs.'
-    },
-    {
-      question: 'What is included in your support services?',
-      answer: 'Our support includes 24/7 helpdesk, remote troubleshooting, patch management, and onsite assistance as needed.'
-    },
-    {
-      question: 'How quickly can I expect support response?',
-      answer: 'Our SLA ensures rapid response times based on issue severity, with critical issues handled immediately.'
-    }
-  ];
+    document.title = t.pageTitle;
+    document.documentElement.dir = ['ar', 'he'].includes(language) ? 'rtl' : 'ltr';
+  }, [language, t.pageTitle]);
 
   return (
-    <div className="service-page">
+ <div className="service-page" dir={document.documentElement.dir}>
       <div className="home-page">
         {/* Hero Section */}
         <section className="hero-section">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="hero-bg-video"
-          >
-            <source src="images/services6.mp4" type="video/mp4" />
+          <video autoPlay muted loop playsInline className="hero-bg-video">
+            <source src={t.hero.video} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
           <div className="hero-overlay">
             <div className="hero-content">
-              <h1 className="hero-title">IT Consulting & Support</h1>
-              <p className="hero-paragraph">
-                Empower your business with expert IT consulting and reliable support services designed to keep you ahead.
-              </p>
+              <h1 className="hero-title">{t.hero.title}</h1>
+              <p className="hero-paragraph">{t.hero.paragraph}</p>
               <Link to="/contact" className="hero-button">
-                Contact Us
+                {t.hero.button}
               </Link>
             </div>
           </div>
         </section>
-
         {/* Features Section */}
         <section className="section features-section">
           <div className="container">
@@ -116,20 +257,19 @@ const Service1 = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2>Our IT Consulting & Support Services</h2>
-              <p>Solutions to optimize, secure, and support your technology environment.</p>
+              <h2>{t.coreServicesTitle}</h2>
+              <p>{t.coreServicesDesc}</p>
             </motion.div>
-
             <div className="features-grid">
-              {itConsultingFeatures.map((feature, index) => (
+              {t.itConsultingFeatures.map((feature, idx) => (
                 <motion.div
-                  key={index}
+                  key={idx}
                   className="feature-card premium-card"
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  transition={{ duration: 0.6, delay: idx * 0.1 }}
                   viewport={{ once: true }}
-                  whileHover={{ y: -10, scale: 1.03 }}
+                  whileHover={{ scale: 1.03, y: -10 }}
                 >
                   <div className="feature-icon">
                     <feature.icon />
@@ -139,14 +279,13 @@ const Service1 = () => {
                 </motion.div>
               ))}
             </div>
-
             <div className="btn-learn-wrapper">
-              <Link to="/contact" className="btn-learn">
-                Learn More <FaArrowRight />
-              </Link>
+              <Link to="/contact" className="btn-learn">{t.learnMoreBtn}</Link>
             </div>
           </div>
         </section>
+
+        
 
         {/* Benefits Section */}
         <section className="section benefits-section">
@@ -154,23 +293,21 @@ const Service1 = () => {
             <div className="grid-2">
               <motion.div
                 className="benefits-content"
-                initial={{ opacity: 0, x: -50 }}
+                initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
               >
-                <h2>Benefits of Our IT Consulting & Support</h2>
-                <p>
-                  Experience peace of mind and enhanced efficiency with professional IT guidance and responsive support.
-                </p>
+                <h2>{t.benefitsTitle}</h2>
+                <p>{t.benefitsDesc}</p>
                 <div className="benefits-list">
-                  {benefits.map((benefit, idx) => (
+                  {t.benefitsList.map((benefit, i) => (
                     <motion.div
-                      key={idx}
+                      key={i}
                       className="benefit-item"
                       initial={{ opacity: 0, x: -30 }}
                       whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5, delay: idx * 0.1 }}
+                      transition={{ duration: 0.5, delay: i * 0.1 }}
                       viewport={{ once: true }}
                     >
                       <FaCheck className="check-icon" />
@@ -178,88 +315,88 @@ const Service1 = () => {
                     </motion.div>
                   ))}
                 </div>
-                <Link to="/contact" className="btn btn-primary">
-                  Get Started <FaArrowRight />
+                <Link to="/contact" className="btn-primary btn">
+                  {language === 'ar' ? 'اتصل بنا' : language === 'he' ? 'צור קשר' : 'Contact Us'} <FaArrowRight />
                 </Link>
               </motion.div>
-
               <motion.div
                 className="benefits-visual"
-                initial={{ opacity: 0, x: 50 }}
+                initial={{ opacity: 0, x: -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
               >
-                <div className="benefits-image">
-                  <img src="images/services32.jpg" alt="IT Consulting & Support" />
-                </div>
+                <img src="images/services32.jpg" alt={t.benefitsImageAlt || 'IT Consulting & Support'} />
               </motion.div>
             </div>
           </div>
         </section>
 
-        {/* FAQ Section */}
-             <section className="section gallery-wrapper">
-       <div className="container">
-         <motion.div
-           className="gallery-header"
-           initial={{ opacity: 0, y: 50 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           transition={{ duration: 0.6 }}
-           viewport={{ once: true }}
-         >
-           <h2 className="gallery-title">Core Cloud Services Visual Gallery</h2>
-           <p className="gallery-subtitle">
-             Explore our cloud infrastructure through these visuals showcasing our robust solutions.
-           </p>
-         </motion.div>
-     
-         <div className="gallery-container">
-           {/* First Row */}
-           <div className="gallery-row">
-             <div className="gallery-big">
-               <img src="images/services5.jpg" alt="Cloud infrastructure overview" />
-             </div>
-             <div className="gallery-grid">
-               <img src="images/services16.jpg" alt="Server management" />
-               <img src="images/services17.jpg" alt="Cloud security" />
-               <img src="images/services18.jpg" alt="Server management" />
-               <img src="images/services19.jpg" alt="Cloud security" />
-             </div>
-           </div>
-     
-           {/* Second Row */}
-           <div className="gallery-row reverse">
-             <div className="gallery-big">
-               <img src="images/services20.jpg" alt="Global network map" />
-             </div>
-             <div className="gallery-grid">
-               <img src="images/services21.jpg" alt="Compliance and Governance" />
-               <img src="images/services22.jpg" alt="Custom cloud solutions" />
-               <img src="images/services23.jpg" alt="Server management" />
-               <img src="images/services24.jpg" alt="Cloud security" />
-             </div>
-           </div>
-         </div>
-       </div>
-     </section>
+        {/* Gallery Section */}
+        <section className="section gallery-wrapper">
+          <div className="container">
+            <motion.div
+              className="gallery-header"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="gallery-title">{t.galleryTitle || ''}</h2>
+              <p className="gallery-subtitle">{t.gallerySubtitle || ''}</p>
+            </motion.div>
+            <div className="gallery-container">
+              <div className="gallery-row">
+                <div className="gallery-big">
+                  <img
+                    src="images/services5.jpg"
+                    alt={
+                      language === 'ar'
+                        ? 'نظرة عامة على البنية التحتية للسيرفر'
+                        : language === 'he'
+                        ? 'סקירת תשתיות השרת'
+                        : 'Server Infrastructure Overview'
+                    }
+                  />
+                </div>
+                <div className="gallery-grid">
+                  <img src="images/services16.jpg" alt="Server management" />
+                  <img src="images/services17.jpg" alt="Cloud security" />
+                  <img src="images/services18.jpg" alt="Server management" />
+                  <img src="images/services19.jpg" alt="Cloud security" />
+                </div>
+              </div>
+              <div className="gallery-row reverse">
+                <div className="gallery-big">
+                  <img src="images/services20.jpg" alt="Global network map" />
+                </div>
+                <div className="gallery-grid">
+                  <img src="images/services21.jpg" alt="Compliance and Governance" />
+                  <img src="images/services22.jpg" alt="Custom cloud solutions" />
+                  <img src="images/services23.jpg" alt="Server management" />
+                  <img src="images/services24.jpg" alt="Cloud security" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* CTA Section */}
-        <section className="cta-section">
+        <section className="section cta-section">
           <div className="cta-overlay">
             <div className="container">
               <motion.div
-                className="cta-content"
+                className="cta-content text-center"
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
               >
-                <h2>Ready to Elevate Your IT?</h2>
-                <p>Contact our team to tailor IT solutions that accelerate your business success.</p>
+                <h2>{t.ctaTitle || (language === 'ar' ? 'هل أنت مستعد لترقية تكنولوجيا المعلومات الخاصة بك؟' : language === 'he' ? 'מוכן לשדרג את ה-IT שלך?' : 'Ready to Elevate Your IT?')}</h2>
+                <p>{t.ctaText || (language === 'ar' ? 'تواصل مع فريقنا لتخصيص حلول تكنولوجيا المعلومات التي تدفع نجاح عملك.' : language === 'he' ? 'צור קשר עם הצוות שלנו להתאמת פתרונות IT שמקדמים את הצלחת העסק שלך.' : 'Contact our team to tailor IT solutions that accelerate your business success.')}</p>
                 <div className="cta-buttons">
-                  <Link to="/contact" className="btn btn-primary">
-                    Contact Us <FaArrowRight />
+                  <Link to="/contact" className="btn-primary btn">
+                    {t.ctaButton || (language === 'ar' ? 'اتصل بنا' : language === 'he' ? 'צור קשר' : 'Contact Us')} <FaArrowRight />
                   </Link>
                 </div>
               </motion.div>
@@ -267,20 +404,19 @@ const Service1 = () => {
           </div>
         </section>
 
-export default Service1;
 
       <style jsx>{`
-        .home-page {
+    .home-page {
           padding-top: 80px;
         }
 
-       .hero-section {
+.hero-section {
   position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  width: 100%;
+  height: 100vh;   /* Full screen height */
   margin: 0;
   padding: 0;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -454,6 +590,30 @@ export default Service1;
           margin: 0;
           font-size: 0.9rem;
         }
+
+             @media (max-width: 480px) {
+              html, body, #root, .home-page, .aboutit-section, .aboutit-grid, .hero-section, .hero-overlay {
+                width: 100vw !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-sizing: border-box !important;
+              }
+              .hero-title, .hero-paragraph, .hero-button { margin-right: 0 !important; }
+              header { left: 0; right: 0; width: 100vw !important; max-width: 100vw !important; }
+    html, body, #root, .home-page, .aboutit-section, .aboutit-grid, .hero-section, .hero-overlay {
+      width: 100vw !important;
+      max-width: 100vw !important;
+      overflow-x: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+    }
+    .hero-title, .hero-paragraph, .hero-button { margin-right: 0 !important; }
+    header { left: 0; right: 0; width: 100vw !important; max-width: 100vw !important; }
+  }
+    
 
 .features-section {
   background: var(--sidebar-bg);

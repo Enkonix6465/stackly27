@@ -10,97 +10,253 @@ import {
   FaLightbulb,
   FaHandshake,
   FaCameraRetro,
-  FaPalette
+  FaPalette,
 } from 'react-icons/fa';
+import { useLanguage } from '../context.jsx/LanguageContext';
+
+const translations = {
+  en: {
+    pageTitle: 'Business Intelligence - Stackly Solutions',
+    hero: {
+      title: 'Business Intelligence Solutions',
+      paragraph:
+        'Empower your organization with data-driven strategies and impactful insights.',
+      button: 'Get Started',
+      video: 'images/services4.mp4',
+    },
+    coreServicesTitle: 'Key Features of Our BI Services',
+    coreServicesDesc:
+      'Unlock the power of your data with our comprehensive BI offerings.',
+    biFeatures: [
+      {
+        icon: FaChartLine,
+        title: 'Data Visualization',
+        description:
+          'Turn complex data into insightful, interactive visual reports for easier decision-making.',
+      },
+      {
+        icon: FaUsers,
+        title: 'Customer Analytics',
+        description:
+          'Gain deep understanding of your customer behavior and preferences using advanced analytics.',
+      },
+      {
+        icon: FaCogs,
+        title: 'Automated Reporting',
+        description:
+          'Simplify your reporting with automated dashboards and real-time updates.',
+      },
+      {
+        icon: FaLightbulb,
+        title: 'Predictive Insights',
+        description:
+          'Leverage AI-powered predictions to forecast sales, trends, and risk factors.',
+      },
+      {
+        icon: FaHandshake,
+        title: 'Strategic Consulting',
+        description:
+          'Expert guidance to align BI initiatives with your business goals.',
+      },
+      {
+        icon: FaCameraRetro,
+        title: 'Data Storytelling',
+        description:
+          'Create compelling narratives with your data to engage stakeholders.',
+      },
+    ],
+    learnMoreBtn: 'Learn More',
+    benefitsTitle: 'Benefits of Business Intelligence',
+    benefitsDesc:
+      'Drive better outcomes with insights that accelerate growth, reduce risks, and enhance customer engagement.',
+    benefitsList: [
+      'Make data-driven decisions confidently',
+      'Increase business agility with timely insights',
+      'Identify growth opportunities through analytics',
+      'Enhance customer satisfaction with targeted actions',
+      'Reduce costs with improved operational efficiency',
+      'Empower teams with accessible business data',
+    ],
+    benefitsImageAlt: 'Business Intelligence Visual',
+    galleryTitle: 'Core Cloud Services Visual Gallery',
+    gallerySubtitle:
+      'Explore our cloud infrastructure through these visuals showcasing our robust solutions.',
+    ctaTitle: 'Ready to Unlock Your Data Potential?',
+    ctaText:
+      'Get in touch with our experts to start your Business Intelligence transformation.',
+    ctaStartBtn: 'Contact Us',
+    ctaLearnBtn: 'Learn More About Us',
+  },
+  ar: {
+    pageTitle: 'ذكاء الأعمال - حلول Stackly',
+    hero: {
+      title: 'حلول ذكاء الأعمال',
+      paragraph:
+        'تمكين مؤسستك من خلال استراتيجيات مستندة إلى البيانات ورؤى مؤثرة.',
+      button: 'ابدأ الآن',
+      video: 'images/services4.mp4',
+    },
+    coreServicesTitle: 'الميزات الرئيسية لخدمات ذكاء الأعمال لدينا',
+    coreServicesDesc:
+      'افتح قوة بياناتك مع عروض BI الشاملة لدينا.',
+    biFeatures: [
+      {
+        icon: FaChartLine,
+        title: 'تصور البيانات',
+        description:
+          'تحويل البيانات المعقدة إلى تقارير تفاعلية وبصرية لفهم أفضل وسهولة اتخاذ القرار.',
+      },
+      {
+        icon: FaUsers,
+        title: 'تحليلات العملاء',
+        description:
+          'اكتساب فهم عميق لسلوك العملاء وتفضيلاتهم باستخدام تحليلات متقدمة.',
+      },
+      {
+        icon: FaCogs,
+        title: 'التقارير الآلية',
+        description:
+          'تبسيط التقارير الخاصة بك باستخدام لوحات تحكم آلية وتحديثات في الوقت الحقيقي.',
+      },
+      {
+        icon: FaLightbulb,
+        title: 'رؤى تنبؤية',
+        description:
+          'الاستفادة من التنبؤات المدعومة بالذكاء الاصطناعي لتوقع المبيعات والاتجاهات وعوامل المخاطر.',
+      },
+      {
+        icon: FaHandshake,
+        title: 'الاستشارات الاستراتيجية',
+        description:
+          'إرشادات خبراء لمواءمة مبادرات BI مع أهداف عملك.',
+      },
+      {
+        icon: FaCameraRetro,
+        title: 'سرد البيانات',
+        description:
+          'إنشاء سرد جذاب باستخدام بياناتك لجذب أصحاب المصلحة.',
+      },
+    ],
+    learnMoreBtn: 'تعرف أكثر',
+    benefitsTitle: 'فوائد ذكاء الأعمال',
+    benefitsDesc:
+      'تحقيق نتائج أفضل مع رؤى تسرع النمو، تقلل المخاطر، وتعزز تفاعل العملاء.',
+    benefitsList: [
+      'اتخاذ قرارات مستندة إلى البيانات بثقة',
+      'زيادة مرونة الأعمال بالرؤى الفورية',
+      'تحديد فرص النمو من خلال التحليلات',
+      'تعزيز رضا العملاء بالإجراءات المستهدفة',
+      'تقليل التكاليف بتحسين الكفاءة التشغيلية',
+      'تمكين الفرق بالوصول السهل لبيانات الأعمال',
+    ],
+    benefitsImageAlt: 'صورة ذكاء الأعمال',
+    galleryTitle: 'معرض صور خدمات السحابة الأساسية',
+    gallerySubtitle:
+      'استكشف بنيتنا التحتية السحابية من خلال هذه الصور التي تعرض حلولنا المتينة.',
+    ctaTitle: 'مستعد لإطلاق العنان لإمكانات بياناتك؟',
+    ctaText:
+      'تواصل مع خبرائنا لبدء تحول ذكاء الأعمال الخاص بك.',
+    ctaStartBtn: 'اتصل بنا',
+    ctaLearnBtn: 'تعرف علينا أكثر',
+  },
+  he: {
+    pageTitle: 'בינה עסקית - פתרונות Stackly',
+    hero: {
+      title: 'פתרונות בינה עסקית',
+      paragraph:
+        'העצם את הארגון שלך עם אסטרטגיות מבוססות נתונים ותובנות בעלות השפעה.',
+      button: 'התחל עכשיו',
+      video: 'images/services4.mp4',
+    },
+    coreServicesTitle: 'תכונות מרכזיות של שירותי הבינה העסקית שלנו',
+    coreServicesDesc:
+      'נצל את כוח הנתונים שלך עם הצעות BI מקיפות שלנו.',
+    biFeatures: [
+      {
+        icon: FaChartLine,
+        title: 'המחשת נתונים',
+        description:
+          'הפוך נתונים מורכבים לדוחות חזותיים אינטראקטיביים לתהליך קבלת החלטות קל יותר.',
+      },
+      {
+        icon: FaUsers,
+        title: 'אנליטיקת לקוחות',
+        description:
+          'קבל הבנה עמוקה של התנהגות והעדפות הלקוחות שלך באמצעות אנליטיקה מתקדמת.',
+      },
+      {
+        icon: FaCogs,
+        title: 'דיווח אוטומטי',
+        description:
+          'פשט את הדיווח עם לוחות מחוונים אוטומטיים ועדכונים בזמן אמת.',
+      },
+      {
+        icon: FaLightbulb,
+        title: 'תובנות חזויות',
+        description:
+          'השתמש בחיזויים מבוססי בינה מלאכותית לחיזוי מכירות, מגמות וסיכונים.',
+      },
+      {
+        icon: FaHandshake,
+        title: 'יעוץ אסטרטגי',
+        description:
+          'הכוונה מקצועית ליישר את יוזמות BI עם מטרות העסק שלך.',
+      },
+      {
+        icon: FaCameraRetro,
+        title: 'סיפור סיפורי נתונים',
+        description:
+          'צור נרטיבים משכנעים עם הנתונים שלך כדי למשוך בעלי עניין.',
+      },
+    ],
+    learnMoreBtn: 'למידע נוסף',
+    benefitsTitle: 'יתרונות הבינה העסקית',
+    benefitsDesc:
+      'הנעה לתוצאות טובות יותר עם תובנות שמאיצות צמיחה, מפחיתות סיכונים ומשפרות את המעורבות עם הלקוחות.',
+    benefitsList: [
+      'קבלת החלטות מבוססות נתונים בביטחון',
+      'הגברת גמישות עסקית עם תובנות בזמן',
+      'זיהוי הזדמנויות צמיחה באמצעות אנליטיקה',
+      'שיפור שביעות רצון הלקוחות עם פעולות ממוקדות',
+      'הפחתת עלויות עם יעילות תפעולית משופרת',
+      'העצמת צוותים עם נתוני עסק נגישים',
+    ],
+    benefitsImageAlt: 'תצוגת בינה עסקית',
+    galleryTitle: 'גלריית תמונות לשירותי ענן מרכזיים',
+    gallerySubtitle:
+      'חקור את תשתיות הענן שלנו באמצעות תמונות המציגות את הפתרונות החזקים שלנו.',
+    ctaTitle: 'מוכן לשחרר את הפוטנציאל של הנתונים שלך?',
+    ctaText: 'צור קשר עם המומחים שלנו כדי להתחיל את טרנספורמציית הבינה העסקית שלך.',
+    ctaStartBtn: 'צור קשר',
+    ctaLearnBtn: 'למידע נוסף עלינו',
+  },
+};
 
 const Service1 = () => {
+  const { language } = useLanguage();
+  const t = translations[language] || translations.en;
+
   useEffect(() => {
-    document.title = 'Business Intelligence - Stackly Solutions';
-  }, []);
-
-  const biFeatures = [
-    {
-      icon: FaChartLine,
-      title: "Data Visualization",
-      description: "Turn complex data into insightful, interactive visual reports for easier decision-making."
-    },
-    {
-      icon: FaUsers,
-      title: "Customer Analytics",
-      description: "Gain deep understanding of your customer behavior and preferences using advanced analytics."
-    },
-    {
-      icon: FaCogs,
-      title: "Automated Reporting",
-      description: "Simplify your reporting with automated dashboards and real-time updates."
-    },
-    {
-      icon: FaLightbulb,
-      title: "Predictive Insights",
-      description: "Leverage AI-powered predictions to forecast sales, trends, and risk factors."
-    },
-    {
-      icon: FaHandshake,
-      title: "Strategic Consulting",
-      description: "Expert guidance to align BI initiatives with your business goals."
-    },
-    {
-      icon: FaCameraRetro,
-      title: "Data Storytelling",
-      description: "Create compelling narratives with your data to engage stakeholders."
-    }
-  ];
-
-  const benefits = [
-    'Make data-driven decisions confidently',
-    'Increase business agility with timely insights',
-    'Identify growth opportunities through analytics',
-    'Enhance customer satisfaction with targeted actions',
-    'Reduce costs with improved operational efficiency',
-    'Empower teams with accessible business data'
-  ];
-
-  const faqs = [
-    {
-      question: 'What BI tools and platforms do you work with?',
-      answer: 'We work with major BI platforms including Power BI, Tableau, Looker, and custom solutions.'
-    },
-    {
-      question: 'How soon can we see results from BI integration?',
-      answer: 'Depending on your data readiness, basic dashboards can be live within weeks, with ongoing optimization.'
-    },
-    {
-      question: 'Can you help with data governance and quality?',
-      answer: 'Yes, we assist with establishing data governance frameworks and improving data quality.'
-    },
-    {
-      question: 'Do you provide training and ongoing support?',
-      answer: 'Absolutely. We offer user training and continuous support to maximize your BI investment.'
-    }
-  ];
+    document.title = t.pageTitle;
+    document.documentElement.dir = ['ar', 'he'].includes(language) ? 'rtl' : 'ltr';
+  }, [language, t.pageTitle]);
 
   return (
-    <div className="service-page">
+    <div className="service-page" dir={document.documentElement.dir}>
       <div className="home-page">
         {/* Hero Section */}
         <section className="hero-section">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="hero-bg-video"
-          >
-            <source src="images/services4.mp4" type="video/mp4" />
+          <video autoPlay muted loop playsInline className="hero-bg-video">
+            <source src={t.hero.video} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
           <div className="hero-overlay">
             <div className="hero-content">
-              <h1 className="hero-title">Business Intelligence Solutions</h1>
-              <p className="hero-paragraph">
-                Empower your organization with data-driven strategies and impactful insights.
-              </p>
-              <Link to="/contact" className="hero-button">Get Started</Link>
+              <h1 className="hero-title">{t.hero.title}</h1>
+              <p className="hero-paragraph">{t.hero.paragraph}</p>
+              <Link to="/contact" className="hero-button">
+                {t.hero.button}
+              </Link>
             </div>
           </div>
         </section>
@@ -115,12 +271,12 @@ const Service1 = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2>Key Features of Our BI Services</h2>
-              <p>Unlock the power of your data with our comprehensive BI offerings.</p>
+              <h2>{t.coreServicesTitle}</h2>
+              <p>{t.coreServicesDesc}</p>
             </motion.div>
 
             <div className="features-grid">
-              {biFeatures.map((feature, index) => (
+              {t.biFeatures.map((feature, index) => (
                 <motion.div
                   key={index}
                   className="feature-card premium-card"
@@ -141,7 +297,7 @@ const Service1 = () => {
 
             <div className="btn-learn-wrapper">
               <Link to="/contact" className="btn-learn">
-                Learn More <FaArrowRight />
+                {t.learnMoreBtn} <FaArrowRight />
               </Link>
             </div>
           </div>
@@ -158,24 +314,32 @@ const Service1 = () => {
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
               >
-                <h2>Benefits of Business Intelligence</h2>
-                <p>
-                  Drive better outcomes with insights that accelerate growth, reduce risks, and enhance customer engagement.
-                </p>
+                <h2>{t.benefitsTitle}</h2>
+                <p>{t.benefitsDesc}</p>
+
                 <div className="benefits-list">
-                  {benefits.map((benefit, idx) => (
-                    <motion.div key={idx} className="benefit-item"
+                  {t.benefitsList.map((benefit, idx) => (
+                    <motion.div
+                      key={idx}
+                      className="benefit-item"
                       initial={{ opacity: 0, x: -30 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5, delay: idx * 0.1 }}
-                      viewport={{ once: true }}>
+                      viewport={{ once: true }}
+                    >
                       <FaCheck className="check-icon" />
                       <span>{benefit}</span>
                     </motion.div>
                   ))}
                 </div>
+
                 <Link to="/contact" className="btn btn-primary">
-                  Contact Us <FaArrowRight />
+                  {language === 'ar'
+                    ? 'اتصل بنا'
+                    : language === 'he'
+                    ? 'צור קשר'
+                    : 'Contact Us'}{' '}
+                  <FaArrowRight />
                 </Link>
               </motion.div>
 
@@ -187,15 +351,15 @@ const Service1 = () => {
                 viewport={{ once: true }}
               >
                 <div className="benefits-image">
-                  <img src="images/services30.jpg" alt="Business Intelligence Visual" />
+                  <img src="images/services30.jpg" alt={t.benefitsImageAlt || 'Business Intelligence Visual'} />
                 </div>
               </motion.div>
             </div>
           </div>
         </section>
 
-        {/* FAQ Section */}
-                <section className="section gallery-wrapper">
+        {/* Gallery Section */}
+        <section className="section gallery-wrapper">
           <div className="container">
             <motion.div
               className="gallery-header"
@@ -204,42 +368,75 @@ const Service1 = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="gallery-title">Core Cloud Services Visual Gallery</h2>
-              <p className="gallery-subtitle">
-                Explore our cloud infrastructure through these visuals showcasing our robust solutions.
-              </p>
+              <h2 className="gallery-title">{t.galleryTitle || ''}</h2>
+              <p className="gallery-subtitle">{t.gallerySubtitle || ''}</p>
             </motion.div>
-        
+
             <div className="gallery-container">
               {/* First Row */}
               <div className="gallery-row">
                 <div className="gallery-big">
-                  <img src="images/services5.jpg" alt="Cloud infrastructure overview" />
+                  <img
+                    src="images/services5.jpg"
+                    alt={
+                      language === 'ar'
+                        ? 'نظرة عامة على البنية التحتية السحابية'
+                        : language === 'he'
+                        ? 'סקירת תשתיות ענן'
+                        : 'Cloud infrastructure overview'
+                    }
+                  />
                 </div>
                 <div className="gallery-grid">
-                  <img src="images/services16.jpg" alt="Server management" />
-                  <img src="images/services17.jpg" alt="Cloud security" />
-                  <img src="images/services18.jpg" alt="Server management" />
-                  <img src="images/services19.jpg" alt="Cloud security" />
+                  <img
+                    src="images/services16.jpg"
+                    alt={language === 'ar' ? 'إدارة الخادم' : language === 'he' ? 'ניהול שרת' : 'Server management'}
+                  />
+                  <img
+                    src="images/services17.jpg"
+                    alt={language === 'ar' ? 'أمان السحابة' : language === 'he' ? 'אבטחת ענן' : 'Cloud security'}
+                  />
+                  <img
+                    src="images/services18.jpg"
+                    alt={language === 'ar' ? 'إدارة الخادم' : language === 'he' ? 'ניהול שרת' : 'Server management'}
+                  />
+                  <img
+                    src="images/services19.jpg"
+                    alt={language === 'ar' ? 'أمان السحابة' : language === 'he' ? 'אבטחת ענן' : 'Cloud security'}
+                  />
                 </div>
               </div>
-        
+
               {/* Second Row */}
               <div className="gallery-row reverse">
                 <div className="gallery-big">
-                  <img src="images/services20.jpg" alt="Global network map" />
+                  <img
+                    src="images/services20.jpg"
+                    alt={language === 'ar' ? 'خريطة الشبكة العالمية' : language === 'he' ? 'מפת רשת עולמית' : 'Global network map'}
+                  />
                 </div>
                 <div className="gallery-grid">
-                  <img src="images/services21.jpg" alt="Compliance and Governance" />
-                  <img src="images/services22.jpg" alt="Custom cloud solutions" />
-                  <img src="images/services23.jpg" alt="Server management" />
-                  <img src="images/services24.jpg" alt="Cloud security" />
+                  <img
+                    src="images/services21.jpg"
+                    alt={language === 'ar' ? 'الامتثال والحكم' : language === 'he' ? 'ציות ומשילות' : 'Compliance and Governance'}
+                  />
+                  <img
+                    src="images/services22.jpg"
+                    alt={language === 'ar' ? 'حلول سحابية مخصصة' : language === 'he' ? 'פתרונות ענן מותאמים' : 'Custom cloud solutions'}
+                  />
+                  <img
+                    src="images/services23.jpg"
+                    alt={language === 'ar' ? 'إدارة الخادم' : language === 'he' ? 'ניהול שרת' : 'Server management'}
+                  />
+                  <img
+                    src="images/services24.jpg"
+                    alt={language === 'ar' ? 'أمان السحابة' : language === 'he' ? 'אבטחת ענן' : 'Cloud security'}
+                  />
                 </div>
               </div>
             </div>
           </div>
         </section>
-
 
         {/* CTA Section */}
         <section className="cta-section">
@@ -252,14 +449,15 @@ const Service1 = () => {
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
               >
-                <h2>Ready to Unlock Your Data Potential?</h2>
-                <p>Get in touch with our experts to start your Business Intelligence transformation.</p>
+                <h2>{t.ctaTitle || (language === 'ar' ? 'هل أنت مستعد لإطلاق العنان لإمكانات بياناتك؟' : language === 'he' ? 'מוכן לשחרר את הפוטנציאל של הנתונים שלך?' : 'Ready to Unlock Your Data Potential?')}</h2>
+                <p>{t.ctaText || (language === 'ar' ? 'تواصل مع خبرائنا لبدء تحول ذكاء الأعمال الخاص بك.' : language === 'he' ? 'צור קשר עם המומחים שלנו כדי להתחיל את טרנספורמציית הבינה העסקית שלך.' : 'Get in touch with our experts to start your Business Intelligence transformation.')}</p>
                 <div className="cta-buttons">
                   <Link to="/contact" className="btn btn-primary btn-large">
-                    Contact Us <FaArrowRight />
+                    {t.ctaStartBtn || (language === 'ar' ? 'اتصل بنا' : language === 'he' ? 'צור קשר' : 'Contact Us')}{' '}
+                    <FaArrowRight />
                   </Link>
                   <Link to="/about" className="btn btn-outline btn-large">
-                    Learn More About Us
+                    {t.ctaLearnBtn || (language === 'ar' ? 'تعرف علينا أكثر' : language === 'he' ? 'למידע נוסף עלינו' : 'Learn More About Us')}
                   </Link>
                 </div>
               </motion.div>
@@ -453,6 +651,30 @@ const Service1 = () => {
           margin: 0;
           font-size: 0.9rem;
         }
+
+             @media (max-width: 480px) {
+              html, body, #root, .home-page, .aboutit-section, .aboutit-grid, .hero-section, .hero-overlay {
+                width: 100vw !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-sizing: border-box !important;
+              }
+              .hero-title, .hero-paragraph, .hero-button { margin-right: 0 !important; }
+              header { left: 0; right: 0; width: 100vw !important; max-width: 100vw !important; }
+    html, body, #root, .home-page, .aboutit-section, .aboutit-grid, .hero-section, .hero-overlay {
+      width: 100vw !important;
+      max-width: 100vw !important;
+      overflow-x: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+    }
+    .hero-title, .hero-paragraph, .hero-button { margin-right: 0 !important; }
+    header { left: 0; right: 0; width: 100vw !important; max-width: 100vw !important; }
+  }
+    
 
 .features-section {
   background: var(--sidebar-bg);

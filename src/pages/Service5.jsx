@@ -10,98 +10,253 @@ import {
   FaTools,
   FaServer,
   FaPalette,
-  FaCameraRetro
+  FaCameraRetro,
 } from 'react-icons/fa';
+import { useLanguage } from '../context.jsx/LanguageContext';
+
+const translations = {
+  en: {
+    pageTitle: 'DevOps & CI/CD Services - Stackly Solutions',
+    hero: {
+      title: 'DevOps & CI/CD Services',
+      paragraph:
+        'Empower your software development lifecycle with automation, monitoring, and scalable infrastructure.',
+      button: 'Get Started Today',
+      video: 'images/services5.mp4',
+    },
+    coreServicesTitle: 'Core DevOps Capabilities',
+    coreServicesDesc:
+      'Build efficient, reliable, and continuous delivery pipelines with our expert services.',
+    devopsFeatures: [
+      {
+        icon: FaCogs,
+        title: 'Automated Deployment Pipelines',
+        description:
+          'Build, test, and deploy your applications rapidly and consistently with CI/CD pipelines.',
+      },
+      {
+        icon: FaServer,
+        title: 'Infrastructure as Code',
+        description:
+          'Manage infrastructure using code for reproducibility, scalability, and simplified maintenance.',
+      },
+      {
+        icon: FaCloud,
+        title: 'Cloud Integration',
+        description:
+          'Seamlessly connect popular cloud platforms to automate your workflows and enhance scalability.',
+      },
+      {
+        icon: FaTools,
+        title: 'Continuous Monitoring',
+        description:
+          'Gain real-time insights into application and infrastructure health to quickly detect issues.',
+      },
+      {
+        icon: FaCameraRetro,
+        title: 'DevOps Analytics & Reporting',
+        description:
+          'Visualize pipeline performance and team metrics to drive continuous improvement.',
+      },
+      {
+        icon: FaPalette,
+        title: 'Custom DevOps Strategy',
+        description:
+          'Tailored solutions aligning DevOps best practices with your unique business needs.',
+      },
+    ],
+    learnMoreBtn: 'Learn More',
+    benefitsTitle: 'Why Choose Our DevOps Services?',
+    benefitsDesc:
+      'Unlock faster development, improved collaboration, and system reliability with our tailored DevOps approach.',
+    benefitsList: [
+      'Accelerate software delivery through automation',
+      'Improve reliability and reduce deployment risks',
+      'Increase development and operational collaboration',
+      'Optimize infrastructure management with code',
+      'Monitor continuously for faster feedback loops',
+      'Adapt and scale easily with cloud-native tools',
+    ],
+    benefitsImageAlt: 'DevOps & CI/CD Visual',
+    galleryTitle: 'Core Cloud Services Visual Gallery',
+    gallerySubtitle:
+      'Explore our cloud infrastructure through these visuals showcasing our robust solutions.',
+    ctaTitle: 'Ready to Accelerate Your Delivery?',
+    ctaText:
+      'Connect with our experts to streamline your DevOps and CI/CD workflows.',
+    ctaStartBtn: 'Start Now',
+    ctaLearnBtn: 'Learn More About Us',
+  },
+  ar: {
+    pageTitle: 'خدمات ديف أوبس وCI/CD - حلول Stackly',
+    hero: {
+      title: 'خدمات ديف أوبس وCI/CD',
+      paragraph:
+        'قم بتمكين دورة حياة تطوير البرامج الخاصة بك من خلال الأتمتة والمراقبة والبنية التحتية القابلة للتوسع.',
+      button: 'ابدأ اليوم',
+      video: 'images/services5.mp4',
+    },
+    coreServicesTitle: 'قدرات ديف أوبس الأساسية',
+    coreServicesDesc:
+      'ابنِ خطوط نشر مستمرة وموثوقة وكفؤة مع خدماتنا المتخصصة.',
+    devopsFeatures: [
+      {
+        icon: FaCogs,
+        title: 'أنابيب نشر مؤتمتة',
+        description:
+          'بناء واختبار ونشر تطبيقاتك بسرعة وبثبات باستخدام خطوط CI/CD.',
+      },
+      {
+        icon: FaServer,
+        title: 'البنية التحتية ككود',
+        description:
+          'إدارة البنية التحتية باستخدام الكود لتحقيق التكرار والقابلية للتوسع والصيانة المبسطة.',
+      },
+      {
+        icon: FaCloud,
+        title: 'تكامل السحابة',
+        description:
+          'الاتصال بسلاسة بمنصات السحابة الشهيرة لأتمتة سير العمل وتعزيز القابلية للتوسع.',
+      },
+      {
+        icon: FaTools,
+        title: 'المراقبة المستمرة',
+        description:
+          'الحصول على رؤى في الوقت الحقيقي حول صحة التطبيقات والبنية التحتية للكشف السريع عن المشكلات.',
+      },
+      {
+        icon: FaCameraRetro,
+        title: 'تحليلات وتقارير ديف أوبس',
+        description:
+          'تصور أداء خطوط الأنابيب ومقاييس الفريق لدفع التحسين المستمر.',
+      },
+      {
+        icon: FaPalette,
+        title: 'استراتيجية ديف أوبس مخصصة',
+        description:
+          'حلول مخصصة تتماشى مع أفضل ممارسات ديف أوبس لتلبية احتياجات عملك الفريدة.',
+      },
+    ],
+    learnMoreBtn: 'تعرف أكثر',
+    benefitsTitle: 'لماذا تختار خدمات ديف أوبس لدينا؟',
+    benefitsDesc:
+      'افتح أسرع تطوير، وتحسين التعاون، وموثوقية النظام من خلال نهج ديف أوبس المصمم خصيصًا لك.',
+    benefitsList: [
+      'تسريع تسليم البرمجيات من خلال الأتمتة',
+      'تحسين الموثوقية وتقليل مخاطر النشر',
+      'زيادة التعاون بين التطوير والتشغيل',
+      'تحسين إدارة البنية التحتية باستخدام الكود',
+      'مراقبة مستمرة للحلقات السريعة من الملاحظات',
+      'التكيف والتوسع بسهولة مع أدوات السحابة الأصلية',
+    ],
+    benefitsImageAlt: 'صورة ديف أوبس و CI/CD',
+    galleryTitle: 'معرض صور خدمات السحابة الأساسية',
+    gallerySubtitle:
+      'استكشف بنيتنا التحتية السحابية من خلال هذه الصور التي تعرض حلولنا المتينة.',
+    ctaTitle: 'هل أنت مستعد لتسريع التسليم الخاص بك؟',
+    ctaText:
+      'تواصل مع خبرائنا لتبسيط سير عمل ديف أوبس و CI/CD الخاص بك.',
+    ctaStartBtn: 'ابدأ الآن',
+    ctaLearnBtn: 'تعرف علينا أكثر',
+  },
+  he: {
+    pageTitle: 'שירותי דב אופס ו-CI/CD - פתרונות Stackly',
+    hero: {
+      title: 'שירותי דב אופס ו-CI/CD',
+      paragraph:
+        'העצם את מחזור חיי פיתוח התוכנה שלך עם אוטומציה, ניטור ותשתית ניתנת להרחבה.',
+      button: 'התחל היום',
+      video: 'images/services5.mp4',
+    },
+    coreServicesTitle: 'יכולות דב אופס מרכזיות',
+    coreServicesDesc:
+      'בנה צינורות שילוח יעילים, אמינים ורציפים עם שירותים מקצועיים שלנו.',
+    devopsFeatures: [
+      {
+        icon: FaCogs,
+        title: 'צינורות פריסה אוטומטיים',
+        description:
+          'בנה, בדוק ופרוס את האפליקציות שלך במהירות ובאופן עקבי עם צינורות CI/CD.',
+      },
+      {
+        icon: FaServer,
+        title: 'תשתית כקוד',
+        description:
+          'נהל תשתית באמצעות קוד לשכפול, הרחבה ותחזוקה פשוטה.',
+      },
+      {
+        icon: FaCloud,
+        title: 'אינטגרציית ענן',
+        description:
+          'חבר בצורה חלקה פלטפורמות ענן פופולריות כדי לאוטומט את זרימות העבודה שלך ולשפר את ההתרחבות.',
+      },
+      {
+        icon: FaTools,
+        title: 'ניטור רציף',
+        description:
+          'קבל תובנות בזמן אמת על מצב היישום והתשתית כדי לזהות בעיות במהירות.',
+      },
+      {
+        icon: FaCameraRetro,
+        title: 'אנליטיקה ודיווחים של דב אופס',
+        description:
+          'המחש את ביצועי הצינור ומדדי הצוות לקידום שיפור מתמיד.',
+      },
+      {
+        icon: FaPalette,
+        title: 'אסטרטגיית דב אופס מותאמת',
+        description:
+          'פתרונות מותאמים שמיישרים את פרקטיקות הדב אופס הטובות ביותר עם הצרכים הייחודיים של העסק שלך.',
+      },
+    ],
+    learnMoreBtn: 'למד עוד',
+    benefitsTitle: 'למה לבחור בשירותי דב אופס שלנו?',
+    benefitsDesc:
+      'שחרר פיתוח מהיר יותר, שיפור שיתוף פעולה ואמינות מערכת עם גישת דב אופס מותאמת.',
+    benefitsList: [
+      'האץ את משלוח התוכנה באמצעות אוטומציה',
+      'שפר אמינות והפחת סיכוני פריסה',
+      'הגבר שיתוף פעולה בין פיתוח ותפעול',
+      'אופטימיזציה של ניהול תשתיות עם קוד',
+      'ניטור רציף ללולאות משוב מהירות',
+      'התאם והרחב בקלות עם כלים נטועי ענן',
+    ],
+    benefitsImageAlt: 'תצוגת דב אופס ו-CI/CD',
+    galleryTitle: 'גלריית תמונות לשירותי ענן מרכזיים',
+    gallerySubtitle:
+      'חקור את תשתיות הענן שלנו באמצעות תמונות המציגות את הפתרונות החזקים שלנו.',
+    ctaTitle: 'מוכן להאיץ את המסירה שלך?',
+    ctaText:
+      'צור קשר עם המומחים שלנו לפישוט זרימות העבודה של דב אופס ו-CI/CD שלך.',
+    ctaStartBtn: 'התחל עכשיו',
+    ctaLearnBtn: 'למידע נוסף עלינו',
+  },
+};
 
 const Service1 = () => {
+  const { language } = useLanguage();
+  const t = translations[language] || translations.en;
+
   useEffect(() => {
-    document.title = 'DevOps & CI/CD Services - Stackly Solutions';
-  }, []);
-
-  const devopsFeatures = [
-    {
-      icon: FaCogs,
-      title: "Automated Deployment Pipelines",
-      description: "Build, test, and deploy your applications rapidly and consistently with CI/CD pipelines."
-    },
-    {
-      icon: FaServer,
-      title: "Infrastructure as Code",
-      description: "Manage infrastructure using code for reproducibility, scalability, and simplified maintenance."
-    },
-    {
-      icon: FaCloud,
-      title: "Cloud Integration",
-      description: "Seamlessly connect popular cloud platforms to automate your workflows and enhance scalability."
-    },
-    {
-      icon: FaTools,
-      title: "Continuous Monitoring",
-      description: "Gain real-time insights into application and infrastructure health to quickly detect issues."
-    },
-    {
-      icon: FaCameraRetro,
-      title: "DevOps Analytics & Reporting",
-      description: "Visualize pipeline performance and team metrics to drive continuous improvement."
-    },
-    {
-      icon: FaPalette,
-      title: "Custom DevOps Strategy",
-      description: "Tailored solutions aligning DevOps best practices with your unique business needs."
-    }
-  ];
-
-  const benefits = [
-    'Accelerate software delivery through automation',
-    'Improve reliability and reduce deployment risks',
-    'Increase development and operational collaboration',
-    'Optimize infrastructure management with code',
-    'Monitor continuously for faster feedback loops',
-    'Adapt and scale easily with cloud-native tools'
-  ];
-
-  const faqs = [
-    {
-      question: 'What tools do you support for CI/CD?',
-      answer: 'We work with Jenkins, GitLab CI, CircleCI, Azure DevOps, and others to build robust pipelines.'
-    },
-    {
-      question: 'Can you help migrate existing infrastructure to IaC?',
-      answer: 'Yes, we help transition manual configurations to Infrastructure as Code using tools like Terraform and CloudFormation.'
-    },
-    {
-      question: 'Do you provide continuous monitoring services?',
-      answer: 'Absolutely, with integrations for Prometheus, Grafana, ELK stack, and cloud-native monitoring.'
-    },
-    {
-      question: 'How does your DevOps consulting help businesses?',
-      answer: 'We tailor strategies to improve collaboration, accelerate delivery cycles, and maintain quality.'
-    }
-  ];
+    document.title = t.pageTitle;
+    document.documentElement.dir = ['ar', 'he'].includes(language) ? 'rtl' : 'ltr';
+  }, [language, t.pageTitle]);
 
   return (
-    <div className="service-page">
+    <div className="service-page" dir={document.documentElement.dir}>
       <div className="home-page">
         {/* Hero Section */}
         <section className="hero-section">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="hero-bg-video"
-          >
-            <source src="images/services5.mp4" type="video/mp4" />
+          <video autoPlay muted loop playsInline className="hero-bg-video">
+            <source src={t.hero.video} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
           <div className="hero-overlay">
             <div className="hero-content">
-              <h1 className="hero-title">DevOps & CI/CD Services</h1>
-              <p className="hero-paragraph">
-                Empower your software development lifecycle with automation, monitoring, and scalable infrastructure.
-              </p>
+              <h1 className="hero-title">{t.hero.title}</h1>
+              <p className="hero-paragraph">{t.hero.paragraph}</p>
               <Link to="/contact" className="hero-button">
-                Get Started Today
+                {t.hero.button}
               </Link>
             </div>
           </div>
@@ -117,12 +272,12 @@ const Service1 = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2>Core DevOps Capabilities</h2>
-              <p>Build efficient, reliable, and continuous delivery pipelines with our expert services.</p>
+              <h2>{t.coreServicesTitle}</h2>
+              <p>{t.coreServicesDesc}</p>
             </motion.div>
 
             <div className="features-grid">
-              {devopsFeatures.map((feature, index) => (
+              {t.devopsFeatures.map((feature, index) => (
                 <motion.div
                   key={index}
                   className="feature-card premium-card"
@@ -143,7 +298,7 @@ const Service1 = () => {
 
             <div className="btn-learn-wrapper">
               <Link to="/contact" className="btn-learn">
-                Learn More <FaArrowRight />
+                {t.learnMoreBtn} <FaArrowRight />
               </Link>
             </div>
           </div>
@@ -160,12 +315,11 @@ const Service1 = () => {
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
               >
-                <h2>Why Choose Our DevOps Services?</h2>
-                <p>
-                  Unlock faster development, improved collaboration, and system reliability with our tailored DevOps approach.
-                </p>
+                <h2>{t.benefitsTitle}</h2>
+                <p>{t.benefitsDesc}</p>
+
                 <div className="benefits-list">
-                  {benefits.map((benefit, idx) => (
+                  {t.benefitsList.map((benefit, idx) => (
                     <motion.div
                       key={idx}
                       className="benefit-item"
@@ -179,10 +333,17 @@ const Service1 = () => {
                     </motion.div>
                   ))}
                 </div>
+
                 <Link to="/contact" className="btn btn-primary">
-                  Contact Us <FaArrowRight />
+                  {language === 'ar'
+                    ? 'اتصل بنا'
+                    : language === 'he'
+                    ? 'צור קשר'
+                    : 'Contact Us'}{' '}
+                  <FaArrowRight />
                 </Link>
               </motion.div>
+
               <motion.div
                 className="benefits-visual"
                 initial={{ opacity: 0, x: 50 }}
@@ -191,58 +352,92 @@ const Service1 = () => {
                 viewport={{ once: true }}
               >
                 <div className="benefits-image">
-                  <img src="images/services31.jpg" alt="DevOps & CI/CD Visual" />
+                  <img src="images/services31.jpg" alt={t.benefitsImageAlt || 'DevOps & CI/CD Visual'} />
                 </div>
               </motion.div>
             </div>
           </div>
         </section>
 
-        {/* FAQ Section */}
-               <section className="section gallery-wrapper">
-         <div className="container">
-           <motion.div
-             className="gallery-header"
-             initial={{ opacity: 0, y: 50 }}
-             whileInView={{ opacity: 1, y: 0 }}
-             transition={{ duration: 0.6 }}
-             viewport={{ once: true }}
-           >
-             <h2 className="gallery-title">Core Cloud Services Visual Gallery</h2>
-             <p className="gallery-subtitle">
-               Explore our cloud infrastructure through these visuals showcasing our robust solutions.
-             </p>
-           </motion.div>
-       
-           <div className="gallery-container">
-             {/* First Row */}
-             <div className="gallery-row">
-               <div className="gallery-big">
-                 <img src="images/services5.jpg" alt="Cloud infrastructure overview" />
-               </div>
-               <div className="gallery-grid">
-                 <img src="images/services16.jpg" alt="Server management" />
-                 <img src="images/services17.jpg" alt="Cloud security" />
-                 <img src="images/services18.jpg" alt="Server management" />
-                 <img src="images/services19.jpg" alt="Cloud security" />
-               </div>
-             </div>
-       
-             {/* Second Row */}
-             <div className="gallery-row reverse">
-               <div className="gallery-big">
-                 <img src="images/services20.jpg" alt="Global network map" />
-               </div>
-               <div className="gallery-grid">
-                 <img src="images/services21.jpg" alt="Compliance and Governance" />
-                 <img src="images/services22.jpg" alt="Custom cloud solutions" />
-                 <img src="images/services23.jpg" alt="Server management" />
-                 <img src="images/services24.jpg" alt="Cloud security" />
-               </div>
-             </div>
-           </div>
-         </div>
-       </section>
+        {/* Gallery Section */}
+        <section className="section gallery-wrapper">
+          <div className="container">
+            <motion.div
+              className="gallery-header"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="gallery-title">{t.galleryTitle || ''}</h2>
+              <p className="gallery-subtitle">{t.gallerySubtitle || ''}</p>
+            </motion.div>
+
+            <div className="gallery-container">
+              {/* First Row */}
+              <div className="gallery-row">
+                <div className="gallery-big">
+                  <img
+                    src="images/services5.jpg"
+                    alt={
+                      language === 'ar'
+                        ? 'نظرة عامة على البنية التحتية السحابية'
+                        : language === 'he'
+                        ? 'סקירת תשתיות ענן'
+                        : 'Cloud infrastructure overview'
+                    }
+                  />
+                </div>
+                <div className="gallery-grid">
+                  <img
+                    src="images/services16.jpg"
+                    alt={language === 'ar' ? 'إدارة الخادم' : language === 'he' ? 'ניהול שרת' : 'Server management'}
+                  />
+                  <img
+                    src="images/services17.jpg"
+                    alt={language === 'ar' ? 'أمان السحابة' : language === 'he' ? 'אבטחת ענן' : 'Cloud security'}
+                  />
+                  <img
+                    src="images/services18.jpg"
+                    alt={language === 'ar' ? 'إدارة الخادم' : language === 'he' ? 'ניהול שרת' : 'Server management'}
+                  />
+                  <img
+                    src="images/services19.jpg"
+                    alt={language === 'ar' ? 'أمان السحابة' : language === 'he' ? 'אבטחת ענן' : 'Cloud security'}
+                  />
+                </div>
+              </div>
+
+              {/* Second Row */}
+              <div className="gallery-row reverse">
+                <div className="gallery-big">
+                  <img
+                    src="images/services20.jpg"
+                    alt={language === 'ar' ? 'خريطة الشبكة العالمية' : language === 'he' ? 'מפת רשת עולמית' : 'Global network map'}
+                  />
+                </div>
+                <div className="gallery-grid">
+                  <img
+                    src="images/services21.jpg"
+                    alt={language === 'ar' ? 'الامتثال والحكم' : language === 'he' ? 'ציות ומשילות' : 'Compliance and Governance'}
+                  />
+                  <img
+                    src="images/services22.jpg"
+                    alt={language === 'ar' ? 'حلول سحابية مخصصة' : language === 'he' ? 'פתרונות ענן מותאמים' : 'Custom cloud solutions'}
+                  />
+                  <img
+                    src="images/services23.jpg"
+                    alt={language === 'ar' ? 'إدارة الخادم' : language === 'he' ? 'ניהול שרת' : 'Server management'}
+                  />
+                  <img
+                    src="images/services24.jpg"
+                    alt={language === 'ar' ? 'أمان السحابة' : language === 'he' ? 'אבטחת ענן' : 'Cloud security'}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* CTA Section */}
         <section className="cta-section">
@@ -255,14 +450,15 @@ const Service1 = () => {
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
               >
-                <h2>Ready to Accelerate Your Delivery?</h2>
-                <p>Connect with our experts to streamline your DevOps and CI/CD workflows.</p>
+                <h2>{t.ctaTitle || (language === 'ar' ? 'هل أنت مستعد لتسريع التسليم الخاص بك؟' : language === 'he' ? 'מוכן להאיץ את המסירה שלך?' : 'Ready to Accelerate Your Delivery?')}</h2>
+                <p>{t.ctaText || (language === 'ar' ? 'تواصل مع خبرائنا لتبسيط سير عمل ديف أوبس و CI/CD الخاص بك.' : language === 'he' ? 'צור קשר עם המומחים שלנו לפישוט זרימות העבודה של דב אופס ו-CI/CD שלך.' : 'Connect with our experts to streamline your DevOps and CI/CD workflows.')}</p>
                 <div className="cta-buttons">
                   <Link to="/contact" className="btn btn-primary btn-large">
-                    Start Now <FaArrowRight />
+                    {t.ctaStartBtn || (language === 'ar' ? 'ابدأ الآن' : language === 'he' ? 'התחל עכשיו' : 'Start Now')}{' '}
+                    <FaArrowRight />
                   </Link>
                   <Link to="/about" className="btn btn-outline btn-large">
-                    Learn More About Us
+                    {t.ctaLearnBtn || (language === 'ar' ? 'تعرف علينا أكثر' : language === 'he' ? 'למידע נוסף עלינו' : 'Learn More About Us')}
                   </Link>
                 </div>
               </motion.div>
@@ -457,6 +653,30 @@ const Service1 = () => {
           margin: 0;
           font-size: 0.9rem;
         }
+
+             @media (max-width: 480px) {
+              html, body, #root, .home-page, .aboutit-section, .aboutit-grid, .hero-section, .hero-overlay {
+                width: 100vw !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-sizing: border-box !important;
+              }
+              .hero-title, .hero-paragraph, .hero-button { margin-right: 0 !important; }
+              header { left: 0; right: 0; width: 100vw !important; max-width: 100vw !important; }
+    html, body, #root, .home-page, .aboutit-section, .aboutit-grid, .hero-section, .hero-overlay {
+      width: 100vw !important;
+      max-width: 100vw !important;
+      overflow-x: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+    }
+    .hero-title, .hero-paragraph, .hero-button { margin-right: 0 !important; }
+    header { left: 0; right: 0; width: 100vw !important; max-width: 100vw !important; }
+  }
+    
 
 .features-section {
   background: var(--sidebar-bg);

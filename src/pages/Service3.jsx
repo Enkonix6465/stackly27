@@ -9,98 +9,252 @@ import {
   FaLightbulb,
   FaHandshake,
   FaCheck,
-  FaArrowRight
+  FaArrowRight,
 } from 'react-icons/fa';
+import { useLanguage } from '../context.jsx/LanguageContext';
+
+const translations = {
+  en: {
+    pageTitle: 'AI & Automation - Stackly Solutions',
+    hero: {
+      title: 'AI & Automation Solutions',
+      paragraph:
+        'Harness the power of artificial intelligence to transform your business processes and accelerate growth.',
+      button: 'Get Started',
+      video: 'images/services3.mp4',
+    },
+    coreServicesTitle: 'Transformative AI Features',
+    coreServicesDesc: 'Innovative technology designed to empower and automate your business.',
+    aiFeatures: [
+      {
+        icon: FaRobot,
+        title: 'Intelligent Automation',
+        description:
+          'Streamline your business processes with cutting-edge AI-driven automation solutions.',
+      },
+      {
+        icon: FaCogs,
+        title: 'Machine Learning Models',
+        description:
+          'Leverage custom-designed ML models to gain actionable insights and improve decision-making.',
+      },
+      {
+        icon: FaUsers,
+        title: 'User Behavior Analytics',
+        description:
+          'Analyze customer behavior patterns to personalize experiences and optimize engagement.',
+      },
+      {
+        icon: FaChartLine,
+        title: 'Predictive Analytics',
+        description:
+          'Forecast trends and outcomes using advanced predictive algorithms.',
+      },
+      {
+        icon: FaLightbulb,
+        title: 'Innovation & Optimization',
+        description:
+          'Innovate continuously by applying AI to optimize operations and resource allocation.',
+      },
+      {
+        icon: FaHandshake,
+        title: 'Seamless Integration',
+        description:
+          'Easily incorporate AI and automation into existing systems with expert guidance.',
+      },
+    ],
+    learnMoreBtn: 'Learn More',
+    benefitsTitle: 'Why Choose AI & Automation?',
+    benefitsDesc:
+      'Unlock growth and efficiency with tailored AI and automation strategies designed to future-proof your business.',
+    benefitsList: [
+      'Increase efficiency and reduce operational costs',
+      'Gain deeper insights through data-driven analytics',
+      'Improve customer engagement with personalization',
+      'Scale operations smoothly with automated workflows',
+      'Drive innovation to stay competitive in your industry',
+      'Enhance decision-making with AI-powered predictions',
+    ],
+    benefitsImageAlt: 'AI & Automation Visual',
+    galleryTitle: 'Core Cloud Services Visual Gallery',
+    gallerySubtitle:
+      'Explore our cloud infrastructure through these visuals showcasing our robust solutions.',
+    ctaTitle: 'Ready to Innovate with AI?',
+    ctaText:
+      'Contact us for a personalized consultation to advance your automation journey.',
+    ctaStartBtn: 'Start Your Journey',
+    ctaLearnBtn: 'Learn More About Us',
+  },
+
+  ar: {
+    pageTitle: 'الذكاء الاصطناعي والأتمتة - حلول Stackly',
+    hero: {
+      title: 'حلول الذكاء الاصطناعي والأتمتة',
+      paragraph:
+        'استفد من قوة الذكاء الاصطناعي لتحويل عمليات عملك وتسريع النمو.',
+      button: 'ابدأ الآن',
+      video: 'images/services3.mp4',
+    },
+    coreServicesTitle: 'ميزات الذكاء الاصطناعي التحولية',
+    coreServicesDesc: 'تكنولوجيا مبتكرة تهدف لتمكين أعمالك وأتمتتها.',
+    aiFeatures: [
+      {
+        icon: FaRobot,
+        title: 'أتمتة ذكية',
+        description:
+          'تبسيط عمليات عملك بحلول أتمتة مدفوعة بالذكاء الاصطناعي المتقدمة.',
+      },
+      {
+        icon: FaCogs,
+        title: 'نماذج التعلم الآلي',
+        description:
+          'استخدام نماذج تعلم آلي مخصصة للحصول على رؤى قابلة للتنفيذ وتحسين اتخاذ القرار.',
+      },
+      {
+        icon: FaUsers,
+        title: 'تحليل سلوك المستخدم',
+        description:
+          'تحليل أنماط سلوك العملاء لتخصيص التجارب وتحسين التفاعل.',
+      },
+      {
+        icon: FaChartLine,
+        title: 'تحليلات تنبؤية',
+        description:
+          'التنبؤ بالاتجاهات والنتائج باستخدام خوارزميات تنبؤية متقدمة.',
+      },
+      {
+        icon: FaLightbulb,
+        title: 'الابتكار والتحسين',
+        description:
+          'الابتكار المستمر من خلال تطبيق الذكاء الاصطناعي لتحسين العمليات وتخصيص الموارد.',
+      },
+      {
+        icon: FaHandshake,
+        title: 'تكامل سلس',
+        description:
+          'دمج الذكاء الاصطناعي والأتمتة بسهولة في الأنظمة الحالية مع إرشادات خبراء.',
+      },
+    ],
+    learnMoreBtn: 'تعرف أكثر',
+    benefitsTitle: 'لماذا تختار الذكاء الاصطناعي والأتمتة؟',
+    benefitsDesc:
+      'افتح آفاق النمو والكفاءة مع استراتيجيات الذكاء الاصطناعي والأتمتة المصممة لمستقبل أعمالك.',
+    benefitsList: [
+      'زيادة الكفاءة وتقليل التكاليف التشغيلية',
+      'الحصول على رؤى أعمق من خلال تحليلات البيانات',
+      'تحسين التفاعل مع العملاء من خلال التخصيص',
+      'توسيع العمليات بسلاسة مع سير العمل المؤتمت',
+      'تعزيز الابتكار للحفاظ على تنافسية الصناعة',
+      'تحسين اتخاذ القرار بتوقعات مدعومة بالذكاء الاصطناعي',
+    ],
+    benefitsImageAlt: 'صورة الذكاء الاصطناعي والأتمتة',
+    galleryTitle: 'معرض صور الخدمات السحابية الأساسية',
+    gallerySubtitle:
+      'استكشف بنيتنا التحتية السحابية من خلال هذه الصور التي تعرض حلولنا المتينة.',
+    ctaTitle: 'هل أنت مستعد للابتكار مع الذكاء الاصطناعي؟',
+    ctaText:
+      'اتصل بنا للحصول على استشارة مخصصة لتطوير رحلة الأتمتة الخاصة بك.',
+    ctaStartBtn: 'ابدأ رحلتك',
+    ctaLearnBtn: 'تعرف علينا أكثر',
+  },
+
+  he: {
+    pageTitle: 'בינה מלאכותית ואוטומציה - פתרונות Stackly',
+    hero: {
+      title: 'פתרונות בינה מלאכותית ואוטומציה',
+      paragraph:
+        'נצל את כוח הבינה המלאכותית לשדרוג תהליכי העסק שלך ולהאצת הצמיחה.',
+      button: 'התחל עכשיו',
+      video: 'images/services3.mp4',
+    },
+    coreServicesTitle: 'תכונות בינה מלאכותית מעשיות',
+    coreServicesDesc: 'טכנולוגיה חדשנית שמעצימה את העסק שלך ומאוטמת אותו.',
+    aiFeatures: [
+      {
+        icon: FaRobot,
+        title: 'אוטומציה אינטליגנטית',
+        description:
+          'ייעול תהליכי העסק שלך עם פתרונות אוטומציה מתקדמים מבוססי בינה מלאכותית.',
+      },
+      {
+        icon: FaCogs,
+        title: 'מודלי למידת מכונה',
+        description:
+          'ניצול מודלים מותאמים אישית לקבלת תובנות ניתנות ליישום ושיפור קבלת החלטות.',
+      },
+      {
+        icon: FaUsers,
+        title: 'ניתוח התנהגות משתמשים',
+        description:
+          'ניתוח דפוסי התנהגות לקוחות להתאמת חוויות והאופטימיזציה של המעורבות.',
+      },
+      {
+        icon: FaChartLine,
+        title: 'אנליטיקה חזויה',
+        description:
+          'חיזוי מגמות ותוצאות באמצעות אלגוריתמים מתקדמים.',
+      },
+      {
+        icon: FaLightbulb,
+        title: 'חדשנות ואופטימיזציה',
+        description:
+          'חדשנות מתמשכת באמצעות בינה מלאכותית לאופטימיזציה של תפעול והקצאת משאבים.',
+      },
+      {
+        icon: FaHandshake,
+        title: 'אינטגרציה חלקה',
+        description:
+          'שילוב קל של בינה מלאכותית ואוטומציה במערכות הקיימות עם ליווי מומחים.',
+      },
+    ],
+    learnMoreBtn: 'למידע נוסף',
+    benefitsTitle: 'למה לבחור בבינה מלאכותית ואוטומציה?',
+    benefitsDesc:
+      'שחרר צמיחה ויעילות עם אסטרטגיות מותאמות אישית לבינה מלאכותית ואוטומציה לעסק העתידי שלך.',
+    benefitsList: [
+      'הגדלת יעילות והפחתת עלויות תפעול',
+      'קבלת תובנות מעמיקות באמצעות ניתוחי נתונים',
+      'שיפור מעורבות לקוחות עם התאמה אישית',
+      'הרחבת תפעול חלק עם תהליכים מאוטומטים',
+      'קידום חדשנות לשמירה על תחרותיות בענף',
+      'שיפור קבלת החלטות עם חיזויים מבוססי בינה מלאכותית',
+    ],
+    benefitsImageAlt: 'תצוגת בינה מלאכותית ואוטומציה',
+    galleryTitle: 'גלריית תמונות שירותי ענן מרכזיים',
+    gallerySubtitle:
+      'חקור את תשתיות הענן שלנו באמצעות תמונות המדגימות את הפתרונות העמידים שלנו.',
+    ctaTitle: 'מוכן לחדש עם בינה מלאכותית?',
+    ctaText:
+      'צור קשר לקבלת ייעוץ מותאם אישית לקידום מסע האוטומציה שלך.',
+    ctaStartBtn: 'התחל את המסע שלך',
+    ctaLearnBtn: 'למידע נוסף עלינו',
+  },
+};
 
 const Service1 = () => {
+  const { language } = useLanguage();
+  const t = translations[language] || translations.en;
+
   useEffect(() => {
-    document.title = 'AI & Automation - Stackly Solutions';
-  }, []);
-
-  const aiFeatures = [
-    {
-      icon: FaRobot,
-      title: "Intelligent Automation",
-      description: "Streamline your business processes with cutting-edge AI-driven automation solutions."
-    },
-    {
-      icon: FaCogs,
-      title: "Machine Learning Models",
-      description: "Leverage custom-designed ML models to gain actionable insights and improve decision-making."
-    },
-    {
-      icon: FaUsers,
-      title: "User Behavior Analytics",
-      description: "Analyze customer behavior patterns to personalize experiences and optimize engagement."
-    },
-    {
-      icon: FaChartLine,
-      title: "Predictive Analytics",
-      description: "Forecast trends and outcomes using advanced predictive algorithms."
-    },
-    {
-      icon: FaLightbulb,
-      title: "Innovation & Optimization",
-      description: "Innovate continuously by applying AI to optimize operations and resource allocation."
-    },
-    {
-      icon: FaHandshake,
-      title: "Seamless Integration",
-      description: "Easily incorporate AI and automation into existing systems with expert guidance."
-    }
-  ];
-
-  const benefits = [
-    'Increase efficiency and reduce operational costs',
-    'Gain deeper insights through data-driven analytics',
-    'Improve customer engagement with personalization',
-    'Scale operations smoothly with automated workflows',
-    'Drive innovation to stay competitive in your industry',
-    'Enhance decision-making with AI-powered predictions'
-  ];
-
-  const faqs = [
-    {
-      question: 'What types of AI automation solutions do you offer?',
-      answer: 'We offer workflow automation, predictive analytics, custom ML models, and intelligent process automation tailored to your needs.'
-    },
-    {
-      question: 'How do you handle integration with existing systems?',
-      answer: 'Our team ensures smooth implementation with minimal disruption by utilizing proven integration frameworks and APIs.'
-    },
-    {
-      question: 'What industries benefit the most from your solutions?',
-      answer: 'Our AI & Automation services are effective across finance, healthcare, retail, manufacturing, and more.'
-    },
-    {
-      question: 'Do you provide ongoing support post-deployment?',
-      answer: 'Yes, we provide maintenance, support, and continuous optimization services.'
-    }
-  ];
+    document.title = t.pageTitle;
+    document.documentElement.dir = ['ar', 'he'].includes(language) ? 'rtl' : 'ltr';
+  }, [language, t.pageTitle]);
 
   return (
-    <div className="service-page">
+    <div className="service-page" dir={document.documentElement.dir}>
       <div className="home-page">
         {/* Hero Section */}
         <section className="hero-section">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="hero-bg-video"
-          >
-            <source src="images/services3.mp4" type="video/mp4" />
+          <video autoPlay muted loop playsInline className="hero-bg-video">
+            <source src={t.hero.video} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
           <div className="hero-overlay">
             <div className="hero-content">
-              <h1 className="hero-title">AI & Automation Solutions</h1>
-              <p className="hero-paragraph">
-                Harness the power of artificial intelligence to transform your business processes and accelerate growth.
-              </p>
+              <h1 className="hero-title">{t.hero.title}</h1>
+              <p className="hero-paragraph">{t.hero.paragraph}</p>
               <Link to="/contact" className="hero-button">
-                Get Started
+                {t.hero.button}
               </Link>
             </div>
           </div>
@@ -116,12 +270,12 @@ const Service1 = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2>Transformative AI Features</h2>
-              <p>Innovative technology designed to empower and automate your business.</p>
+              <h2>{t.coreServicesTitle}</h2>
+              <p>{t.coreServicesDesc}</p>
             </motion.div>
 
             <div className="features-grid">
-              {aiFeatures.map((feature, index) => (
+              {t.aiFeatures.map((feature, index) => (
                 <motion.div
                   key={index}
                   className="feature-card premium-card"
@@ -142,7 +296,7 @@ const Service1 = () => {
 
             <div className="btn-learn-wrapper">
               <Link to="/contact" className="btn-learn">
-                Learn More <FaArrowRight />
+                {t.learnMoreBtn || 'Learn More'} <FaArrowRight />
               </Link>
             </div>
           </div>
@@ -159,12 +313,11 @@ const Service1 = () => {
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
               >
-                <h2>Why Choose AI & Automation?</h2>
-                <p>
-                  Unlock growth and efficiency with tailored AI and automation strategies designed to future-proof your business.
-                </p>
+                <h2>{t.benefitsTitle}</h2>
+                <p>{t.benefitsDesc}</p>
+
                 <div className="benefits-list">
-                  {benefits.map((benefit, idx) => (
+                  {t.benefitsList.map((benefit, idx) => (
                     <motion.div
                       key={idx}
                       className="benefit-item"
@@ -178,10 +331,17 @@ const Service1 = () => {
                     </motion.div>
                   ))}
                 </div>
+
                 <Link to="/contact" className="btn btn-primary">
-                  Contact Our Experts <FaArrowRight />
+                  {language === 'ar'
+                    ? 'اتصل بخبرائنا'
+                    : language === 'he'
+                    ? 'צור קשר עם המומחים שלנו'
+                    : 'Contact Our Experts'}{' '}
+                  <FaArrowRight />
                 </Link>
               </motion.div>
+
               <motion.div
                 className="benefits-visual"
                 initial={{ opacity: 0, x: 50 }}
@@ -190,15 +350,15 @@ const Service1 = () => {
                 viewport={{ once: true }}
               >
                 <div className="benefits-image">
-                  <img src="images/services29.jpg" alt="AI & Automation Visual" />
+                  <img src="images/services29.jpg" alt={t.benefitsImageAlt || 'AI & Automation Visual'} />
                 </div>
               </motion.div>
             </div>
           </div>
         </section>
 
-        {/* FAQ Section */}
-                <section className="section gallery-wrapper">
+        {/* Gallery Section */}
+        <section className="section gallery-wrapper">
           <div className="container">
             <motion.div
               className="gallery-header"
@@ -207,37 +367,70 @@ const Service1 = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="gallery-title">Core Cloud Services Visual Gallery</h2>
-              <p className="gallery-subtitle">
-                Explore our cloud infrastructure through these visuals showcasing our robust solutions.
-              </p>
+              <h2 className="gallery-title">{t.galleryTitle || ''}</h2>
+              <p className="gallery-subtitle">{t.gallerySubtitle || ''}</p>
             </motion.div>
-        
+
             <div className="gallery-container">
               {/* First Row */}
               <div className="gallery-row">
                 <div className="gallery-big">
-                  <img src="images/services5.jpg" alt="Cloud infrastructure overview" />
+                  <img
+                    src="images/services5.jpg"
+                    alt={
+                      language === 'ar'
+                        ? 'نظرة عامة على البنية التحتية السحابية'
+                        : language === 'he'
+                        ? 'סקירת תשתיות ענן'
+                        : 'Cloud infrastructure overview'
+                    }
+                  />
                 </div>
                 <div className="gallery-grid">
-                  <img src="images/services16.jpg" alt="Server management" />
-                  <img src="images/services17.jpg" alt="Cloud security" />
-                  <img src="images/services18.jpg" alt="Server management" />
-                  <img src="images/services19.jpg" alt="Cloud security" />
+                  <img
+                    src="images/services16.jpg"
+                    alt={language === 'ar' ? 'إدارة الخادم' : language === 'he' ? 'ניהול שרת' : 'Server management'}
+                  />
+                  <img
+                    src="images/services17.jpg"
+                    alt={language === 'ar' ? 'أمان السحابة' : language === 'he' ? 'אבטחת ענן' : 'Cloud security'}
+                  />
+                  <img
+                    src="images/services18.jpg"
+                    alt={language === 'ar' ? 'إدارة الخادم' : language === 'he' ? 'ניהול שרת' : 'Server management'}
+                  />
+                  <img
+                    src="images/services19.jpg"
+                    alt={language === 'ar' ? 'أمان السحابة' : language === 'he' ? 'אבטחת ענן' : 'Cloud security'}
+                  />
                 </div>
               </div>
-        
+
               {/* Second Row */}
               <div className="gallery-row reverse">
                 <div className="gallery-big">
-                  <img src="images/services20.jpg" alt="Global network map" />
+                  <img
+                    src="images/services20.jpg"
+                    alt={language === 'ar' ? 'خريطة الشبكة العالمية' : language === 'he' ? 'מפת רשת עולמית' : 'Global network map'}
+                  />
                 </div>
                 <div className="gallery-grid">
-                  <img src="images/services21.jpg" alt="Compliance and Governance" />
-                  <img src="images/services22.jpg" alt="Custom cloud solutions" />
-                  <img src=
-                  "images/services23.jpg" alt="Server management" />
-                  <img src="images/services24.jpg" alt="Cloud security" />
+                  <img
+                    src="images/services21.jpg"
+                    alt={language === 'ar' ? 'الامتثال والحكم' : language === 'he' ? 'ציות ומשילות' : 'Compliance and Governance'}
+                  />
+                  <img
+                    src="images/services22.jpg"
+                    alt={language === 'ar' ? 'حلول سحابية مخصصة' : language === 'he' ? 'פתרונות ענן מותאמים' : 'Custom cloud solutions'}
+                  />
+                  <img
+                    src="images/services23.jpg"
+                    alt={language === 'ar' ? 'إدارة الخادم' : language === 'he' ? 'ניהול שרת' : 'Server management'}
+                  />
+                  <img
+                    src="images/services24.jpg"
+                    alt={language === 'ar' ? 'أمان السحابة' : language === 'he' ? 'אבטחת ענן' : 'Cloud security'}
+                  />
                 </div>
               </div>
             </div>
@@ -255,14 +448,15 @@ const Service1 = () => {
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
               >
-                <h2>Ready to Innovate with AI?</h2>
-                <p>Contact us for a personalized consultation to advance your automation journey.</p>
+                <h2>{t.ctaTitle || (language === 'ar' ? 'هل أنت مستعد للابتكار مع الذكاء الاصطناعي؟' : language === 'he' ? 'מוכן לחדש עם בינה מלאכותית?' : 'Ready to Innovate with AI?')}</h2>
+                <p>{t.ctaText || (language === 'ar' ? 'اتصل بنا للحصول على استشارة مخصصة لتطوير رحلة الأتمتة الخاصة بك.' : language === 'he' ? 'צור קשר לקבלת ייעוץ מותאם לקידום מסע האוטומציה שלך.' : 'Contact us for a personalized consultation to advance your automation journey.')}</p>
                 <div className="cta-buttons">
                   <Link to="/contact" className="btn btn-primary btn-large">
-                    Start Your Journey <FaArrowRight />
+                    {t.ctaStartBtn || (language === 'ar' ? 'ابدأ رحلتك' : language === 'he' ? 'התחל את המסע שלך' : 'Start Your Journey')}{' '}
+                    <FaArrowRight />
                   </Link>
                   <Link to="/about" className="btn btn-outline btn-large">
-                    Learn More About Us
+                    {t.ctaLearnBtn || (language === 'ar' ? 'تعرف علينا أكثر' : language === 'he' ? 'למידע נוסף עלינו' : 'Learn More About Us')}
                   </Link>
                 </div>
               </motion.div>
@@ -455,6 +649,30 @@ const Service1 = () => {
           margin: 0;
           font-size: 0.9rem;
         }
+
+             @media (max-width: 480px) {
+              html, body, #root, .home-page, .aboutit-section, .aboutit-grid, .hero-section, .hero-overlay {
+                width: 100vw !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-sizing: border-box !important;
+              }
+              .hero-title, .hero-paragraph, .hero-button { margin-right: 0 !important; }
+              header { left: 0; right: 0; width: 100vw !important; max-width: 100vw !important; }
+    html, body, #root, .home-page, .aboutit-section, .aboutit-grid, .hero-section, .hero-overlay {
+      width: 100vw !important;
+      max-width: 100vw !important;
+      overflow-x: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+    }
+    .hero-title, .hero-paragraph, .hero-button { margin-right: 0 !important; }
+    header { left: 0; right: 0; width: 100vw !important; max-width: 100vw !important; }
+  }
+    
 
 .features-section {
   background: var(--sidebar-bg);

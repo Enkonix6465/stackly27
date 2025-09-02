@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -9,97 +10,229 @@ import {
   FaNetworkWired,
   FaLaptopCode,
   FaCheck,
-  FaArrowRight
+  FaArrowRight,
 } from 'react-icons/fa';
+import { useLanguage } from '../context.jsx/LanguageContext';
+
+const translations = {
+  en: {
+    pageTitle: 'Cybersecurity Solutions - Stackly Security',
+    hero: {
+      title: 'Comprehensive Cybersecurity Solutions',
+      paragraph:
+        'Safeguard your digital assets with tailored cybersecurity services designed for modern threats.',
+      button: 'Get Protected',
+      video: 'images/services2.mp4',
+    },
+    coreServicesTitle: 'Our Cybersecurity Services',
+    coreServicesDesc:
+      'Helping you secure your infrastructure with advanced protection and expert guidance.',
+    cybersecurityFeatures: [
+      {
+        icon: FaShieldAlt,
+        title: 'Advanced Threat Protection',
+        description: 'Defend your infrastructure with intelligent threat detection and automated responses.',
+      },
+      {
+        icon: FaUserShield,
+        title: 'Identity & Access Management',
+        description: 'Secure user access with multi-factor authentication and role-based permissions.',
+      },
+      {
+        icon: FaLock,
+        title: 'Encryption Solutions',
+        description: 'Protect sensitive data with robust encryption technologies across all devices.',
+      },
+      {
+        icon: FaFingerprint,
+        title: 'Biometric Security',
+        description: 'Leverage fingerprint and facial recognition for next-generation user authentication.',
+      },
+      {
+        icon: FaNetworkWired,
+        title: 'Network Security',
+        description: 'Prevent unauthorized access and secure communications with advanced firewalls.',
+      },
+      {
+        icon: FaLaptopCode,
+        title: 'Security Automation',
+        description: 'Automate monitoring and incident response to maintain continuous protection.',
+      },
+    ],
+    learnMoreBtn: 'Learn More',
+    benefitsTitle: 'Why Partner with Us for Cybersecurity?',
+    benefitsDesc:
+      'We deliver comprehensive protection, expert consulting, and proactive monitoring to keep your data safe.',
+    benefitsList: [
+      'Comprehensive protection tailored to your business',
+      'Cutting-edge technologies for threat detection',
+      'Regulatory compliance and risk management',
+      'Continuous monitoring and rapid incident response',
+      'User-centric identity and access control',
+      'Expert cybersecurity consulting and support',
+    ],
+    benefitsImageAlt: 'Cybersecurity Solutions',
+    galleryTitle: 'Cybersecurity Solutions Visual Gallery',
+    gallerySubtitle:
+      'Explore our cybersecurity infrastructure through these visuals showcasing our robust solutions.',
+    ctaTitle: 'Secure Your Future Today',
+    ctaText: 'Contact us to learn how we can strengthen your cybersecurity posture.',
+    ctaStartBtn: 'Get Started',
+    ctaLearnBtn: 'Learn More About Us',
+  },
+  ar: {
+    pageTitle: 'حلول الأمن السيبراني - Stackly Security',
+    hero: {
+      title: 'حلول الأمن السيبراني الشاملة',
+      paragraph: 'حافظ على أصولك الرقمية مع خدمات أمان مصممة لمواجهة التهديدات الحديثة.',
+      button: 'احمِ نفسك',
+      video: 'images/services2.mp4',
+    },
+    coreServicesTitle: 'خدماتنا في الأمن السيبراني',
+    coreServicesDesc:
+      'نساعدك على تأمين بنيتك التحتية بحماية متقدمة وإرشادات خبراء.',
+    cybersecurityFeatures: [
+      {
+        icon: FaShieldAlt,
+        title: 'حماية متقدمة من التهديدات',
+        description: 'دافع عن بنيتك التحتية باستخدام كشف ذكي وإجراءات استجابة آلية.',
+      },
+      {
+        icon: FaUserShield,
+        title: 'إدارة الهوية والصلاحيات',
+        description: 'تأمين وصول المستخدمين باستخدام المصادقة متعددة العوامل وصلاحيات مستندة إلى الدور.',
+      },
+      {
+        icon: FaLock,
+        title: 'حلول التشفير',
+        description: 'حماية البيانات الحساسة بتقنيات تشفير قوية عبر جميع الأجهزة.',
+      },
+      {
+        icon: FaFingerprint,
+        title: 'الأمن البيومتري',
+        description: 'الاستفادة من التعرف على بصمة الإصبع والوجه لمصادقة المستخدم من الجيل التالي.',
+      },
+      {
+        icon: FaNetworkWired,
+        title: 'أمن الشبكات',
+        description: 'منع الوصول غير المصرح به وتأمين الاتصالات بجدران نارية متقدمة.',
+      },
+      {
+        icon: FaLaptopCode,
+        title: 'أتمتة الأمان',
+        description: 'أتمتة المراقبة والاستجابة للحوادث للحفاظ على حماية مستمرة.',
+      },
+    ],
+    learnMoreBtn: 'تعرف أكثر',
+    benefitsTitle: 'لماذا تشاركنا للأمن السيبراني؟',
+    benefitsDesc:
+      'نوفر حماية شاملة، استشارات خبراء، ومراقبة استباقية للحفاظ على سلامة بياناتك.',
+    benefitsList: [
+      'حماية شاملة مصممة لأعمالك',
+      'تقنيات متطورة لكشف التهديدات',
+      'الامتثال للمعايير وإدارة المخاطر',
+      'مراقبة مستمرة واستجابة سريعة للحوادث',
+      'تحكم مركز على الهوية والوصول',
+      'استشارات ودعم احترافي في الأمن السيبراني',
+    ],
+    benefitsImageAlt: 'حلول الأمن السيبراني',
+    galleryTitle: 'معرض صور حلول الأمن السيبراني',
+    gallerySubtitle: 'استكشف بنيتنا التحتية الأمنية من خلال الصور التي توضح حلولنا المتينة.',
+    ctaTitle: 'أمّن مستقبلك اليوم',
+    ctaText: 'اتصل بنا لتتعرف على كيفية تعزيز موقفك الأمني السيبراني.',
+    ctaStartBtn: 'ابدأ الآن',
+    ctaLearnBtn: 'تعرف علينا أكثر',
+  },
+  he: {
+    pageTitle: 'פתרונות סייבר - Stackly Security',
+    hero: {
+      title: 'פתרונות אבטחה מקיפים',
+      paragraph: 'הגן על הנכסים הדיגיטליים שלך עם שירותי אבטחה מותאמים לאיומים מודרניים.',
+      button: 'הגן על עצמך',
+      video: 'images/services2.mp4',
+    },
+    coreServicesTitle: 'שירותי הסייבר שלנו',
+    coreServicesDesc:
+      'אנו מסייעים לך לאבטח את התשתית עם הגנה מתקדמת והכוונה מקצועית.',
+    cybersecurityFeatures: [
+      {
+        icon: FaShieldAlt,
+        title: 'הגנה מתקדמת מפני איומים',
+        description: 'הגן על התשתית שלך באמצעות זיהוי איומים חכם ותגובה אוטומטית.',
+      },
+      {
+        icon: FaUserShield,
+        title: 'ניהול זהויות והרשאות',
+        description: 'אבטח גישה למשתמשים עם אימות רב-שלבי והרשאות מבוססות תפקידים.',
+      },
+      {
+        icon: FaLock,
+        title: 'פתרונות הצפנה',
+        description: 'הגן על נתונים רגישים עם טכנולוגיות הצפנה חזקות בכל המכשירים.',
+      },
+      {
+        icon: FaFingerprint,
+        title: 'אבטחה ביומטרית',
+        description: 'נצל זיהוי טביעות אצבע והכרה פנים לאימות משתמשים דור הבא.',
+      },
+      {
+        icon: FaNetworkWired,
+        title: 'אבטחת רשת',
+        description: 'מנע גישה לא מורשית ואבטח תקשורת עם חומות אש מתקדמות.',
+      },
+      {
+        icon: FaLaptopCode,
+        title: 'אוטומציה באבטחה',
+        description: 'אוטומציה של ניטור ותגובה לאירועים לשמירה על הגנה רציפה.',
+      },
+    ],
+    learnMoreBtn: 'למידע נוסף',
+    benefitsTitle: 'למה לבחור בנו לאבטחת סייבר?',
+    benefitsDesc:
+      'אנו מספקים הגנה מקיפה, ייעוץ מקצועי ומעקב יזום לשמירת בטחון הנתונים.',
+    benefitsList: [
+      'הגנה מקיפה המותאמת לעסק שלך',
+      'טכנולוגיות מתקדמות לזיהוי איומים',
+      'ציות לנורמות וניהול סיכונים',
+      'ניטור רציף ותגובה מהירה לאירועים',
+      'שליטה מבוססת זהות וגישה',
+      'ייעוץ ותמיכה מקצועית באבטחת סייבר',
+    ],
+    benefitsImageAlt: 'פתרונות אבטחת סייבר',
+    galleryTitle: 'גלריית תמונות לפתרונות הסייבר שלנו',
+    gallerySubtitle: 'חקור את תשתית האבטחה שלנו דרך תמונות המציגות את הפתרונות העמידים שלנו.',
+    ctaTitle: 'אבטח את עתידך היום',
+    ctaText: 'צור קשר כדי ללמוד כיצד נוכל לחזק את עמדת האבטחה שלך.',
+    ctaStartBtn: 'התחל עכשיו',
+    ctaLearnBtn: 'למידע נוסף עלינו',
+  },
+};
 
 const Service1 = () => {
+  const { language } = useLanguage();
+  const t = translations[language] || translations.en;
+
   useEffect(() => {
-    document.title = 'Cybersecurity Solutions - Stackly Security';
-  }, []);
-
-  const cybersecurityFeatures = [
-    {
-      icon: FaShieldAlt,
-      title: "Advanced Threat Protection",
-      description: "Defend your infrastructure with intelligent threat detection and automated responses."
-    },
-    {
-      icon: FaUserShield,
-      title: "Identity & Access Management",
-      description: "Secure user access with multi-factor authentication and role-based permissions."
-    },
-    {
-      icon: FaLock,
-      title: "Encryption Solutions",
-      description: "Protect sensitive data with robust encryption technologies across all devices."
-    },
-    {
-      icon: FaFingerprint,
-      title: "Biometric Security",
-      description: "Leverage fingerprint and facial recognition for next-generation user authentication."
-    },
-    {
-      icon: FaNetworkWired,
-      title: "Network Security",
-      description: "Prevent unauthorized access and secure communications with advanced firewalls."
-    },
-    {
-      icon: FaLaptopCode,
-      title: "Security Automation",
-      description: "Automate monitoring and incident response to maintain continuous protection."
-    }
-  ];
-
-  const benefits = [
-    'Comprehensive protection tailored to your business',
-    'Cutting-edge technologies for threat detection',
-    'Regulatory compliance and risk management',
-    'Continuous monitoring and rapid incident response',
-    'User-centric identity and access control',
-    'Expert cybersecurity consulting and support'
-  ];
-
-  const faqs = [
-    {
-      question: 'How do you protect against evolving cyber threats?',
-      answer: 'We deploy AI-driven detection and continuous threat intelligence to anticipate and neutralize attacks.'
-    },
-    {
-      question: 'Can you help ensure compliance with industry regulations?',
-      answer: 'Yes, we help clients meet standards such as GDPR, HIPAA, and PCI-DSS through audit and compliance solutions.'
-    },
-    {
-      question: 'What industries do you serve?',
-      answer: 'We serve a broad range of industries including finance, healthcare, retail, and government.'
-    },
-    {
-      question: 'Do you provide incident response services?',
-      answer: 'Absolutely, our experts act swiftly to contain and remediate security incidents.'
-    }
-  ];
+    document.title = t.pageTitle;
+    document.documentElement.dir = ['ar', 'he'].includes(language) ? 'rtl' : 'ltr';
+  }, [language, t.pageTitle]);
 
   return (
-    <div className="service-page">
+    <div className="service-page" dir={document.documentElement.dir}>
       <div className="home-page">
         {/* Hero Section */}
         <section className="hero-section">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="hero-bg-video"
-          >
-            <source src="images/services2.mp4" type="video/mp4" />
+          <video autoPlay muted loop playsInline className="hero-bg-video">
+            <source src={t.hero.video} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
           <div className="hero-overlay">
             <div className="hero-content">
-              <h1 className="hero-title animate-slide-in">Comprehensive Cybersecurity Solutions</h1>
-              <p className="hero-paragraph animate-fade-up">
-                Safeguard your digital assets with tailored cybersecurity services designed for modern threats.
-              </p>
-              <Link to="/contact" className="hero-button animate-fade-up-delayed">Get Protected</Link>
+              <h1 className="hero-title animate-slide-in">{t.hero.title}</h1>
+              <p className="hero-paragraph animate-fade-up">{t.hero.paragraph}</p>
+              <Link to="/contact" className="hero-button animate-fade-up-delayed">
+                {t.hero.button}
+              </Link>
             </div>
           </div>
         </section>
@@ -114,14 +247,12 @@ const Service1 = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2>Our Cybersecurity Services</h2>
-              <p>
-                Helping you secure your infrastructure with advanced protection and expert guidance.
-              </p>
+              <h2>{t.coreServicesTitle}</h2>
+              <p>{t.coreServicesDesc}</p>
             </motion.div>
 
             <div className="features-grid">
-              {cybersecurityFeatures.map((feature, index) => (
+              {t.cybersecurityFeatures.map((feature, index) => (
                 <motion.div
                   key={index}
                   className="feature-card premium-card"
@@ -142,7 +273,7 @@ const Service1 = () => {
 
             <div className="btn-learn-wrapper">
               <Link to="/contact" className="btn-learn">
-                Learn More <FaArrowRight />
+                {t.learnMoreBtn || 'Learn More'} <FaArrowRight />
               </Link>
             </div>
           </div>
@@ -159,18 +290,19 @@ const Service1 = () => {
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
               >
-                <h2>Why Partner with Us for Cybersecurity?</h2>
-                <p>
-                  We deliver comprehensive protection, expert consulting, and proactive monitoring to keep your data safe.
-                </p>
+                <h2>{t.benefitsTitle}</h2>
+                <p>{t.benefitsDesc}</p>
 
                 <div className="benefits-list">
-                  {benefits.map((benefit, idx) => (
-                    <motion.div key={idx} className="benefit-item"
+                  {t.benefitsList.map((benefit, idx) => (
+                    <motion.div
+                      key={idx}
+                      className="benefit-item"
                       initial={{ opacity: 0, x: -30 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5, delay: idx * 0.1 }}
-                      viewport={{ once: true }}>
+                      viewport={{ once: true }}
+                    >
                       <FaCheck className="check-icon" />
                       <span>{benefit}</span>
                     </motion.div>
@@ -178,7 +310,12 @@ const Service1 = () => {
                 </div>
 
                 <Link to="/contact" className="btn btn-primary">
-                  Contact Our Experts <FaArrowRight />
+                  {language === 'ar'
+                    ? 'ابدأ الآن'
+                    : language === 'he'
+                    ? 'התחל עכשיו'
+                    : 'Contact Our Experts'}{' '}
+                  <FaArrowRight />
                 </Link>
               </motion.div>
 
@@ -190,14 +327,15 @@ const Service1 = () => {
                 viewport={{ once: true }}
               >
                 <div className="benefits-image">
-                  <img src="images/services28.jpg" alt="Cybersecurity Solutions" />
+                  <img src="images/services28.jpg" alt={t.benefitsImageAlt || 'Cybersecurity Solutions'} />
                 </div>
               </motion.div>
             </div>
           </div>
         </section>
 
-                <section className="section gallery-wrapper">
+        {/* Gallery Section */}
+        <section className="section gallery-wrapper">
           <div className="container">
             <motion.div
               className="gallery-header"
@@ -206,60 +344,95 @@ const Service1 = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="gallery-title">Core Cloud Services Visual Gallery</h2>
-              <p className="gallery-subtitle">
-                Explore our cloud infrastructure through these visuals showcasing our robust solutions.
-              </p>
+              <h2 className="gallery-title">{t.galleryTitle || ''}</h2>
+              <p className="gallery-subtitle">{t.gallerySubtitle || ''}</p>
             </motion.div>
-        
+
             <div className="gallery-container">
               {/* First Row */}
               <div className="gallery-row">
                 <div className="gallery-big">
-                  <img src="images/services5.jpg" alt="Cloud infrastructure overview" />
+                  <img
+                    src="images/services5.jpg"
+                    alt={
+                      language === 'ar'
+                        ? 'نظرة عامة على البنية التحتية السحابية'
+                        : language === 'he'
+                        ? 'סקירת תשתיות ענן'
+                        : 'Cloud infrastructure overview'
+                    }
+                  />
                 </div>
                 <div className="gallery-grid">
-                  <img src="images/services16.jpg" alt="Server management" />
-                  <img src="images/services17.jpg" alt="Cloud security" />
-                  <img src="images/services18.jpg" alt="Server management" />
-                  <img src="images/services19.jpg" alt="Cloud security" />
+                  <img
+                    src="images/services16.jpg"
+                    alt={language === 'ar' ? 'إدارة الخادم' : language === 'he' ? 'ניהול שרת' : 'Server management'}
+                  />
+                  <img
+                    src="images/services17.jpg"
+                    alt={language === 'ar' ? 'أمان السحابة' : language === 'he' ? 'אבטחת ענן' : 'Cloud security'}
+                  />
+                  <img
+                    src="images/services18.jpg"
+                    alt={language === 'ar' ? 'إدارة الخادم' : language === 'he' ? 'ניהול שרת' : 'Server management'}
+                  />
+                  <img
+                    src="images/services19.jpg"
+                    alt={language === 'ar' ? 'أمان السحابة' : language === 'he' ? 'אבטחת ענן' : 'Cloud security'}
+                  />
                 </div>
               </div>
-        
+
               {/* Second Row */}
               <div className="gallery-row reverse">
                 <div className="gallery-big">
-                  <img src="images/services20.jpg" alt="Global network map" />
+                  <img
+                    src="images/services20.jpg"
+                    alt={language === 'ar' ? 'خريطة الشبكة العالمية' : language === 'he' ? 'מפת רשת עולמית' : 'Global network map'}
+                  />
                 </div>
                 <div className="gallery-grid">
-                  <img src="images/services21.jpg" alt="Compliance and Governance" />
-                  <img src="images/services22.jpg" alt="Custom cloud solutions" />
-                  <img src="images/services23.jpg" alt="Server management" />
-                  <img src="images/services24.jpg" alt="Cloud security" />
+                  <img
+                    src="images/services21.jpg"
+                    alt={language === 'ar' ? 'الامتثال والحكم' : language === 'he' ? 'ציות ומשילות' : 'Compliance and Governance'}
+                  />
+                  <img
+                    src="images/services22.jpg"
+                    alt={language === 'ar' ? 'حلول سحابية مخصصة' : language === 'he' ? 'פתרונות ענן מותאמים' : 'Custom cloud solutions'}
+                  />
+                  <img
+                    src="images/services23.jpg"
+                    alt={language === 'ar' ? 'إدارة الخادم' : language === 'he' ? 'ניהול שרת' : 'Server management'}
+                  />
+                  <img
+                    src="images/services24.jpg"
+                    alt={language === 'ar' ? 'أمان السحابة' : language === 'he' ? 'אבטחת ענן' : 'Cloud security'}
+                  />
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-
         {/* CTA Section */}
         <section className="cta-section">
           <div className="cta-overlay">
             <div className="container">
-              <motion.div className="cta-content text-center"
+              <motion.div
+                className="cta-content text-center"
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                viewport={{ once: true }}>
-                <h2>Secure Your Future Today</h2>
-                <p>Contact us to learn how we can strengthen your cybersecurity posture.</p>
+                viewport={{ once: true }}
+              >
+                <h2>{t.ctaTitle}</h2>
+                <p>{t.ctaText}</p>
                 <div className="cta-buttons">
                   <Link to="/contact" className="btn btn-primary btn-large">
-                    Get Started <FaArrowRight />
+                    {t.ctaStartBtn} <FaArrowRight />
                   </Link>
                   <Link to="/about" className="btn btn-outline btn-large">
-                    Learn More About Us
+                    {t.ctaLearnBtn}
                   </Link>
                 </div>
               </motion.div>
@@ -453,6 +626,31 @@ const Service1 = () => {
           margin: 0;
           font-size: 0.9rem;
         }
+
+             @media (max-width: 480px) {
+              html, body, #root, .home-page, .aboutit-section, .aboutit-grid, .hero-section, .hero-overlay {
+                width: 100vw !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-sizing: border-box !important;
+              }
+              .hero-title, .hero-paragraph, .hero-button { margin-right: 0 !important; }
+              header { left: 0; right: 0; width: 100vw !important; max-width: 100vw !important; }
+    html, body, #root, .home-page, .aboutit-section, .aboutit-grid, .hero-section, .hero-overlay {
+      width: 100vw !important;
+      max-width: 100vw !important;
+      overflow-x: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+    }
+    .hero-title, .hero-paragraph, .hero-button { margin-right: 0 !important; }
+    header { left: 0; right: 0; width: 100vw !important; max-width: 100vw !important; }
+  }
+
+  
 
 .features-section {
   background: var(--sidebar-bg);
