@@ -414,31 +414,38 @@ const Home1 = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="stats" ref={ref}>
-        <div className="container">
-          <div className="stats-grid">
-            {t.stats.map(({ number, suffix, label, icon }, idx) => {
-              const Icon = iconMap[icon];
-              return (
-                <motion.div
-                  className="stat-item"
-                  key={idx}
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={inView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ duration: 0.6, delay: idx * 0.1 }}
-                >
-                  <Icon className="stat-icon" />
-                  <h3>
-                    {inView ? <CountUp start={0} end={number} duration={2.5} separator="," /> : "0"}
-                    {suffix}
-                  </h3>
-                  <p>{label}</p>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      {/*
+<section className="stats" ref={ref}>
+  <div className="container">
+    <div className="stats-grid">
+      {t.stats.map(({ number, suffix, label, icon }, idx) => {
+        const Icon = iconMap[icon];
+        return (
+          <motion.div
+            className="stat-item"
+            key={idx}
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={inView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.6, delay: idx * 0.1 }}
+          >
+            <Icon className="stat-icon" />
+            <h3>
+              {inView ? (
+                <CountUp start={0} end={number} duration={2.5} separator="," />
+              ) : (
+                "0"
+              )}
+              {suffix}
+            </h3>
+            <p>{label}</p>
+          </motion.div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+*/}
+
 
       {/* Testimonials Section */}
       <section className="testimonials-section">
