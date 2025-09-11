@@ -712,6 +712,13 @@ export default function ContactPage() {
           color: white;
         }
 
+        /* Responsive: 1 per row on small screens */
+@media (max-width: 700px) {
+  .contact-details-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
         /* FAQ */
         .faq-list details {
           background-color: var(--input-bg);
