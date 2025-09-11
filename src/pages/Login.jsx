@@ -316,7 +316,35 @@ const Login = () => {
   };
 
   return (
-    <div className={`glass-login-bg ${dir === 'rtl' ? 'rtl' : ''}`} style={{direction: dir}}>
+    <div className={`glass-login-bg ${dir === 'rtl' ? 'rtl' : ''}`} style={{ direction: dir }}>
+      {/* Stackly logo top left */}
+      <div
+        style={{
+          position: 'fixed',
+          top: 16,
+          left: 20,
+          zIndex: 2101,
+          background: '#fff',
+          borderRadius: '13px 0 17px 0',
+          padding: '7px 18px 7px 14px',
+          minWidth: 98,
+          boxShadow: '0 4px 16px #21489908',
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        <img
+          src="images/logo.png"
+          alt="Stackly Logo"
+          style={{
+            height: 35,
+            width: 'auto',
+            objectFit: 'contain',
+            display: 'block'
+          }}
+        />
+      </div>
+
       <LangDropdown language={language} setLanguage={setLanguage} dir={dir} label={translations[language].languageLabel} />
 
       <motion.div
@@ -355,7 +383,7 @@ const Login = () => {
                 </div>
                 <div className="form-group">
                   <label htmlFor="loginPassword">{translations[language].password}</label>
-                  <div style={{position:'relative'}}>
+                  <div style={{ position: 'relative' }}>
                     <input
                       id="loginPassword"
                       type={showPassword ? "text" : "password"}
@@ -383,7 +411,7 @@ const Login = () => {
                     onClick={() => {
                       setError('');
                       setShowForgot(true);
-                  }}
+                    }}
                   >
                     {translations[language].forgotPassword}
                   </button>
@@ -592,9 +620,8 @@ const Login = () => {
             </>
           )}
         </div>
-        {/* All your styles remain unchanged here */}
         <style>{`
-          /* Keep your existing styles */
+          /* ... All your styles from before ... */
           .glass-login-bg {
             min-height: 100vh;
             background: radial-gradient(circle at 60% 15%, #1849b9 0%, #223953 50%, #0f121b 100%);
@@ -736,6 +763,5 @@ const Login = () => {
     </div>
   );
 };
-
 
 export default Login;

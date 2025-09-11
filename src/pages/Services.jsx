@@ -643,6 +643,29 @@ const Services = () => {
   100% { opacity: 1; transform: translateY(0);}
 }
 
+            @media (max-width: 480px) {
+              html, body, #root, .home-page, .aboutit-section, .aboutit-grid, .hero-section, .hero-overlay {
+                width: 100vw !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-sizing: border-box !important;
+              }
+              .hero-title, .hero-paragraph, .hero-button { margin-right: 0 !important; }
+              header { left: 0; right: 0; width: 100vw !important; max-width: 100vw !important; }
+    html, body, #root, .home-page, .aboutit-section, .aboutit-grid, .hero-section, .hero-overlay {
+      width: 100vw !important;
+      max-width: 100vw !important;
+      overflow-x: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+    }
+    .hero-title, .hero-paragraph, .hero-button { margin-right: 0 !important; }
+    header { left: 0; right: 0; width: 100vw !important; max-width: 100vw !important; }
+  }
+
 
 {/*Our IT services*/}
 

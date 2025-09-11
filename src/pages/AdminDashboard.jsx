@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   FaUsers, FaUserPlus, FaChartBar, FaSignOutAlt, FaPlus, FaTrash, FaTable,
-  FaRegCalendarAlt, FaClipboardList, FaDoorOpen, FaUserCircle, FaCalendarAlt, FaCheckCircle
+  FaRegCalendarAlt, FaClipboardList, FaDoorOpen, FaUserCircle, FaCalendarAlt, FaCheckCircle, FaBars, FaChevronLeft
 } from "react-icons/fa";
 import {
   ResponsiveContainer, LineChart, Line, XAxis, YAxis,
@@ -9,6 +9,7 @@ import {
 } from "recharts";
 import { useNavigate } from "react-router-dom";
 
+// --- Full translations (EN, AR, HE) ---
 const translations = {
   en: {
     adminDashboard: "Admin Dashboard",
@@ -242,9 +243,7 @@ function getRegistrationCounts(users, { range = "all", days = 0 } = {}) {
 }
 function getRegistrationsByDay(users, days = 30) {
   let result = {};
-  users.forEach(u => {
-    if (u.signupDate) result[u.signupDate] = (result[u.signupDate] || 0) + 1;
-  });
+  users.forEach(u => { if (u.signupDate) result[u.signupDate] = (result[u.signupDate] || 0) + 1; });
   const ret = [];
   for (let i = days - 1; i >= 0; i--) {
     let d = new Date(); d.setDate(d.getDate() - i);
@@ -253,34 +252,6 @@ function getRegistrationsByDay(users, days = 30) {
   }
   return ret;
 }
-
-const LangDropdownFixed = ({ language, setLanguage, label, dir }) => (
-  <div style={{
-    position: 'fixed',
-    top: 24,
-    right: dir === 'rtl' ? 'unset' : 32,
-    left: dir === 'rtl' ? 32 : 'unset',
-    zIndex: 999,
-    display: 'flex',
-    alignItems: 'center',
-    gap: 6,
-    flexDirection: dir === 'rtl' ? 'row-reverse' : 'row'
-  }}>
-    <label className="font-bold text-blue-900 mr-1" htmlFor="lang-sel">{label}:</label>
-    <select
-      id="lang-sel"
-      className="px-2 py-1 border rounded bg-white text-blue-900 font-semibold"
-      style={{ minWidth: 92, outline: 0 }}
-      value={language}
-      onChange={(e) => setLanguage(e.target.value)}
-      title={label}
-    >
-      {LANG_OPTIONS.map((opt) => (
-        <option key={opt.value} value={opt.value}>{opt.label}</option>
-      ))}
-    </select>
-  </div>
-);
 
 const StatCard = ({ title, value, icon, color }) => (
   <div className={`flex flex-col items-center justify-center p-6 rounded-xl shadow-lg text-white ${color} transform hover:scale-105 transition-transform duration-300 ease-in-out`}>
@@ -291,9 +262,26 @@ const StatCard = ({ title, value, icon, color }) => (
 );
 
 const StatBlock = ({ label, value, color }) => (
-  <div className={`bg-white shadow p-6 rounded-lg flex-1 min-w-[220px]`}>
+  <div className={`bg-white shadow p-6 rounded-lg flex-1 min-w-[140px]`}>
     <h3 className={`font-bold text-lg mb-2 ${color}`}>{label}</h3>
     <p className="text-2xl font-mono">{value}</p>
+  </div>
+);
+
+const LanguageDropdown = ({ language, setLanguage, label }) => (
+  <div className="flex items-center gap-1">
+    <label className="text-sm font-semibold" htmlFor="lang-sel">{label}:</label>
+    <select
+      id="lang-sel"
+      className="px-2 py-1 border rounded bg-white text-blue-900 font-semibold"
+      value={language}
+      onChange={e => setLanguage(e.target.value)}
+      title={label}
+    >
+      {LANG_OPTIONS.map(opt => (
+        <option key={opt.value} value={opt.value}>{opt.label}</option>
+      ))}
+    </select>
   </div>
 );
 
@@ -320,6 +308,8 @@ const AdminDashboard = () => {
   const [audit, setAudit] = useState(() => JSON.parse(localStorage.getItem("auditlog") || "[]"));
   const [expandAudit, setExpandAudit] = useState([]);
   const [regCounts, setRegCounts] = useState({ day: 0, week: 0, month: 0, all: 0, custom: 0 });
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+  const [sidebarHovered, setSidebarHovered] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => { setUsers(JSON.parse(localStorage.getItem("users") || "[]")); }, [showUserForm]);
@@ -336,7 +326,6 @@ const AdminDashboard = () => {
   }, [users, customDays]);
 
   const regByDay = getRegistrationsByDay(users, interval === 'custom' ? customDays : interval === 'week' ? 7 : interval === 'month' ? 30 : 365);
-
   const pieData = [
     { name: t.today, value: regCounts.day },
     { name: t.allTime, value: regCounts.all - regCounts.day }
@@ -405,23 +394,43 @@ const AdminDashboard = () => {
   ];
 
   const toggleAuditExpand = (i) => setExpandAudit(expandAudit.includes(i) ? expandAudit.filter(idx => idx !== i) : [...expandAudit, i]);
+  const isSidebarOpen = !sidebarCollapsed || sidebarHovered;
 
   return (
     <div className="min-h-screen flex bg-gradient-to-tr from-blue-900 to-indigo-900 font-inter" dir={dir}>
-      <LangDropdownFixed language={language} setLanguage={setLanguage} label={t.langLabel} dir={dir} />
-      <aside className="w-64 min-h-screen bg-gradient-to-b from-blue-800 to-indigo-900 shadow-xl flex flex-col py-8 px-5 sticky top-0 z-40">
-        <div className="text-3xl font-extrabold text-white mb-10 text-center tracking-wide">
+      <aside
+        className={`
+        ${isSidebarOpen ? 'w-64' : 'w-16'}
+        min-h-screen bg-gradient-to-b from-blue-800 to-indigo-900 shadow-xl flex flex-col py-3 px-2 sticky top-0 z-40
+        transition-all duration-300 ease-in-out
+      `}
+        onMouseEnter={() => setSidebarHovered(true)}
+        onMouseLeave={() => setSidebarHovered(false)}
+        style={{ minWidth: isSidebarOpen ? 200 : 56 }}
+      >
+        <button
+          className={`my-4 ml-1 p-2 rounded-full bg-blue-700 text-white transition hover:bg-blue-800 focus:outline-none ${isSidebarOpen ? '' : 'mx-auto'}`}
+          aria-label={isSidebarOpen ? "Collapse Menu" : "Expand Menu"}
+          onClick={() => setSidebarCollapsed(x => !x)}
+          tabIndex={0}
+        >
+          {isSidebarOpen ? <FaChevronLeft size={20} /> : <FaBars size={20} />}
+        </button>
+        <div className={`text-2xl font-extrabold text-white mb-10 text-center tracking-wide transition-opacity duration-200
+            ${isSidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none hidden'}`}>
           IT Services
         </div>
         <nav>
-          <ul className="space-y-2">
+          <ul className="space-y-2 mt-1">
             {menu.map((item) => (
               <li key={item.key}>
                 <button
-                  className={`flex w-full items-center p-3 rounded-lg font-semibold text-left ${activeMenu === item.key
+                  className={`flex items-center w-full p-3 rounded-lg font-semibold text-left transition-all duration-150
+                  ${activeMenu === item.key
                     ? "bg-blue-700 text-white shadow"
-                    : "text-gray-200 hover:bg-blue-700 hover:text-white"
-                    }`}
+                    : "text-gray-200 hover:bg-blue-700 hover:text-white"} 
+                  ${isSidebarOpen ? '' : 'justify-center'}
+                 `}
                   onClick={() => {
                     if (item.key === "logout") {
                       localStorage.removeItem('firstname');
@@ -433,7 +442,8 @@ const AdminDashboard = () => {
                     setActiveMenu(item.key);
                   }}
                 >
-                  <span className="mr-3">{item.icon}</span> {item.name}
+                  <span className="mr-3">{item.icon}</span>
+                  <span className={`transition-all duration-150 ${isSidebarOpen ? 'block' : 'hidden'}`}>{item.name}</span>
                 </button>
               </li>
             ))}
@@ -441,11 +451,16 @@ const AdminDashboard = () => {
         </nav>
       </aside>
       <main className="flex-1 p-7 bg-blue-50 min-h-screen">
-        {/* HEADER */}
-        <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-5 mb-5">
-          <div>
+        {/* ---- HEADER: Language dropdown at right, Operations Panel left ---- */}
+        <header className="flex flex-col-reverse sm:flex-row justify-between items-stretch border-b pb-5 mb-5">
+          {/* Left: Title and OperationsPanel */}
+          <div className="flex flex-col flex-1">
             <h1 className="text-3xl font-bold text-blue-800 mb-1">{t.adminDashboard}</h1>
             <p className="text-gray-600">{t.operationsPanel}</p>
+          </div>
+          {/* Right: Language Dropdown */}
+          <div className="flex items-center justify-end mb-3 sm:mb-0" style={{ minWidth: 210 }}>
+            <LanguageDropdown language={language} setLanguage={setLanguage} label={t.langLabel} />
           </div>
         </header>
         {/* DASHBOARD */}
@@ -457,8 +472,7 @@ const AdminDashboard = () => {
               <StatCard title={t.thisMonth} value={regCounts.month} icon={<FaRegCalendarAlt size={28} />} color="bg-yellow-500" />
               <StatCard title={t.openTickets} value={tickets.filter(ti => ti.status === "Open").length} icon={<FaClipboardList size={28} />} color="bg-indigo-600" />
             </div>
-            {/* Interval/Charts/Stats */}
-            <div className="mb-4 flex gap-3 items-center">
+            <div className="mb-4 flex gap-3 items-center flex-wrap">
               <span className="font-semibold mr-1">{dir === "rtl" ? ":فترة المخطط" : "Chart Interval:"}</span>
               <button onClick={() => setIntervalRange("week")} className={`px-2 rounded ${interval === "week" ? "bg-blue-700 text-white" : "bg-white"}`}>{t.last7 || "Week"}</button>
               <button onClick={() => setIntervalRange("month")} className={`px-2 rounded ${interval === "month" ? "bg-blue-700 text-white" : "bg-white"}`}>{t.month || "Month"}</button>
@@ -504,7 +518,7 @@ const AdminDashboard = () => {
         {activeMenu === "users" && (
           <section>
             <div className={`${dir === "rtl" ? "flex justify-start mb-4" : "flex justify-end mb-4"}`}>
-              <button className="bg-indigo-600 text-white px-3 py-2 rounded shadow-lg flex items-center gap-2"
+              <button className="bg-blue-600 text-white px-3 py-2 rounded shadow-lg flex items-center gap-2"
                 onClick={() => setShowUserForm(true)}>
                 <FaPlus /> {t.newUser}
               </button>
@@ -523,7 +537,7 @@ const AdminDashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map((u, idx) => (
+                  {users.map((u) => (
                     <tr key={u.email} className="border-t hover:bg-blue-50">
                       <td className="px-4 py-2">{u.firstName}</td>
                       <td className="px-4 py-2">{u.lastName}</td>
@@ -576,7 +590,7 @@ const AdminDashboard = () => {
         {activeMenu === "tickets" && (
           <section>
             <div className={`${dir === "rtl" ? "flex justify-start mb-4" : "flex justify-end mb-4"}`}>
-              <button className="bg-green-600 text-white px-3 py-2 rounded shadow-lg flex items-center gap-2"
+              <button className="bg-blue-600 text-white px-3 py-2 rounded shadow-lg flex items-center gap-2"
                 onClick={() => setShowTicketForm(true)}>
                 <FaPlus /> {t.newTicket}
               </button>
@@ -598,11 +612,11 @@ const AdminDashboard = () => {
                 </thead>
                 <tbody>
                   {tickets.map((tk) => (
-                    <tr key={tk.id} className={`${tk.status === "Open" ? "bg-green-50" : "bg-gray-50"} border-t`}>
+                    <tr key={tk.id} className={`${tk.status === "Open" ? "bg-blue-50" : "bg-gray-50"} border-t`}>
                       <td className="px-3 py-2">{tk.id}</td>
                       <td className="px-3 py-2">{tk.title}</td>
                       <td className="px-3 py-2">
-                        <span className={`badge ${tk.status === "Open" ? "bg-green-400 text-white" : "bg-gray-400 text-white"}`}>
+                        <span className={`badge ${tk.status === "Open" ? "bg-blue-500 text-white" : "bg-gray-400 text-white"}`}>
                           {tk.status}
                         </span>
                       </td>
@@ -714,7 +728,6 @@ const AdminDashboard = () => {
             </div>
           </section>
         )}
-        {/* --- MODALS --- */}
         {showUserForm && (
           <div className="fixed inset-0 z-50 bg-black bg-opacity-30 flex items-center justify-center">
             <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md mx-3 relative">
@@ -743,7 +756,7 @@ const AdminDashboard = () => {
                 <input type="text" className="w-full border p-2 rounded" placeholder={t.ticketAssigned} value={newTicket.assignedTo} onChange={e => setNewTicket({ ...newTicket, assignedTo: e.target.value })} />
                 <input type="date" className="w-full border p-2 rounded" placeholder={t.ticketDue} value={newTicket.dueDate} onChange={e => setNewTicket({ ...newTicket, dueDate: e.target.value })} />
                 <div className="flex gap-3 justify-end mt-4">
-                  <button type="submit" className="px-5 py-2 bg-green-600 text-white rounded hover:bg-green-700 font-semibold">{t.submit}</button>
+                  <button type="submit" className="px-5 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold">{t.submit}</button>
                   <button type="button" className="px-5 py-2 bg-red-600 text-white rounded hover:bg-red-700 font-semibold" onClick={() => { setShowTicketForm(false); }}>{t.cancel}</button>
                 </div>
               </form>

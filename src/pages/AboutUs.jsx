@@ -874,6 +874,69 @@ const AboutUs = () => {
   .aboutit-content { padding: 0;}
 }
 
+@media (min-width: 600px) and (max-width: 992px) {
+  .aboutit-grid {
+    display: flex;
+    flex-direction: column; /* Stack vertically */
+    align-items: center;    /* Center horizontally */
+    gap: 30px;
+    padding: 20px;
+  }
+
+  .aboutit-image-stack {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 36px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .aboutit-card-main img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 16px;
+    display: block;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+  }
+
+  .aboutit-card-small {
+    position: absolute;
+    left: 50%;
+    top: 70%; /* Adjust this value for more/less overlap */
+    transform: translate(-50%, 0);
+    width: 65%;   /* Make small image narrower for better proportion */
+    max-width: 260px;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.12);
+    z-index: 2;
+  }
+
+  .aboutit-card-small img {
+    width: 100%;
+    border-radius: 16px;
+    display: block;
+  }
+
+  .aboutit-content {
+    text-align: left;
+    max-width: 90vw;
+  }
+
+  .aboutit-content h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .aboutit-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+}
+
+
 
 @media (max-width: 600px) {
   .aboutit-grid {
@@ -923,20 +986,6 @@ const AboutUs = () => {
     line-height: 1.6;
   }
 }
-
-
-
-
-
-          <section className="about-story">
-            <h2>Our Story</h2>
-            <p>
-              At ForStackly, we believe in the power of technology to transform businesses. Our journey began in 2015 with a vision to provide innovative IT solutions that drive success. Over the years, we have evolved into a trusted partner for organizations seeking to navigate the digital landscape.
-            </p>
-            <p>
-              Our team of experts is passionate about leveraging the latest technologies to deliver tailored solutions that meet the unique needs of each client. We take pride in our collaborative approach, working closely with stakeholders to ensure alignment and achieve desired outcomes.
-            </p>
-          </section>
 
         /* ===== Two Column Grid (equal height) ===== */
   .grid-2 {
@@ -1483,6 +1532,115 @@ const AboutUs = () => {
   }
 }
 
+@media (min-width: 600px) and (max-width: 992px) {
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 24px;
+    justify-items: center;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+  .team-card.leader-card {
+    width: 100%;
+    max-width: 330px;
+    background: var(--card-bg, #181e32);
+    border-radius: 22px;
+    box-shadow: 0 6px 32px rgba(0,0,0,0.12);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    height: auto;
+    min-height: unset;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    transition: box-shadow 0.2s, transform 0.22s;
+  }
+  .team-image.leader-image {
+    width: 100%;
+    height: 220px;
+    background: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .team-image.leader-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 22px 22px 0 0;
+    display: block;
+    background: none;
+  }
+  .leader-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(16,24,40,0.02) 30%, rgba(34,62,154,0.38) 100%);
+    color: #fff;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;                      /* Hidden by default */
+    transition: opacity 0.3s;
+    border-radius: 22px 22px 0 0;
+    pointer-events: none;
+  }
+  .team-card.leader-card:hover .leader-overlay,
+  .team-card.leader-card:focus-within .leader-overlay,
+  .team-card.leader-card .leader-overlay.open {
+    opacity: 1;                      /* Shown on hover or when 'open' class present */
+    pointer-events: all;
+  }
+  .leader-overlay-content {
+    width: 100%;
+    padding: 24px 18px 18px 18px;
+    text-align: center;
+  }
+  .leader-overlay-content h4 {
+    font-size: 1.1rem;
+    margin-bottom: 7px;
+    font-weight: 700;
+  }
+  .leader-overlay-content .team-role {
+    color: #83c1fc;
+    font-size: 0.98rem;
+    letter-spacing: 0.02em;
+    font-weight: 500;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .leader-overlay-content .team-bio {
+    font-size: 0.97rem;
+    color: #f4f6fa;
+    margin-bottom: 16px;
+    line-height: 1.48;
+  }
+  .team-social {
+    margin-top: 6px;
+  }
+  .team-social a {
+    margin: 0 6px;
+    font-size: 1.18rem;
+    color: #fff;
+    opacity: 0.92;
+    transition: color 0.16s;
+  }
+  .team-social a:hover {
+    color: #3acead;
+    opacity: 1;
+  }
+}
+
+
+
+
 /* ========== MOBILE (≤768px) ========== */
 @media (max-width: 768px) {
   .team-section {
@@ -1520,6 +1678,71 @@ const AboutUs = () => {
     width: 34px;
     height: 34px;
     font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .aboutit-section {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .aboutit-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;   /* Align to top, not center */
+    min-height: unset !important;  /* Remove any enforced vh full-height */
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    gap: 0 !important;             /* Remove gap just in case */
+  }
+
+  .aboutit-image-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 32px; /* Adjust the value as needed */
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    position: relative;
+    width: 100%;
+  }
+
+  .aboutit-card-main img, .aboutit-card-small img {
+    display: block;
+    margin: 0 auto;
+    vertical-align: bottom;
+  }
+
+  .aboutit-card-small {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    bottom: -20px;
+    z-index: 1;
+  }
+
+  .aboutit-content {
+    text-align: justify;
+    text-justify: inter-word;
+    padding: 0 15px;
+    margin-top: 40px;
+  }
+
+  .aboutit-content h2 {
+    font-size: 1.5rem;
+    text-align: left;
+  }
+
+  .aboutit-content p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    text-align: justify;
+    text-justify: inter-word;
   }
 }
 

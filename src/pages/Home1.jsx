@@ -414,38 +414,31 @@ const Home1 = () => {
       </section>
 
       {/* Stats Section */}
-      {/*
-<section className="stats" ref={ref}>
-  <div className="container">
-    <div className="stats-grid">
-      {t.stats.map(({ number, suffix, label, icon }, idx) => {
-        const Icon = iconMap[icon];
-        return (
-          <motion.div
-            className="stat-item"
-            key={idx}
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={inView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.6, delay: idx * 0.1 }}
-          >
-            <Icon className="stat-icon" />
-            <h3>
-              {inView ? (
-                <CountUp start={0} end={number} duration={2.5} separator="," />
-              ) : (
-                "0"
-              )}
-              {suffix}
-            </h3>
-            <p>{label}</p>
-          </motion.div>
-        );
-      })}
-    </div>
-  </div>
-</section>
-*/}
-
+      {/* <section className="stats" ref={ref}>
+        <div className="container">
+          <div className="stats-grid">
+            {t.stats.map(({ number, suffix, label, icon }, idx) => {
+              const Icon = iconMap[icon];
+              return (
+                <motion.div
+                  className="stat-item"
+                  key={idx}
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={inView ? { opacity: 1, scale: 1 } : {}}
+                  transition={{ duration: 0.6, delay: idx * 0.1 }}
+                >
+                  <Icon className="stat-icon" />
+                  <h3>
+                    {inView ? <CountUp start={0} end={number} duration={2.5} separator="," /> : "0"}
+                    {suffix}
+                  </h3>
+                  <p>{label}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section> */}
 
       {/* Testimonials Section */}
       <section className="testimonials-section">
@@ -702,6 +695,32 @@ const Home1 = () => {
           font-size: 0.9rem;
         }
 
+            @media (max-width: 480px) {
+              html, body, #root, .home-page, .aboutit-section, .aboutit-grid, .hero-section, .hero-overlay {
+                width: 100vw !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-sizing: border-box !important;
+              }
+              .hero-title, .hero-paragraph, .hero-button { margin-right: 0 !important; }
+              header { left: 0; right: 0; width: 100vw !important; max-width: 100vw !important; }
+    html, body, #root, .home-page, .aboutit-section, .aboutit-grid, .hero-section, .hero-overlay {
+      width: 100vw !important;
+      max-width: 100vw !important;
+      overflow-x: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+    }
+    .hero-title, .hero-paragraph, .hero-button { margin-right: 0 !important; }
+    header { left: 0; right: 0; width: 100vw !important; max-width: 100vw !important; }
+  }
+
+
+
+
 .features-section {
           background: var(--sidebar-bg);
           padding: 60px 20px;
@@ -815,17 +834,26 @@ const Home1 = () => {
           }
         }
 
-        @media (max-width: 992px) {
-          .features-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
+  /* Mobile (small devices) */
+@media (max-width: 600px) {
+  .features-grid {
+    grid-template-columns: 1fr; /* Single column for mobiles */
+  }
+}
 
-        @media (max-width: 600px) {
-          .features-grid {
-            grid-template-columns: 1fr;
-          }
-        }
+/* Tablet only (between 601px and 992px) */
+@media (min-width: 601px) and (max-width: 992px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr); /* Two columns for tablets */
+  }
+  .features-grid > .feature-card:nth-child(3) {
+    grid-column: 1 / 3;          /* Span both columns */
+    justify-self: center;        /* Center horizontally */
+    max-width: 480px;            /* Optional max width */
+  }
+}
+
+
        .stats {
   background: var(--primary-color);
   color: #fff;
@@ -910,6 +938,31 @@ const Home1 = () => {
   .stat-icon {
     font-size: 3rem;
   }
+
+  @media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr); /* Exactly 2 columns */
+    gap: 25px;
+  }
+  .stat-item h3 {
+    font-size: 2.5rem;
+  }
+  .stat-icon {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .stats-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 25px !important;
+  }
+}
+
+
+
+
 }
 
 
@@ -1039,28 +1092,49 @@ const Home1 = () => {
 @media (max-width: 992px) {
   .grid-2 {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 24px; /* Slightly smaller for less vertical gap */
   }
 
-  .services-image img {
-    height: 380px; /* slightly smaller for tablets */
+  .services-content {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    padding-top: 0;
   }
 
   .services-content h2 {
     font-size: 2rem;
-    text-align: center;
+    text-align: left;        /* Left align heading */
+    padding-left: 14px;      /* Add left padding for spacing */
+    margin-top: 0;
+    margin-bottom: 10px;     /* Tighten space below heading */
   }
 
   .services-content p {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+    text-align: left;
+    max-width: 100%;
+    margin-bottom: 18px;     /* Reduce space below paragraph */
+  }
+
+  .benefits-list {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+  }
+
+  .benefits-list li {
+    text-align: left;
+    margin-bottom: 10px;
   }
 
   .services-btn-container {
-    text-align: center; /* center buttons on tablet */
+    text-align: left;
   }
+
 }
+
+
 
 /* Mobile (≤ 600px) */
 /* Mobile */
@@ -1107,6 +1181,8 @@ const Home1 = () => {
 .section-preview .services {
   max-width: 600px;
 }
+
+
 
 
 
@@ -1237,21 +1313,21 @@ const Home1 = () => {
 /* ============= RESPONSIVE ============= */
 
 /* Tablet (≤ 992px) */
-@media (max-width: 992px) {
-  .section-preview .services h2 {
-    text-align: left; /* Keep heading left-aligned */
+@media (min-width: 600px) and (max-width: 992px) {
+  .section-preview .grid-2 {
+    grid-template-columns: 1fr; /* single column on tablets */
   }
 
-  .section-preview .services p {
-    text-align: justify; /* Maintain justified text */
-    margin-left: auto;
-    margin-right: auto;
+  .section-preview .services-visual {
+    order: -1;                  /* image moves above content */
+    margin-bottom: 20px;        /* spacing below image */
   }
 
-  .section-preview .section-btn-container {
-    text-align: left;
+  .section-preview .services {
+    order: 0;                   /* content follows image */
   }
 }
+
 
 /* Mobile (≤ 576px) */
 @media (max-width: 576px) {
@@ -1386,6 +1462,23 @@ const Home1 = () => {
         font-size: 0.9rem;
         color: var(--text-muted);
       }
+
+  @media (min-width: 600px) and (max-width: 992px) {
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    justify-items: center;
+  }
+  /* Select the third card (works for your shown structure) */
+  .testimonials-grid > .testimonial-card-unique:nth-child(3) {
+    grid-column: 1 / 3;
+    justify-self: center;
+    max-width: 420px; /* Adjust width for visual balance */
+  }
+}
+
+
 
       @media (max-width: 600px) {
         .testimonial-author {

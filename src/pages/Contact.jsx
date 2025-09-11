@@ -656,12 +656,13 @@ export default function ContactPage() {
         }
 
         /* Contact Details */
-        .contact-details-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit,minmax(210px,1fr));
-          gap: 20px;
-          margin-bottom: 30px;
-        }
+       .contact-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
         .detail-card {
           display: flex;
           align-items: center;
