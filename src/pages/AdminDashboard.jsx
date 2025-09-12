@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   FaUsers, FaUserPlus, FaChartBar, FaSignOutAlt, FaPlus, FaTrash, FaTable,
   FaRegCalendarAlt, FaClipboardList, FaDoorOpen, FaUserCircle, FaCalendarAlt, FaCheckCircle, FaBars, FaChevronLeft
@@ -312,6 +312,27 @@ const AdminDashboard = () => {
   const [sidebarHovered, setSidebarHovered] = useState(false);
   const navigate = useNavigate();
 
+  // Sidebar click-away and toggle logic for tab/mobile
+  const sidebarRef = useRef(null);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1024);
+  useEffect(() => {
+    const onResize = () => setIsSmallScreen(window.innerWidth < 1024);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  useEffect(() => {
+    if (!isSmallScreen || sidebarCollapsed) return;
+    const handleClickAway = (e) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
+        setSidebarCollapsed(true);
+        setSidebarHovered(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickAway);
+    return () => document.removeEventListener("mousedown", handleClickAway);
+  }, [isSmallScreen, sidebarCollapsed]);
+
   useEffect(() => { setUsers(JSON.parse(localStorage.getItem("users") || "[]")); }, [showUserForm]);
   useEffect(() => { setTickets(JSON.parse(localStorage.getItem("tickets") || "[]")); }, [showTicketForm]);
   useEffect(() => { setAudit(JSON.parse(localStorage.getItem("auditlog") || "[]")); }, [activeMenu, showUserForm, showTicketForm]);
@@ -382,7 +403,6 @@ const AdminDashboard = () => {
   };
 
   const sessions = [currentUser];
-
   const menu = [
     { key: "dashboard", name: t.dashboard, icon: <FaChartBar size={20} /> },
     { key: "users", name: t.users, icon: <FaUsers size={20} /> },
@@ -396,14 +416,25 @@ const AdminDashboard = () => {
   const toggleAuditExpand = (i) => setExpandAudit(expandAudit.includes(i) ? expandAudit.filter(idx => idx !== i) : [...expandAudit, i]);
   const isSidebarOpen = !sidebarCollapsed || sidebarHovered;
 
+  // Sidebar toggle for both mobile and desktop
+  const handleSidebarToggle = () => {
+    if (isSmallScreen) {
+      setSidebarCollapsed(prev => !prev);
+      setSidebarHovered(false);
+    } else {
+      setSidebarCollapsed(prev => !prev);
+    }
+  };
+
   return (
     <div className="min-h-screen flex bg-gradient-to-tr from-blue-900 to-indigo-900 font-inter" dir={dir}>
       <aside
+        ref={sidebarRef}
         className={`
-        ${isSidebarOpen ? 'w-64' : 'w-16'}
-        min-h-screen bg-gradient-to-b from-blue-800 to-indigo-900 shadow-xl flex flex-col py-3 px-2 sticky top-0 z-40
-        transition-all duration-300 ease-in-out
-      `}
+          ${isSidebarOpen ? 'w-64' : 'w-16'}
+          min-h-screen bg-gradient-to-b from-blue-800 to-indigo-900 shadow-xl flex flex-col py-3 px-2 sticky top-0 z-40
+          transition-all duration-300 ease-in-out
+        `}
         onMouseEnter={() => setSidebarHovered(true)}
         onMouseLeave={() => setSidebarHovered(false)}
         style={{ minWidth: isSidebarOpen ? 200 : 56 }}
@@ -411,7 +442,7 @@ const AdminDashboard = () => {
         <button
           className={`my-4 ml-1 p-2 rounded-full bg-blue-700 text-white transition hover:bg-blue-800 focus:outline-none ${isSidebarOpen ? '' : 'mx-auto'}`}
           aria-label={isSidebarOpen ? "Collapse Menu" : "Expand Menu"}
-          onClick={() => setSidebarCollapsed(x => !x)}
+          onClick={handleSidebarToggle}
           tabIndex={0}
         >
           {isSidebarOpen ? <FaChevronLeft size={20} /> : <FaBars size={20} />}
@@ -426,11 +457,11 @@ const AdminDashboard = () => {
               <li key={item.key}>
                 <button
                   className={`flex items-center w-full p-3 rounded-lg font-semibold text-left transition-all duration-150
-                  ${activeMenu === item.key
-                    ? "bg-blue-700 text-white shadow"
-                    : "text-gray-200 hover:bg-blue-700 hover:text-white"} 
-                  ${isSidebarOpen ? '' : 'justify-center'}
-                 `}
+                    ${activeMenu === item.key
+                      ? "bg-blue-700 text-white shadow"
+                      : "text-gray-200 hover:bg-blue-700 hover:text-white"} 
+                    ${isSidebarOpen ? '' : 'justify-center'}
+                  `}
                   onClick={() => {
                     if (item.key === "logout") {
                       localStorage.removeItem('firstname');
